@@ -4,6 +4,14 @@ Short answer from my testing: not on short tasks. It made all three models I tri
 
 _Glitch asked for people to test `enable_speculative_code_mode` before it becomes the default, so I set up a proper A/B. I ran it with Claude Code doing the heavy lifting (details at the bottom).
 
+## Follow-up (2026-10-11): code mode that actually batches
+
+The finding above (one tool call per snippet, sandbox gaps) was fixed in Code Puppy
+([#1013](https://github.com/mpfaffenberger/code_puppy/pull/1013), [#1014](https://github.com/mpfaffenberger/code_puppy/pull/1014))
+and re-measured on the same 20 tasks plus 10 new long-horizon and sub-agent tasks: snippets now carry 2.7 to 3.2
+tool calls instead of 1.6 to 2.0, and delegating to sub-agents is 2.4x faster with code mode than without it.
+Write-up: `docs/CODEMODE_FOLLOWUP.md`; charts: `docs/results/codemode_followup.html`.
+
 ## What I ran
 
 - code-puppy 0.0.896, headless, through a local LiteLLM proxy

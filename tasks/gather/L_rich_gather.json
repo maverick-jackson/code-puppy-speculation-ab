@@ -1,0 +1,74 @@
+{
+ "id": "L_rich_gather",
+ "family": "gather",
+ "repo": "rich",
+ "prompt": "You are in a checkout of the Python library rich. Using only the files in this repository, answer all four parts below. Part A: (1) how many module-level Box instances (box styles) are defined in rich/box.py; (2) how many entries the LEGACY_WINDOWS_SUBSTITUTIONS mapping has; (3) the name of the box style that rich.table.Table uses by default; (4) the name of the box style that rich.panel.Panel uses by default. Part B: About how rich.console.Console decides its size: (1) the width it reports for a dumb terminal; (2) the height it reports for a dumb terminal; (3) the TERM values (case-insensitive) that make it treat the terminal as dumb, as a comma separated list; (4) the two environment variables it reads to override width and height, as a comma separated list. Part C: (1) the path, relative to the repository root, of the file that defines the helper function loop_last; (2) how many modules directly inside the rich/ package (not counting that file itself) import loop_last from it; (3) the line number on which loop_last is defined (the def line). Part D: (1) the default refresh_per_second of rich.status.Status; (2) the default spinner name of rich.status.Status; (3) the default refresh_per_second of the rich.progress.Progress class; (4) how many unit suffixes (kB, MB and so on) rich.filesize.decimal can use. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <count>|<entries>|<table box>|<panel box>|<width>|<height>|<TERM values>|<environment variables>|<path>|<module count>|<line number>|<status refresh>|<spinner name>|<progress refresh>|<suffix count>",
+ "answer": [
+  {
+   "kind": "int",
+   "value": 19
+  },
+  {
+   "kind": "int",
+   "value": 6
+  },
+  {
+   "kind": "name",
+   "value": "HEAVY_HEAD"
+  },
+  {
+   "kind": "name",
+   "value": "ROUNDED"
+  },
+  {
+   "kind": "int",
+   "value": 80
+  },
+  {
+   "kind": "int",
+   "value": 25
+  },
+  {
+   "kind": "set",
+   "value": "dumb,unknown"
+  },
+  {
+   "kind": "set",
+   "value": "COLUMNS,LINES"
+  },
+  {
+   "kind": "path",
+   "value": "rich/_loop.py"
+  },
+  {
+   "kind": "int",
+   "value": 9
+  },
+  {
+   "kind": "int",
+   "value": 18
+  },
+  {
+   "kind": "num",
+   "value": 12.5
+  },
+  {
+   "kind": "name",
+   "value": "dots"
+  },
+  {
+   "kind": "num",
+   "value": 10
+  },
+  {
+   "kind": "int",
+   "value": 8
+  }
+ ],
+ "sources": [
+  "r1_rich_box",
+  "r2_rich_console",
+  "r3_rich_loop",
+  "r4_rich_progress"
+ ]
+}

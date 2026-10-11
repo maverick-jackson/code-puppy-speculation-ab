@@ -1,0 +1,177 @@
+# Follow-up: making code mode actually batch
+
+_2026-10-11. A follow-up to the main A/B in this repo, by Mike Pfaffenberger (Code Puppy maintainer)._
+
+The main A/B found that code mode made code-puppy slower on short tasks: about 61% of `run_code` snippets
+wrapped exactly one tool call, so every snippet cost a full model round trip, and models kept hitting
+sandbox gaps (`sys.path`, `Path.glob`, `subprocess`). It also asked for a workload where code mode should
+win. This follow-up does both: it fixes what the A/B pointed at, re-measures on the same 20 tasks, and adds
+10 long-horizon tasks, including ones that delegate to sub-agents.
+
+The report with charts is `docs/results/codemode_followup.html` (a single self-contained file).
+
+## Short answer
+
+- **Snippets now carry real work.** Tool calls per `run_code` went 1.60 → 3.19 (gpt-6-luna) and
+  2.03 → 2.74 (gpt-6.1-sol). Sandbox errors per task fell 0.42 → 0.04 (sol) and 0.44 → 0.17 (luna).
+- **Short tasks are still roughly a wash on wall time** against plain tool calling. sol makes 37% fewer
+  model requests than with code mode off; luna makes 10% fewer but still pays more input tokens, because
+  code mode adds about 2.8k tokens of sandbox stubs to every request.
+- **Long tasks:** same success as plain tool calling with fewer model requests (sol 7.5 vs 11.4, luna 7.0
+  vs 9.5) at the same wall time; luna uses 30% fewer input tokens.
+- **Sub-agents are where code mode wins clearly.** One `run_code` launches all four sub-agents at once.
+  sol finishes delegation tasks in 89s vs 217s with code mode off (285s if its one 900s timeout is
+  counted), with 19.5 vs 43.1 total requests and 99% vs 91% of answer parts right.
+- The benchmark found **two real Code Puppy bugs**, both fixed and merged (below).
+
+## What changed in Code Puppy
+
+- [code_puppy#1013](https://github.com/mpfaffenberger/code_puppy/pull/1013), merged:
+  - Code-mode guidance rewritten around "write programs, not single calls" (batch, chain, loop, filter in
+    code, absorb errors) with two type-clean multi-call examples. The old "never compute arguments"
+    speculation rule, which discouraged loops, became a footnote.
+  - The sandbox gaps from the A/B are stated up front: no `Path.glob` / `rglob`, `os.walk`, `sys.path`,
+    `subprocess`; `next(genexpr)` raises (generator expressions are lists in Monty); `str | None` result
+    fields must be narrowed for the type checker.
+  - A batching note on the `run_code` tool description itself.
+  - Bug fix: nested tool results over 10k chars came back to the snippet as a spill-handle string
+    instead of a dict. Now only what reaches the model is bounded.
+  - Bug fix: `read_file` refused files over 10k tokens with `content=None`, which snippet code read as
+    an empty file and silently undercounted. In code mode the sandbox now gets the whole file.
+- [code_puppy#1014](https://github.com/mpfaffenberger/code_puppy/pull/1014), merged: sub-agents were
+  built without the main agent's tool-output limits. Once the sandbox could read whole files, single
+  sub-agent returns reached 294,877 chars. Sub-agents now get the same bounds.
+
+## Setup
+
+- **Variants** (`--bin VARIANT=PATH`): `off` = code-puppy main with code mode disabled; `base` = code mode
+  before #1013 (main at f2f2e462); `new` = after #1013; `fix` = after #1014.
+- **Models:** `codex-gpt-6.1-sol` and `codex-gpt-6-luna` through Code Puppy's ChatGPT OAuth (no LiteLLM).
+  GLM 5.3 served by vLLM was tried and dropped: at about 20 tokens/s it timed out on most long code-mode runs.
+- **Tasks:** the original 20 tasks and graders, unchanged, plus 10 long-horizon tasks built from them by
+  `scripts/longtasks.py`:
+  - `L_<repo>_gather`: all four question sets for one repo in one task (15 to 16 answer fields).
+  - `L_click_code` (four click bugs stacked in one patch) and `L_invkit_code` (two bugs, two features),
+    graded by all four hidden test files.
+  - `D_*`: the same five tasks, told to delegate the parts to sub-agents with `invoke_agent`.
+  - `longtasks.py validate` checks that every long code task fails each part when bugged and passes each
+    part with the reference fixes applied, and that each gather answer key grades itself correct.
+- **Runner:** `scripts/codemode_ab.py`. One headless `code-puppy -p` per run, a fresh working copy, and
+  private config / cache / state / data dirs; only the ChatGPT OAuth token and model list are shared.
+  The run's model is pinned in the config so sub-agents use it too, and every sub-agent session is kept.
+- **Grading:** as in the main A/B, except gather answers are read from the transcript's final text.
+  Rendered stdout wraps long lines at terminal width, which split the 16-field ANSWER lines; regrading
+  the short tasks this way changes none of their grades.
+- **Metrics:** nested tool calls are read from the `run_code` return metadata, so loops and
+  `asyncio.gather` fan-outs are counted exactly. Long-task totals include every sub-agent's requests
+  and tokens. "Parts right" is the share of answer fields (gather) or hidden test files (code) passed.
+- **Size:** 860 runs, records in `runs/codemode/<batch>/records.jsonl`. Short tasks: 80 runs per
+  iteration batch, 160 in the interleaved `conf` batch, 80 in `off1`. Long tasks: 120 in `long1`, 20 in
+  `fix1`. Full transcripts (212 MB) are not committed; `scripts/cm_transcripts.py` is the code that
+  turned them into the records.
+
+Reproduce every table below with `python3 scripts/codemode_tables.py`, and the HTML report with
+`python3 scripts/codemode_report.py`.
+
+## Results
+
+Short-task rows pool `base1` + `conf` (base) and `new5` + `conf` (new); `off` is its own batch (`off1`),
+so that comparison is not controlled for time of day. In `long1` the off / base / new variants were
+shuffled together; `fix1` is a separate batch.
+
+### Short tasks (pooled)
+
+| model | variant | n | success | wall mean s | wall median s | requests/task | calls/run_code | % run_code <=1 call | run_code errors/task | in tok k | out tok k |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| gpt-6.1-sol | off | 40 | 39/40 | 30.4 | 27.4 | 6.92 | 0 | 0 | 0 | 34.6 | 0.57 |
+| gpt-6.1-sol | base | 80 | 76/80 | 32.7 | 25.1 | 5.06 | 2.03 | 43 | 0.42 | 39.9 | 0.78 |
+| gpt-6.1-sol | new | 80 | 76/80 | 31.1 | 24.4 | 4.38 | 2.74 | 31 | 0.04 | 36.4 | 0.82 |
+| gpt-6-luna | off | 40 | 34/40 | 22.2 | 17.9 | 5.67 | 0 | 0 | 0 | 29.9 | 0.41 |
+| gpt-6-luna | base | 80 | 65/80 | 22.8 | 21.1 | 6.13 | 1.6 | 58 | 0.44 | 48.8 | 0.49 |
+| gpt-6-luna | new | 80 | 68/80 | 24.3 | 22.6 | 5.08 | 3.19 | 36 | 0.17 | 41.1 | 0.64 |
+
+### Prompt iterations
+
+| model | iteration | success | requests/task | calls/run_code | % run_code <=1 call | run_code errors/task |
+|---|---|---|---|---|---|---|
+| gpt-6.1-sol | main | 38/40 | 5.05 | 2.02 | 41 | 0.45 |
+| gpt-6.1-sol | it1 | 39/40 | 4.6 | 2.58 | 21 | 0.25 |
+| gpt-6.1-sol | it2 | 36/40 | 5.1 | 3.11 | 22 | 0.57 |
+| gpt-6.1-sol | it3 | 36/40 | 4.7 | 2.82 | 29 | 0.03 |
+| gpt-6.1-sol | it4 | 36/40 | 4.5 | 2.82 | 27 | 0.03 |
+| gpt-6.1-sol | it5 | 38/40 | 4.33 | 2.77 | 30 | 0.05 |
+| gpt-6-luna | main | 31/40 | 6.15 | 1.61 | 59 | 0.54 |
+| gpt-6-luna | it1 | 31/40 | 5.62 | 1.88 | 60 | 0.38 |
+| gpt-6-luna | it2 | 33/40 | 5.95 | 2.99 | 39 | 0.97 |
+| gpt-6-luna | it3 | 34/40 | 5.42 | 3.13 | 42 | 0.25 |
+| gpt-6-luna | it4 | 34/40 | 5.7 | 2.86 | 42 | 0.2 |
+| gpt-6-luna | it5 | 33/40 | 5.1 | 3.06 | 39 | 0.17 |
+
+### Long-horizon tasks
+
+| model | variant | success | parts right % | wall s | wall s (completed runs) | parent requests | total requests | calls/run_code | max fan-out | run_code errors | total in tok k | timeouts |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| gpt-6.1-sol | off | 8/10 | 99 | 68.2 | 68.2 | 11.4 | 11.4 | 0 | - | 0 | 89.6 | 0 |
+| gpt-6.1-sol | base | 8/10 | 99 | 65.1 | 65.1 | 8.6 | 8.6 | 2.72 | - | 0.9 | 87.2 | 0 |
+| gpt-6.1-sol | new | 8/10 | 99 | 66.6 | 66.6 | 7.5 | 7.5 | 2.94 | - | 0.2 | 79.3 | 0 |
+| gpt-6-luna | off | 5/10 | 95 | 45.1 | 45.1 | 9.5 | 9.5 | 0 | - | 0 | 100.6 | 0 |
+| gpt-6-luna | base | 4/10 | 72 | 48.9 | 48.9 | 9.9 | 9.9 | 3.19 | - | 2 | 95.1 | 0 |
+| gpt-6-luna | new | 5/10 | 94 | 44.5 | 44.5 | 7 | 7 | 5.2 | - | 0.1 | 70.6 | 0 |
+
+### Long-horizon tasks with delegation to sub-agents
+
+| model | variant | success | parts right % | wall s | wall s (completed runs) | parent requests | total requests | calls/run_code | max fan-out | run_code errors | total in tok k | timeouts |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| gpt-6.1-sol | off | 7/10 | 91 | 285.1 | 216.8 | 11.8 | 43.1 | 0 | - | 0 | 230.5 | 1 |
+| gpt-6.1-sol | base | 8/10 | 94 | 193.8 | 115.4 | 6.4 | 27 | 3.88 | 4 | 1.22 | 230.6 | 1 |
+| gpt-6.1-sol | new | 8/10 | 99 | 88.9 | 88.9 | 4.9 | 19.5 | 4.63 | 4 | 0.3 | 177.7 | 0 |
+| gpt-6.1-sol | fix | 9/10 | 99 | 98.0 | 98.0 | 4.8 | 21.5 | 4.49 | 4 | 0.4 | 180.5 | 0 |
+| gpt-6-luna | off | 7/10 | 97 | 87.2 | 87.2 | 7.5 | 31.2 | 0 | - | 0 | 195.0 | 0 |
+| gpt-6-luna | base | 7/10 | 95 | 107.3 | 107.3 | 6.1 | 25.9 | 2.25 | 4 | 1.7 | 240.1 | 0 |
+| gpt-6-luna | new | 6/10 | 96 | 73.3 | 73.3 | 5.7 | 20.8 | 3.43 | 4 | 0.3 | 402.6 | 0 |
+| gpt-6-luna | fix | 4/10 | 92 | 81.2 | 81.2 | 6.9 | 26.5 | 3.93 | 4 | 1.2 | 214.6 | 0 |
+
+### Sub-agent sessions (delegation tasks)
+
+| model | variant | sessions | requests/session | in tok k/session | largest return (chars) |
+|---|---|---|---|---|---|
+| gpt-6.1-sol | off | 37 | 7.9 | 38.1 | 12,891 |
+| gpt-6.1-sol | base | 39 | 5.2 | 40.1 | 26,588 |
+| gpt-6.1-sol | new | 40 | 3.6 | 32.3 | 71,762 |
+| gpt-6.1-sol | fix | 39 | 4.3 | 33.2 | 9,836 |
+| gpt-6-luna | off | 40 | 5.9 | 36.5 | 38,004 |
+| gpt-6-luna | base | 39 | 5.1 | 48.2 | 88,614 |
+| gpt-6-luna | new | 39 | 3.9 | 89.0 | 294,877 |
+| gpt-6-luna | fix | 42 | 4.7 | 34.7 | 9,845 |
+
+### Sub-agent fan-out
+
+| model | off: invoke_agent calls per model response | new: invoke_agent calls per run_code |
+|---|---|---|
+| gpt-6.1-sol | {"1": 40, "4": 10} | {"4": 10} |
+| gpt-6-luna | {"1": 12, "4": 7} | {"3": 1, "4": 9} |
+
+## How the prompt changes went (short tasks)
+
+| iteration | change | effect |
+|---|---|---|
+| it1 | batching guidance, `run_code` description note, whole nested values | sol single-call snippets 41% → 21% |
+| it2 | named the three commonest single-call habits; heredoc quoting tip | calls per snippet up, but errors doubled: our own example used `sorted({m["file_path"] ...})`, which the sandbox type checker rejects (`str \| None`) |
+| it3 | type-clean examples, `str \| None` and `next(genexpr)` facts | sol errors 0.57 → 0.03 per task |
+| it4 | "return matched lines next to computed counts" | did not fix a consistent r3 miss (8 vs 9) |
+| it5 | root cause of r3: `read_file` returned `content=None` for big files; code mode now reads whole files | r3 fixed; final prompt |
+
+## Caveats
+
+- 10 runs per long-task cell. luna's delegation success moves between 4 and 7 of 10 across variants
+  while its part accuracy stays at 92 to 97%; read one- or two-run differences as noise.
+- Two models from one provider, on one machine (macOS).
+- The `off` short-task batch and the `fix1` batch were not interleaved with the others.
+- The sub-agent fix (`fix`) is 8 to 9 seconds slower than `new` on delegation tasks. Sub-agents got
+  bounded returns but called `read_tool_result` once in 81 sessions, so this is not extra round trips;
+  it is most likely batch-to-batch noise.
+
+## How this was run
+
+An AI coding agent (Code Puppy) did the hands-on work: harness, task composition, runs, analysis, and
+the Code Puppy PRs. Mike chose the questions, reviewed results between iterations, and merged the PRs.

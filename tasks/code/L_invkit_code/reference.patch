@@ -1,0 +1,106 @@
+diff --git a/invkit/cli.py b/invkit/cli.py
+index 3db377b..cfbc9b4 100644
+--- a/invkit/cli.py
++++ b/invkit/cli.py
+@@ -13,6 +13,7 @@ def build_parser() -> argparse.ArgumentParser:
+     p.add_argument("csv_file")
+     p.add_argument("--sort", default="sku", choices=sorted(SORT_KEYS))
+     p.add_argument("--low", type=int, default=None, help="only items with stock below N")
++    p.add_argument("--total", action="store_true", help="print the total stock value")
+     return p
+ 
+ 
+@@ -21,6 +22,8 @@ def main(argv=None) -> int:
+     inv = Inventory(parse_csv(Path(args.csv_file).read_text()))
+     items = inv.low_stock(args.low) if args.low is not None else list(inv)
+     print(format_report(items, sort_by=args.sort))
++    if args.total:
++        print(f"Total value: {inv.total_value():.2f}")
+     return 0
+ 
+ 
+diff --git a/invkit/store.py b/invkit/store.py
+index 988370b..3effa3d 100644
+--- a/invkit/store.py
++++ b/invkit/store.py
+@@ -47,6 +47,10 @@ class Inventory:
+         want = category.strip().lower()
+         return [i for i in self._items.values() if i.category.lower() == want]
+ 
++    def total_value(self, category: Optional[str] = None) -> float:
++        items = self.by_category(category) if category is not None else self._items.values()
++        return round(sum(i.price * i.quantity for i in items), 2)
++
+     def low_stock(self, threshold: int = 5) -> List[Item]:
+         return sorted((i for i in self._items.values() if i.quantity < threshold),
+                       key=lambda i: (i.quantity, i.sku))
+diff --git a/invkit/parsing.py b/invkit/parsing.py
+index 84cb2b5..70c0083 100644
+--- a/invkit/parsing.py
++++ b/invkit/parsing.py
+@@ -14,11 +14,11 @@ class ParseError(ValueError):
+ 
+ 
+ def _to_int(raw: str) -> int:
+-    return int(raw.strip() or 0)
++    return int(raw.strip().replace(",", "") or 0)
+ 
+ 
+ def _to_float(raw: str) -> float:
+-    return float(raw.strip())
++    return float(raw.strip().replace(",", ""))
+ 
+ 
+ def _tags(raw: str) -> List[str]:
+diff --git a/invkit/pricing.py b/invkit/pricing.py
+index d3b47c3..f4c6066 100644
+--- a/invkit/pricing.py
++++ b/invkit/pricing.py
+@@ -9,7 +9,7 @@ TAX_RATE = 0.07
+ 
+ def bulk_discount(quantity: int, unit_price: float) -> float:
+     """Discount (a positive amount) for a single order line."""
+-    if quantity > BULK_THRESHOLD:
++    if quantity >= BULK_THRESHOLD:
+         return round(quantity * unit_price * BULK_RATE, 2)
+     return 0.0
+ 
+diff --git a/invkit/cli.py b/invkit/cli.py
+index 3db377b..d026f3a 100644
+--- a/invkit/cli.py
++++ b/invkit/cli.py
+@@ -12,6 +12,7 @@ def build_parser() -> argparse.ArgumentParser:
+     p = argparse.ArgumentParser(prog="invkit")
+     p.add_argument("csv_file")
+     p.add_argument("--sort", default="sku", choices=sorted(SORT_KEYS))
++    p.add_argument("--desc", action="store_true", help="sort in descending order")
+     p.add_argument("--low", type=int, default=None, help="only items with stock below N")
+     return p
+ 
+@@ -20,7 +21,7 @@ def main(argv=None) -> int:
+     args = build_parser().parse_args(argv)
+     inv = Inventory(parse_csv(Path(args.csv_file).read_text()))
+     items = inv.low_stock(args.low) if args.low is not None else list(inv)
+-    print(format_report(items, sort_by=args.sort))
++    print(format_report(items, sort_by=args.sort, descending=args.desc))
+     return 0
+ 
+ 
+diff --git a/invkit/report.py b/invkit/report.py
+index df8ba6f..65f5822 100644
+--- a/invkit/report.py
++++ b/invkit/report.py
+@@ -16,11 +16,11 @@ def _row(item: Item) -> List[str]:
+     return [item.sku, item.name, item.category, str(item.quantity), f"{item.price:.2f}"]
+ 
+ 
+-def format_report(items: Iterable[Item], sort_by: str = "sku") -> str:
++def format_report(items: Iterable[Item], sort_by: str = "sku", descending: bool = False) -> str:
+     """Render items as a fixed-width text table sorted by `sort_by`."""
+     if sort_by not in SORT_KEYS:
+         raise ValueError(f"cannot sort by {sort_by!r}; choose from {sorted(SORT_KEYS)}")
+-    rows = [_row(i) for i in sorted(items, key=SORT_KEYS[sort_by])]
++    rows = [_row(i) for i in sorted(items, key=SORT_KEYS[sort_by], reverse=descending)]
+     widths = [len(c) for c in COLUMNS]
+     for r in rows:
+         widths = [max(w, len(v)) for w, v in zip(widths, r)]

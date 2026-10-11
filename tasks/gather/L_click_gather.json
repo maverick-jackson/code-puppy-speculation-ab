@@ -1,0 +1,78 @@
+{
+ "id": "L_click_gather",
+ "family": "gather",
+ "repo": "click",
+ "prompt": "You are in a checkout of the Python library click. Using only the files in this repository, answer all four parts below. Part A: (1) when a required option is missing, which exception class does click raise; (2) which class does that exception directly inherit from; (3) what integer exit_code does that exception end up with (follow the inheritance); (4) what is the default value of the max_length parameter of make_default_short_help. Part B: (1) the minimum Bash version (major.minor) that click's bash shell completion accepts; (2) how many classes defined in src/click/exceptions.py inherit, directly or indirectly, from ClickException (do not count ClickException itself); (3) for a command line program named my-tool, the exact environment variable name click reads to trigger shell completion; (4) the direct base class of click's Exit exception. Part C: (1) the path, relative to the repository root, of the file that defines the HelpFormatter class; (2) the maximum width HelpFormatter uses when no max_width is passed; (3) the smallest width HelpFormatter will ever compute from the terminal size when no width is passed; (4) the name of the module-level variable that, when set, overrides the width HelpFormatter would otherwise compute. Part D: (1) how many classes defined in src/click/types.py inherit, directly or indirectly, from ParamType (do not count ParamType itself); (2) the name of the function in that file that picks a ParamType for a given Python type or default value; (3) the line number in src/click/types.py on which that function is defined (the def line); (4) the integer value of MAX_BYTES_WRITTEN in click's Windows console support module. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <class>|<parent class>|<exit_code>|<max_length>|<version>|<count>|<env var>|<base class>|<path>|<max width>|<minimum width>|<variable name>|<count>|<function name>|<line number>|<value>",
+ "answer": [
+  {
+   "kind": "name",
+   "value": "MissingParameter"
+  },
+  {
+   "kind": "name",
+   "value": "BadParameter"
+  },
+  {
+   "kind": "int",
+   "value": 2
+  },
+  {
+   "kind": "int",
+   "value": 45
+  },
+  {
+   "kind": "str",
+   "value": "4.4"
+  },
+  {
+   "kind": "int",
+   "value": 7
+  },
+  {
+   "kind": "name",
+   "value": "_MY_TOOL_COMPLETE"
+  },
+  {
+   "kind": "name",
+   "value": "RuntimeError"
+  },
+  {
+   "kind": "path",
+   "value": "src/click/formatting.py"
+  },
+  {
+   "kind": "int",
+   "value": 80
+  },
+  {
+   "kind": "int",
+   "value": 50
+  },
+  {
+   "kind": "name",
+   "value": "FORCED_WIDTH"
+  },
+  {
+   "kind": "int",
+   "value": 17
+  },
+  {
+   "kind": "name",
+   "value": "convert_type"
+  },
+  {
+   "kind": "int",
+   "value": 999
+  },
+  {
+   "kind": "int",
+   "value": 32767
+  }
+ ],
+ "sources": [
+  "g1_click_exceptions",
+  "g2_click_completion",
+  "g3_click_helpwidth",
+  "g4_click_types"
+ ]
+}
