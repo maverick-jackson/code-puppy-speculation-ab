@@ -1,0 +1,13 @@
+diff --git b/src/click/types.py a/src/click/types.py
+index 59bc724..2b1d179 100644
+--- b/src/click/types.py
++++ a/src/click/types.py
+@@ -536,7 +536,7 @@ class IntRange(_NumberRangeBase, IntParamType):
+         if not open:
+             return bound
+ 
+-        return bound
++        return bound + dir
+ 
+ 
+ class FloatParamType(_NumberParamTypeBase):

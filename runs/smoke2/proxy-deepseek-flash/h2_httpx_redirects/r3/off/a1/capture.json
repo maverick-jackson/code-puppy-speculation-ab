@@ -1,0 +1,179 @@
+{
+ "pid": 7308,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791623790.990057,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "grep",
+   "start_s": 1.2139,
+   "initial_arg_chars": 0,
+   "arg_deltas": 21,
+   "arg_delta_chars": 55,
+   "subagent_session": null,
+   "end_s": 1.2849
+  },
+  {
+   "tool": "list_files",
+   "start_s": 1.2852,
+   "initial_arg_chars": 0,
+   "arg_deltas": 9,
+   "arg_delta_chars": 18,
+   "subagent_session": null,
+   "end_s": 1.3048
+  },
+  {
+   "tool": "read_file",
+   "start_s": 2.4932,
+   "initial_arg_chars": 0,
+   "arg_deltas": 79,
+   "arg_delta_chars": 174,
+   "subagent_session": null,
+   "end_s": 2.9655
+  },
+  {
+   "tool": "grep",
+   "start_s": 3.995,
+   "initial_arg_chars": 0,
+   "arg_deltas": 35,
+   "arg_delta_chars": 111,
+   "subagent_session": null,
+   "end_s": 4.1158
+  },
+  {
+   "tool": "read_file",
+   "start_s": 5.3935,
+   "initial_arg_chars": 0,
+   "arg_deltas": 79,
+   "arg_delta_chars": 175,
+   "subagent_session": null,
+   "end_s": 5.6387
+  },
+  {
+   "tool": "grep",
+   "start_s": 6.9683,
+   "initial_arg_chars": 0,
+   "arg_deltas": 30,
+   "arg_delta_chars": 72,
+   "subagent_session": null,
+   "end_s": 6.9883
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.3079
+  },
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.3091
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.3737,
+   "duration_ms": 37.5,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx (recursive=True)\\nCHANGELOG"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.3989,
+   "duration_ms": 66.3,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/CHANGELOG.md', line_numbe"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.9675
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.9997,
+   "duration_ms": 1.9,
+   "error_like": false,
+   "result_head": "content='        self._state = ClientState.OPENED\\n        follow_redirects = (\\n            self.follow_redirects\\n            if isinstance(follow_redirects, "
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.1196
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.1922,
+   "duration_ms": 46.3,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/_client.py', line_n"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 5.6434
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 5.6816,
+   "duration_ms": 3.3,
+   "error_like": false,
+   "result_head": "content='    def _build_redirect_request(self, request: Request, response: Response) -> Request:\\n        \"\"\"\\n        Given a request and a redirect response, "
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 6.9902
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 7.0521,
+   "duration_ms": 36.7,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/_status_codes.py', "
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "3d9cd798-c7b0-4191-9f21-ed6b8c1aae16",
+   "start_s": 0.1645,
+   "start_wall": 1791623791.1545339,
+   "end_s": 9.1016,
+   "success": true,
+   "error": null,
+   "response_text": "Everything's confirmed from the source. Here's the breakdown, my friend:\n\n**1) `raise TooManyRedirects` line in `httpx/_client.py`**\n- Sync client: **line 972** inside `Client._send_handling_redirects`\n- Async client: line 1719 (same logic in `AsyncClient`)\nThe sync one is line 972.\n\n**2) Status codes that can flip the method to GET** (`_redirect_method`):\n- `301 Moved Permanently` \u2014 only when method is POST\n- `302 Found` \u2014 when method != HEAD\n- `303 See Other` \u2014 when method != HEAD\n\u2192 **301, 302, 303**\n\n**3) Request headers stripped when the method switches to GET** (`_redirect_headers`):\n```\nheaders.pop(\"Content-Length\", None)\nheaders.pop(\"Transfer-Encoding\", None)\n```\n\u2192 **Content-Length, Transfer-Encoding**\n\n**4) The one header removed on *every* redirect**, unconditionally (origin/method agnostic):\n```\nheaders.pop(\"Cookie\", None)\n```\n\u2192 **Cookie**\n\n(Bonus nerd note: `Authorization` is *not* unconditional \u2014 it's only dropped on cross-origin redirects, except direct HTTP\u2192HTTPS. And `Host` gets rewritten, not removed. So `Cookie` is the lone always-popped header. DRY-approved single source of truth right there. \ud83d\udc36)\n\nANSWER: 972|301, 302, 303|Content-Length, Transfer-Encoding|Cookie",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 48862,
+    "usage_output_tokens": 881,
+    "usage_total_tokens": 49743,
+    "usage_cached_read_tokens": 36736,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 11,
+  "part_delta": 659,
+  "part_end": 11
+ },
+ "speculation_enabled_cfg": false,
+ "dumped_at_s": 9.16
+}

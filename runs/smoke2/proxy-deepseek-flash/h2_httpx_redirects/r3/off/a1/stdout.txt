@@ -1,0 +1,73 @@
+]11;#1a1b26]10;#c0caf5]4;0;#15161e]4;1;#f7768e]4;2;#9ece6a]4;3;#e0af68]4;4;#7aa2f7]4;5;#bb9af7]4;6;#7dcfff]4;7;#a9b1d6]4;8;#414868]4;9;#f7768e]4;10;#9ece6a]4;11;#e0af68]4;12;#7aa2f7]4;13;#bb9af7]4;14;#7dcfff]4;15;#c0caf5🎯 Using model: proxy-deepseek-flash
+Update phase disabled because NO_VERSION_UPDATE is set to 1 or true
+Current version: 0.0.896
+Core plugins version: 0.0.77
+macOS Computer Use is off by default. Run `/computer-use enable` to opt in.
+Executing prompt: You are in a checkout of the Python library httpx. Using only 
+the files in this repository, answer about redirect handling in the sync and 
+async clients: (1) the line number in httpx/_client.py of the line that raises 
+TooManyRedirects (the line containing the raise statement); (2) the HTTP status 
+codes (numbers) for which a redirect can change the request method to GET, as a 
+comma separated list; (3) the request headers that are removed when the redirect
+switches the method to GET, as a comma separated list; (4) the one request 
+header that is removed on every redirect regardless of origin or method. Do not 
+modify any files. End your reply with one final line exactly in the form ANSWER:
+<line number>|<status codes>|<headers>|<header>
+
+I'll dig into the httpx repo and find the redirect handling logic.
+
+● grep  search_string=TooManyRedirects · directory=.
+
+● list_files  directory=. · recursive=true
+
+
+Two raise sites: 972 (sync) and 1719 (async). Let me read the sync one's
+context, plus the redirect method-switching logic.
+
+● read_file  file_path=/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/…
+
+
+Now the [2m_build_redirect_request[22m and [2m_redirect_method[22m / [2m_redirect_headers[22m
+helpers.
+
+● grep  search_string=_redirect_method|_redirect_headers|_redirect_url|_build_…
+
+● read_file  file_path=/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/…
+
+
+Let me confirm the status code numbers from [2m_status_codes.py[22m.
+
+● grep  search_string=SEE_OTHER|FOUND|MOVED_PERMANENTLY · directory=.
+
+
+Everything's confirmed from the source. Here's the breakdown, my friend:
+
+[1m[38;2;192;202;245m1) `raise TooManyRedirects` line in `httpx/_client.py`[22m
+[38;2;187;154;247m•[0m Sync client: [1m[38;2;192;202;245mline 972[22m inside [2mClient._send_handling_redirects[22m
+[38;2;187;154;247m•[0m Async client: line 1719 (same logic in [2mAsyncClient[22m)
+The sync one is line 972.
+
+[1m[38;2;192;202;245m2) Status codes that can flip the method to GET[22m ([2m_redirect_method[22m):
+[38;2;187;154;247m•[0m [2m301 Moved Permanently[22m — only when method is POST
+[38;2;187;154;247m•[0m [2m302 Found[22m — when method != HEAD
+[38;2;187;154;247m•[0m [2m303 See Other[22m — when method != HEAD
+→ [1m[38;2;192;202;245m301, 302, 303[22m
+
+[1m[38;2;192;202;245m3) Request headers stripped when the method switches to GET[22m ([2m_redirect_headers[22m):
+headers.pop("Content-Length", None)
+headers.pop("Transfer-Encoding", None)
+→ [1m[38;2;192;202;245mContent-Length, Transfer-Encoding[22m
+
+[1m[38;2;192;202;245m4) The one header removed on *every* redirect[22m, unconditionally (origin/method
+agnostic):
+headers.pop("Cookie", None)
+→ [1m[38;2;192;202;245mCookie[22m
+
+(Bonus nerd note: [2mAuthorization[22m is [3mnot[23m unconditional — it's only dropped on
+cross-origin redirects, except direct HTTP→HTTPS. And [2mHost[22m gets rewritten, not
+removed. So [2mCookie[22m is the lone always-popped header. DRY-approved single source
+of truth right there.   )
+
+ANSWER: 972|301, 302, 303|Content-Length, Transfer-Encoding|Cookie
+
+]104]111]110

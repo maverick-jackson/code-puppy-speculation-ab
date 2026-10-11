@@ -1,0 +1,336 @@
+{
+ "pid": 99458,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791598152.463321,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 632,
+   "first_s": 1.0519,
+   "last_s": 7.7828
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 5,
+   "first_s": 1.1054,
+   "last_s": 2.9181
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 5,
+   "first_s": 1.1569,
+   "last_s": 2.9608
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 1,
+   "first_s": 2.9564,
+   "last_s": 2.9564
+  }
+ },
+ "spec_final": {
+  "hits": 5,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 37.3,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.0403,
+   "initial_arg_chars": 0,
+   "arg_deltas": 25,
+   "arg_delta_chars": 87,
+   "subagent_session": null,
+   "end_s": 1.1581
+  },
+  {
+   "tool": "run_code",
+   "start_s": 1.1585,
+   "initial_arg_chars": 0,
+   "arg_deltas": 39,
+   "arg_delta_chars": 123,
+   "subagent_session": null,
+   "end_s": 1.3055
+  },
+  {
+   "tool": "run_code",
+   "start_s": 1.3057,
+   "initial_arg_chars": 0,
+   "arg_deltas": 32,
+   "arg_delta_chars": 93,
+   "subagent_session": null,
+   "end_s": 1.4403
+  },
+  {
+   "tool": "run_code",
+   "start_s": 1.4411,
+   "initial_arg_chars": 0,
+   "arg_deltas": 30,
+   "arg_delta_chars": 96,
+   "subagent_session": null,
+   "end_s": 1.606
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.8421,
+   "initial_arg_chars": 0,
+   "arg_deltas": 78,
+   "arg_delta_chars": 268,
+   "subagent_session": null,
+   "end_s": 3.1241
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.0106,
+   "initial_arg_chars": 0,
+   "arg_deltas": 116,
+   "arg_delta_chars": 374,
+   "subagent_session": null,
+   "end_s": 4.3856
+  },
+  {
+   "tool": "run_code",
+   "start_s": 5.2628,
+   "initial_arg_chars": 0,
+   "arg_deltas": 120,
+   "arg_delta_chars": 390,
+   "subagent_session": null,
+   "end_s": 5.5992
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.8879,
+   "initial_arg_chars": 0,
+   "arg_deltas": 313,
+   "arg_delta_chars": 1288,
+   "subagent_session": null,
+   "end_s": 7.7808
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.1042
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.1549,
+   "duration_ms": 23.2,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click (recursive=False)\\n__init__.py (3.1 KB)\\n_co"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.6141
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.6174,
+   "duration_ms": 2.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'content': 'DIRECTORY LISTING: /Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click (recursive=False"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.6178
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.6196
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.6544,
+   "duration_ms": 3.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (37,999 chars); stored to handle \\'01a12392-4bae-70bc-b7d8-80cdfe449d43/call_01_qTG1MuUCAv8vyuYelibe4817__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.6555,
+   "duration_ms": 37.5,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-2>\", line 2, in <module>\\n    print(r[\"num_tokens\"])\\n          ~~~~~~~~~~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.6562
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.6582
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.706,
+   "duration_ms": 26.6,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/_winconsole.py', line_number=65, line_cont"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.7072,
+   "duration_ms": 50.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [{'file_path': '/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/_winconsole.py', 'li"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.7076
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.7088
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.7097,
+   "duration_ms": 0.8,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/types.py' is not a directory\" truncated=False"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.71,
+   "duration_ms": 2.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [], 'error': \"Error: '/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/types.py' is n"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.9173
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.9538,
+   "duration_ms": 3.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (37,999 chars); stored to handle \\'01a12392-4bae-70bc-b7d8-80cdfe449d43/call_00_lmjBnLAyLzc2VsnwOfB03292__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.128
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.1294,
+   "duration_ms": 1.2,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-6>\", line 1, in <module>\\n    txt = src[\"content\"]\\n          ~~~~~~~~~~~~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.3917
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.3934,
+   "duration_ms": 1.5,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-7>\", line 1, in <module>\\n    p = pathlib.Path(\"/Users/tinyr/rig/work/cp-sp"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 5.6035
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 5.6073,
+   "duration_ms": 3.5,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'total lines: 1090\\n23 class ParamType:\\n55     def to_info_dict(self) -> t.Dict[str, t.Any]:\\n64         # The class name wi"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 7.7868
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 7.79,
+   "duration_ms": 2.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"count: 17\\n['CompositeParamType', 'FuncParamType', 'UnprocessedParamType', 'StringParamType', 'Choice', 'DateTime', '_Number"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "0aa2d58a-cc37-4539-8e4e-17a466e35340",
+   "start_s": 0.1582,
+   "start_wall": 1791598152.621536,
+   "end_s": 9.3684,
+   "success": true,
+   "error": null,
+   "response_text": "Good, everything verified. Let me double-check that no other class in the file was missed (only `ParamType` is the base; `_is_file_like` is a function).\n\nCount = 17 classes inherit from ParamType (excluding ParamType itself). The picker function is `convert_type`, defined at line 999. MAX_BYTES_WRITTEN = 32767.\n\nAnswers:\n1. **17** classes in `src/click/types.py` inherit (directly or indirectly) from `ParamType`.\n2. The function that picks a `ParamType` for a Python type/default is **`convert_type`**.\n3. It's defined on **line 999**.\n4. `MAX_BYTES_WRITTEN` in `_winconsole.py` = **32767**.\n\nANSWER: 17|convert_type|999|32767",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 47376,
+    "usage_output_tokens": 1189,
+    "usage_total_tokens": 48565,
+    "usage_cached_read_tokens": 38656,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 13,
+  "part_delta": 991,
+  "part_end": 13
+ },
+ "claims": [
+  {
+   "tool": "list_files",
+   "ready": false,
+   "elapsed_ms": 52.943916991353035
+  },
+  {
+   "tool": "read_file",
+   "ready": false,
+   "elapsed_ms": 35.76837497530505
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 48.421625018818304
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 1.3438329915516078
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 37.26012498373166
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 9.4269
+}

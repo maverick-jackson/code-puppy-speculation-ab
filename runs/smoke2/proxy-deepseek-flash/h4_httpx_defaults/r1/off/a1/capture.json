@@ -1,0 +1,113 @@
+{
+ "pid": 5760,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791618333.3970518,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "shell",
+   "start_s": 1.2241,
+   "initial_arg_chars": 0,
+   "arg_deltas": 12,
+   "arg_delta_chars": 24,
+   "subagent_session": null,
+   "end_s": 1.2801
+  },
+  {
+   "tool": "grep",
+   "start_s": 1.2803,
+   "initial_arg_chars": 0,
+   "arg_deltas": 30,
+   "arg_delta_chars": 80,
+   "subagent_session": null,
+   "end_s": 1.4349
+  },
+  {
+   "tool": "shell",
+   "start_s": 2.4905,
+   "initial_arg_chars": 0,
+   "arg_deltas": 110,
+   "arg_delta_chars": 364,
+   "subagent_session": null,
+   "end_s": 2.8974
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 1.4401
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.4427
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.5127,
+   "duration_ms": 43.7,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/_config.py', line_n"
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 1.5646,
+   "duration_ms": 124.3,
+   "error_like": false,
+   "result_head": "success=True command='ls httpx/' error='' stdout='__init__.py\\n__version__.py\\n_api.py\\n_auth.py\\n_client.py\\n_compat.py\\n_config.py\\n_content.py\\n_decoders.py\\"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 2.9002
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 3.0197,
+   "duration_ms": 119.2,
+   "error_like": false,
+   "result_head": "success=True command='python3 -c \"\\nimport ast\\nsrc=open(\\'httpx/__init__.py\\').read()\\ntree=ast.parse(src)\\nfor node in ast.walk(tree):\\n    if isinstance(node"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "79981aa9-0833-4d2c-9277-4c93684a1f29",
+   "start_s": 0.1678,
+   "start_wall": 1791618333.5648398,
+   "end_s": 4.6669,
+   "success": true,
+   "error": null,
+   "response_text": "Found it all, straight from the source:\n\n1. **`__all__` in `httpx/__init__.py`**: 69 names (parsed via AST, not eyeballed, because counting strings by hand is a mug's game).\n2. **`DEFAULT_TIMEOUT_CONFIG`** (`_config.py:368`): `Timeout(timeout=5.0)` \u2192 **5.0** seconds.\n3. **`DEFAULT_LIMITS`** (`_config.py:369`): `Limits(max_connections=100, ...)` \u2192 **100**.\n4. Same line: `max_keepalive_connections=20` \u2192 **20**.\n\nNo files were harmed in the making of this answer. \ud83d\udc36\n\nANSWER: 69|5.0|100|20",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 17789,
+    "usage_output_tokens": 490,
+    "usage_total_tokens": 18279,
+    "usage_cached_read_tokens": 11392,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 6,
+  "part_delta": 376,
+  "part_end": 6
+ },
+ "speculation_enabled_cfg": false,
+ "dumped_at_s": 4.7289
+}

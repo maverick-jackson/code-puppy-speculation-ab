@@ -1,0 +1,24 @@
+{
+ "id": "h4_httpx_defaults",
+ "family": "gather",
+ "repo": "httpx",
+ "prompt": "You are in a checkout of the Python library httpx. Using only the files in this repository, answer: (1) how many names are listed in __all__ in httpx/__init__.py; (2) the default timeout in seconds of DEFAULT_TIMEOUT_CONFIG; (3) the default max_connections of DEFAULT_LIMITS; (4) the default max_keepalive_connections of DEFAULT_LIMITS. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <count>|<timeout seconds>|<max connections>|<max keepalive connections>",
+ "answer": [
+  {
+   "kind": "int",
+   "value": 69
+  },
+  {
+   "kind": "num",
+   "value": 5.0
+  },
+  {
+   "kind": "int",
+   "value": 100
+  },
+  {
+   "kind": "int",
+   "value": 20
+  }
+ ]
+}

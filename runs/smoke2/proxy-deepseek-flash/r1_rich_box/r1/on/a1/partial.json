@@ -1,0 +1,33 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "r1_rich_box",
+ "family": "gather",
+ "arm": "on",
+ "rep": 1,
+ "attempt": 1,
+ "order_pos": 1,
+ "block_index": 16,
+ "arm_order": [
+  "off",
+  "on",
+  "plain"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|r1_rich_box|1",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T07:39:26.582852",
+ "end_utc": "2026-10-10T07:39:38.766140",
+ "end_epoch": 1791617978.7670982,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": false,
+ "grader": {
+  "answer": null,
+  "expected": "19|6|HEAVY_HEAD|ROUNDED",
+  "reason": "no ANSWER line"
+ },
+ "grade_s": 0.07,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/r1_rich_box/r1/on/a1"
+}

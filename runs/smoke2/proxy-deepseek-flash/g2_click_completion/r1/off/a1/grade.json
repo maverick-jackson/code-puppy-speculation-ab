@@ -1,0 +1,11 @@
+{
+ "answer": "4.4|7|_MY_TOOL_COMPLETE|RuntimeError",
+ "expected": "4.4|7|_MY_TOOL_COMPLETE|RuntimeError",
+ "fields_ok": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

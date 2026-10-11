@@ -1,0 +1,38 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "g1_click_exceptions",
+ "family": "gather",
+ "arm": "plain",
+ "rep": 1,
+ "attempt": 1,
+ "order_pos": 1,
+ "block_index": 4,
+ "arm_order": [
+  "on",
+  "plain",
+  "off"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|g1_click_exceptions|1",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T06:00:35.206816",
+ "end_utc": "2026-10-10T06:00:44.594775",
+ "end_epoch": 1791612044.595526,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": true,
+ "grader": {
+  "answer": "MissingParameter|BadParameter|2|45",
+  "expected": "MissingParameter|BadParameter|2|45",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   true
+  ]
+ },
+ "grade_s": 0.01,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/g1_click_exceptions/r1/plain/a1"
+}

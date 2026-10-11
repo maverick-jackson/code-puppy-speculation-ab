@@ -1,0 +1,10 @@
+{
+ "id": "c4_click_bool_case",
+ "family": "code",
+ "base": "click",
+ "pythonpath": "src",
+ "prompt": "You are in a checkout of the Python library click (the package source is in src/click). Bug report: options of type bool only accept lowercase spellings. --debug true works, but --debug TRUE, --debug Yes or --debug Off fail with \"is not a valid boolean\". Accepted spellings should be case-insensitive (and surrounding whitespace ignored). Find the cause and fix it. Change only library source files; do not add, edit or delete any test files. When you are finished, end your reply with one final line exactly: DONE",
+ "bug_patch": "bug.patch",
+ "hidden": "hidden/test_hidden.py",
+ "reference": "reference.patch"
+}

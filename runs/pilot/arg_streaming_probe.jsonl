@@ -1,0 +1,6 @@
+{"group": "deepseek-flash", "sse_chunks": 47, "arg_chunks": 44, "arg_chars": 137, "first_arg_s": 1.333, "arg_span_s": 0.189, "total_s": 1.541}
+{"group": "zai-glm-4.7", "sse_chunks": 419, "arg_chunks": 0, "arg_chars": 0, "first_arg_s": null, "arg_span_s": null, "total_s": 14.899}
+{"group": "kimi-k2.7-code", "sse_chunks": 320, "arg_chunks": 57, "arg_chars": 163, "first_arg_s": 6.602, "arg_span_s": 1.017, "total_s": 7.656}
+{"group": "deepseek-v4-pro", "sse_chunks": 232, "arg_chunks": 52, "arg_chars": 156, "first_arg_s": 2.516, "arg_span_s": 0.232, "total_s": 2.86}
+{"group": "zai-glm-4.7", "sse_chunks": 314, "tool_call_chunks": 1, "arg_chunks": 1, "arg_chars": 169, "first_arg_s": 14.431, "arg_span_s": 0.0, "total_s": 14.453}
+{"group": "zai-glm-4.7", "sse_chunks": 547, "tool_call_chunks": 1, "arg_chunks": 1, "arg_chars": 129, "first_arg_s": 18.3, "arg_span_s": 0.0, "total_s": 18.333}

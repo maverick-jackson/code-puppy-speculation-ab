@@ -1,0 +1,415 @@
+{
+ "pid": 94458,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791592537.811428,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 625,
+   "first_s": 1.4754,
+   "last_s": 17.0373
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 6,
+   "first_s": 1.5442,
+   "last_s": 16.875
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 6,
+   "first_s": 1.5777,
+   "last_s": 16.9386
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 4,
+   "first_s": 1.6019,
+   "last_s": 17.0236
+  },
+  "SpeculativeCallEvictedEvent": {
+   "n": 2,
+   "first_s": 6.707,
+   "last_s": 6.7072
+  }
+ },
+ "spec_final": {
+  "hits": 4,
+  "misses": 0,
+  "wasted": 2,
+  "saved_ms": 147.6,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.4715,
+   "initial_arg_chars": 0,
+   "arg_deltas": 99,
+   "arg_delta_chars": 377,
+   "subagent_session": null,
+   "end_s": 1.7948
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.0185,
+   "initial_arg_chars": 0,
+   "arg_deltas": 20,
+   "arg_delta_chars": 54,
+   "subagent_session": null,
+   "end_s": 3.3136
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.4704,
+   "initial_arg_chars": 0,
+   "arg_deltas": 136,
+   "arg_delta_chars": 503,
+   "subagent_session": null,
+   "end_s": 4.9425
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.3932,
+   "initial_arg_chars": 0,
+   "arg_deltas": 77,
+   "arg_delta_chars": 250,
+   "subagent_session": null,
+   "end_s": 6.6917
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.9015,
+   "initial_arg_chars": 0,
+   "arg_deltas": 101,
+   "arg_delta_chars": 329,
+   "subagent_session": null,
+   "end_s": 8.3013
+  },
+  {
+   "tool": "run_code",
+   "start_s": 9.3796,
+   "initial_arg_chars": 0,
+   "arg_deltas": 21,
+   "arg_delta_chars": 59,
+   "subagent_session": null,
+   "end_s": 9.4951
+  },
+  {
+   "tool": "run_code",
+   "start_s": 10.5969,
+   "initial_arg_chars": 0,
+   "arg_deltas": 12,
+   "arg_delta_chars": 24,
+   "subagent_session": null,
+   "end_s": 10.6708
+  },
+  {
+   "tool": "run_code",
+   "start_s": 12.514,
+   "initial_arg_chars": 0,
+   "arg_deltas": 53,
+   "arg_delta_chars": 168,
+   "subagent_session": null,
+   "end_s": 12.708
+  },
+  {
+   "tool": "run_code",
+   "start_s": 13.9126,
+   "initial_arg_chars": 0,
+   "arg_deltas": 24,
+   "arg_delta_chars": 63,
+   "subagent_session": null,
+   "end_s": 14.0163
+  },
+  {
+   "tool": "run_code",
+   "start_s": 15.4425,
+   "initial_arg_chars": 0,
+   "arg_deltas": 64,
+   "arg_delta_chars": 218,
+   "subagent_session": null,
+   "end_s": 15.7195
+  },
+  {
+   "tool": "run_code",
+   "start_s": 16.8451,
+   "initial_arg_chars": 0,
+   "arg_deltas": 62,
+   "arg_delta_chars": 210,
+   "subagent_session": null,
+   "end_s": 17.0371
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.543
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.5761,
+   "duration_ms": 4.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (19,432 chars); stored to handle \\'01a1233c-9f78-74e4-8b45-9d63f11e1843/call_00_GPU9L4nre7BqDdfWRzIu7149__spec_1"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.5831
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.6279,
+   "duration_ms": 19.1,
+   "error_like": false,
+   "result_head": "content='import typing as t\\nfrom gettext import gettext as _\\nfrom gettext import ngettext\\n\\nfrom ._compat import get_text_stderr\\nfrom .utils import echo\\nfr"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.6345
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.6372,
+   "duration_ms": 2.6,
+   "error_like": true,
+   "result_head": "content=None num_tokens=0 error='The file is massive, greater than 10,000 tokens which is dangerous to read entirely. Please read this file in chunks.'"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.7973
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.798,
+   "duration_ms": 0.6,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-3>\", line 1, in <module>\\n    print(src.get(\"error\"), ex.get(\"error\"), core"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.3193
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.3217,
+   "duration_ms": 2.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '<class \\'str\\'>\\n[Tool output too large (19,432 chars); stored to handle \\'01a1233c-9f78-74e4-8b45-9d63f11e1843/call_00_GPU9"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 4.7145
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 4.7444,
+   "duration_ms": 3.1,
+   "error_like": false,
+   "result_head": "content='import typing as t\\nfrom gettext import gettext as _\\nfrom gettext import ngettext\\n\\nfrom ._compat import get_text_stderr\\nfrom .utils import echo\\nfr"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 4.7513
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 4.7528,
+   "duration_ms": 1.4,
+   "error_like": true,
+   "result_head": "content=None num_tokens=0 error='The file is massive, greater than 10,000 tokens which is dangerous to read entirely. Please read this file in chunks.'"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.9461
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.9472,
+   "duration_ms": 1.0,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-8>\", line 2, in <module>\\n    src_c = parse(src)[\"content\"]\\n            ~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.6964
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.6987,
+   "duration_ms": 2.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"['CODE_OF_CONDUCT.md', 'artwork', 'CONTRIBUTING.rst', '.pre-commit-config.yaml', 'tests', 'MANIFEST.in', 'requirements', 'do"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 8.3058
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 8.3087,
+   "duration_ms": 2.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '92 # Only Bash >= 4.4 has the nosort option.\\n99 %(complete_var)s=bash_complete $1)\\n202     .. versionadded:: 8.0\\n298 clas"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 9.4981
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 9.4999,
+   "duration_ms": 1.5,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '    @staticmethod\\n    def _check_version() -> None:\\n        import subprocess\\n\\n        output = subprocess.run(\\n       "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 10.6746
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 10.6763,
+   "duration_ms": 1.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'import typing as t\\nfrom gettext import gettext as _\\nfrom gettext import ngettext\\n\\nfrom ._compat import get_text_stderr\\n"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 12.7107
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 12.7143,
+   "duration_ms": 3.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '993         complete_var: t.Optional[str] = None,\\n1004         complete_var: t.Optional[str] = None,\\n1014         complete"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 14.0196
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 14.0217,
+   "duration_ms": 1.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '            Dots (``.``) in ``prog_name`` are replaced with underscores (``_``).\\n        \"\"\"\\n        if complete_var is No"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 15.7235
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 15.7255,
+   "duration_ms": 1.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '_MY_TOOL_COMPLETE\\nclass ClickException(Exception):\\nclass UsageError(ClickException):\\nclass BadParameter(UsageError):\\ncla"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 16.8742
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 16.9371,
+   "duration_ms": 36.3,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/repos/click/docs/shell-completion.rst', line_number=6, line_content='Click provides tab comp"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 17.0391
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 17.0402,
+   "duration_ms": 1.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '/Users/tinyr/rig/work/cp-spec-ab/runs/repos/click/docs/shell-completion.rst 6 Click provides tab completion support for Bash"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "3320146d-de49-4df7-a1b0-3f4d8bb314db",
+   "start_s": 0.1646,
+   "start_wall": 1791592537.976037,
+   "end_s": 19.0883,
+   "success": true,
+   "error": null,
+   "response_text": "Docs corroborate: Bash 4.4+. Everything checks out. No files modified.\n\nHere's the rundown, ruffled fur and all:\n\n1. **Min Bash version: 4.4** \u2014 `BashComplete._check_version()` bails on anything `older than 4.4` (the `nosort` option needs it), and the docs say the same.\n2. **Classes inheriting from `ClickException` (directly or indirectly), excluding itself: 7** \u2014 `UsageError`, `BadParameter`, `MissingParameter`, `NoSuchOption`, `BadOptionUsage`, `BadArgumentUsage`, `FileError`. (`Abort` and `Exit` inherit from `RuntimeError`, so they're not invited to the party.)\n3. **Env var for `my-tool`: `_MY_TOOL_COMPLETE`** \u2014 dashes/dots\u2192underscores, wrapped in `_{NAME}_COMPLETE`, then `.upper()`.\n4. **Base class of `Exit`: `RuntimeError`** \u2014 not a `ClickException` at all; it's an internal signalling exception.\n\nANSWER: 4.4|7|_MY_TOOL_COMPLETE|RuntimeError",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 110224,
+    "usage_output_tokens": 1616,
+    "usage_total_tokens": 111840,
+    "usage_cached_read_tokens": 99072,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 21,
+  "part_delta": 1307,
+  "part_end": 21
+ },
+ "claims": [
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 34.75762499147095
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 46.00833301083185
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 3.268375003244728
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 63.569707999704406
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 19.149
+}

@@ -1,0 +1,13 @@
+diff --git b/src/click/types.py a/src/click/types.py
+index afa937c..2b1d179 100644
+--- b/src/click/types.py
++++ a/src/click/types.py
+@@ -599,7 +599,7 @@ class BoolParamType(ParamType):
+         if value in {False, True}:
+             return bool(value)
+ 
+-        norm = value.strip()
++        norm = value.strip().lower()
+ 
+         if norm in {"1", "true", "t", "yes", "y", "on"}:
+             return True

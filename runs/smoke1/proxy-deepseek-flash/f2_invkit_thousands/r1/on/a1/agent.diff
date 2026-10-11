@@ -1,0 +1,28 @@
+diff --git a/invkit/parsing.py b/invkit/parsing.py
+index 84cb2b5..656d854 100644
+--- a/invkit/parsing.py
++++ b/invkit/parsing.py
+@@ -13,12 +13,21 @@ class ParseError(ValueError):
+         self.line_no = line_no
+ 
+ 
++def _strip_separators(raw: str) -> str:
++    """Remove digit-group thousands separators from a numeric literal.
++
++    Handles both comma (1,200) and underscore (1_200) groupings while leaving
++    signs and decimal points intact so float()/int() can do the real work.
++    """
++    return raw.replace(",", "").replace("_", "")
++
++
+ def _to_int(raw: str) -> int:
+-    return int(raw.strip() or 0)
++    return int(_strip_separators(raw.strip()) or 0)
+ 
+ 
+ def _to_float(raw: str) -> float:
+-    return float(raw.strip())
++    return float(_strip_separators(raw.strip()))
+ 
+ 
+ def _tags(raw: str) -> List[str]:

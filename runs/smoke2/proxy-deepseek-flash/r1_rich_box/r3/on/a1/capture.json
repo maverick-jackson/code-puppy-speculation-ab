@@ -1,0 +1,432 @@
+{
+ "pid": 6905,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791623663.996405,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 1524,
+   "first_s": 1.4319,
+   "last_s": 19.1546
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 4,
+   "first_s": 1.6191,
+   "last_s": 3.2317
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 4,
+   "first_s": 1.658,
+   "last_s": 3.2666
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 2,
+   "first_s": 1.6896,
+   "last_s": 3.4216
+  },
+  "SpeculativeCallEvictedEvent": {
+   "n": 2,
+   "first_s": 3.8031,
+   "last_s": 3.8033
+  },
+  "EagerExecutionCompletedEvent": {
+   "n": 1,
+   "first_s": 7.6565,
+   "last_s": 7.6565
+  }
+ },
+ "spec_final": {
+  "hits": 2,
+  "misses": 0,
+  "wasted": 2,
+  "saved_ms": 75.9,
+  "eager_saved_ms": 0.3
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.4084,
+   "initial_arg_chars": 0,
+   "arg_deltas": 228,
+   "arg_delta_chars": 583,
+   "subagent_session": null,
+   "end_s": 2.0954
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.0314,
+   "initial_arg_chars": 0,
+   "arg_deltas": 204,
+   "arg_delta_chars": 620,
+   "subagent_session": null,
+   "end_s": 3.7889
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.9841,
+   "initial_arg_chars": 0,
+   "arg_deltas": 25,
+   "arg_delta_chars": 62,
+   "subagent_session": null,
+   "end_s": 5.0046
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.0944,
+   "initial_arg_chars": 0,
+   "arg_deltas": 75,
+   "arg_delta_chars": 164,
+   "subagent_session": null,
+   "end_s": 6.4127
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.2342,
+   "initial_arg_chars": 0,
+   "arg_deltas": 113,
+   "arg_delta_chars": 281,
+   "subagent_session": null,
+   "end_s": 7.6542
+  },
+  {
+   "tool": "run_code",
+   "start_s": 8.8984,
+   "initial_arg_chars": 0,
+   "arg_deltas": 128,
+   "arg_delta_chars": 369,
+   "subagent_session": null,
+   "end_s": 9.394
+  },
+  {
+   "tool": "run_code",
+   "start_s": 10.2269,
+   "initial_arg_chars": 0,
+   "arg_deltas": 101,
+   "arg_delta_chars": 297,
+   "subagent_session": null,
+   "end_s": 10.5804
+  },
+  {
+   "tool": "run_code",
+   "start_s": 11.809,
+   "initial_arg_chars": 0,
+   "arg_deltas": 146,
+   "arg_delta_chars": 427,
+   "subagent_session": null,
+   "end_s": 12.3524
+  },
+  {
+   "tool": "run_code",
+   "start_s": 13.4141,
+   "initial_arg_chars": 0,
+   "arg_deltas": 251,
+   "arg_delta_chars": 716,
+   "subagent_session": null,
+   "end_s": 14.2214
+  },
+  {
+   "tool": "run_code",
+   "start_s": 15.2774,
+   "initial_arg_chars": 0,
+   "arg_deltas": 43,
+   "arg_delta_chars": 155,
+   "subagent_session": null,
+   "end_s": 15.5146
+  },
+  {
+   "tool": "run_code",
+   "start_s": 17.0501,
+   "initial_arg_chars": 0,
+   "arg_deltas": 211,
+   "arg_delta_chars": 648,
+   "subagent_session": null,
+   "end_s": 17.6407
+  },
+  {
+   "tool": "run_code",
+   "start_s": 18.8815,
+   "initial_arg_chars": 0,
+   "arg_deltas": 47,
+   "arg_delta_chars": 152,
+   "subagent_session": null,
+   "end_s": 19.1542
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.6175
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.6561,
+   "duration_ms": 5.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,256 chars); stored to handle \\'01a12517-9222-7545-875c-39e1821d5731/call_00_8lje2nJOxXL971KxNF8A0928__spec_1"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.8698
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.9,
+   "duration_ms": 4.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (41,256 chars); stored to handle \\'01a12517-9222-7545-875c-39e1821d5731/call_00_8lje2nJOxXL971KxNF8A0928__spec_2"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.9859
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.0142,
+   "duration_ms": 2.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,154 chars); stored to handle \\'01a12517-9222-7545-875c-39e1821d5731/call_00_8lje2nJOxXL971KxNF8A0928__spec_3"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 2.0984
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 2.0993,
+   "duration_ms": 0.8,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-1>\", line 1, in <module>\\n    print(box[\"content\"][:200])\\n          ~~~~~~"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.2306
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.2649,
+   "duration_ms": 3.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,256 chars); stored to handle \\'01a12517-9222-7545-875c-39e1821d5731/call_00_AgdYGPL2OUdgUIzCEAf60726__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.7928
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.7944,
+   "duration_ms": 1.4,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\n[stdout before error]\\n--- box.py head ---\\n[/stdout before error]\\nTraceback (most recent call last):\\n  File \"<python-input-4>\", li"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 5.0067
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 5.0081,
+   "duration_ms": 1.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '<class \\'str\\'> 1342\\n\"[Tool output too large (11,256 chars); stored to handle \\'01a12517-9222-7545-875c-39e1821d5731/call_0"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.4173
+  },
+  {
+   "tool": "read_tool_result",
+   "phase": "pre",
+   "t_s": 6.4203
+  },
+  {
+   "tool": "read_tool_result",
+   "phase": "post",
+   "t_s": 6.4221,
+   "duration_ms": 1.5,
+   "error_like": false,
+   "result_head": "[handle '01a12517-9222-7545-875c-39e1821d5731/call_00_AgdYGPL2OUdgUIzCEAf60726__spec_1.0': 1 matching line(s); showing 1]\n{\"content\":\"import sys\\nfrom typing im"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.4235,
+   "duration_ms": 5.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '[handle \\'01a12517-9222-7545-875c-39e1821d5731/call_00_AgdYGPL2OUdgUIzCEAf60726__spec_1.0\\': 1 matching line(s); showing 1]\\"
+  },
+  {
+   "tool": "read_tool_result",
+   "phase": "pre",
+   "t_s": 7.6394
+  },
+  {
+   "tool": "read_tool_result",
+   "phase": "post",
+   "t_s": 7.6403,
+   "duration_ms": 0.8,
+   "error_like": false,
+   "result_head": "[handle '01a12517-9222-7545-875c-39e1821d5731/call_00_AgdYGPL2OUdgUIzCEAf60726__spec_1.0': 1 matching line(s); showing 1]\n{\"content\":\"import sys\\nfrom typing im"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 7.6555
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 7.6564,
+   "duration_ms": 0.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'len 10131\\nimport sys\\nfrom typing import TYPE_CHECKING, Iterable, List\\n\\nif sys.version_info >= (3, 8):\\n    from typing i"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 9.3986
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 9.4006,
+   "duration_ms": 1.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'Box instances: [] count= 0\\nLEGACY_WINDOWS_SUBSTITUTIONS.get(box, box)\\n        if options.ascii_only and not box.ascii:\\n  "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 10.5854
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 10.588,
+   "duration_ms": 2.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '\\n=== PLAIN_HEADED ===\\nPLAIN_HEADED_SUBSTITUTIONS.get(self, self)\\n\\n    def get_top(self, widths: Iterable[int]) -> str:\\n"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 12.355
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 12.3574,
+   "duration_ms": 2.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '\",\\n        \"MINIMAL\",\\n        \"MINIMAL_HEAVY_HEAD\",\\n        \"MINIMAL_DOUBLE_HEAD\",\\n        \"SIMPLE\",\\n        \"SIMPLE_HE"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 14.2238
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 14.2255,
+   "duration_ms": 1.5,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"Box instances: []\\ncount: 0\\nfirst idx: 2523\\nMATCH: True\\nkeys: ['ROUNDED', 'MINIMAL_HEAVY_HEAD', 'SIMPLE_HEAVY', 'HEAVY', "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 15.5167
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 15.5184,
+   "duration_ms": 1.5,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"191 'ASCII: Box = Box('\\n203 'ASCII2: Box = Box('\\n215 'ASCII_DOUBLE_HEAD: Box = Box('\\n227 'SQUARE: Box = Box('\\n238 'SQUAR"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 17.6427
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 17.6443,
+   "duration_ms": 1.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '=== TABLE box defaults ===\\nbox: Optional[box.Box] = box.HEAVY_HEAD,\\nbox: Optional[bool] = None,\\nbox = box\\nbox = safe_box"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 19.1568
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 19.1587,
+   "duration_ms": 1.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '=== PANEL box default ===\\n3 from .box import ROUNDED, Box\\n24 box (Box, optional): A Box instance that defines the look of "
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "0933dd80-1d49-4573-9105-f537885b21e7",
+   "start_s": 0.1658,
+   "start_wall": 1791623664.1622138,
+   "end_s": 21.2769,
+   "success": true,
+   "error": null,
+   "response_text": "All confirmed. Panel uses `ROUNDED` (line 40: `box: Box = ROUNDED`), Table uses `HEAVY_HEAD` (line 192). LEGACY has 6 entries.\n\nANSWER: 19|6|HEAVY_HEAD|ROUNDED\n\nBone-app\u00e9tit \u2014 here's the scoop from the `rich` checkout:\n\n1. **Module-level Box instances** in `rich/box.py`: **19** \u2014 all annotated `NAME: Box = Box(...)`: ASCII, ASCII2, ASCII_DOUBLE_HEAD, SQUARE, SQUARE_DOUBLE_HEAD, MINIMAL, MINIMAL_HEAVY_HEAD, MINIMAL_DOUBLE_HEAD, SIMPLE, SIMPLE_HEAD, SIMPLE_HEAVY, HORIZONTALS, ROUNDED, HEAVY, HEAVY_EDGE, HEAVY_HEAD, DOUBLE, DOUBLE_EDGE, MARKDOWN.\n2. **`LEGACY_WINDOWS_SUBSTITUTIONS` entries**: **6** (ROUNDED, MINIMAL_HEAVY_HEAD, SIMPLE_HEAVY, HEAVY, HEAVY_EDGE, HEAVY_HEAD).\n3. **Table default box**: `box.HEAVY_HEAD` (`rich/table.py:192`).\n4. **Panel default box**: `ROUNDED` (`rich/panel.py:40`).\n\nNo files were modified. \ud83d\udc36\n\nANSWER: 19|6|HEAVY_HEAD|ROUNDED",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 111161,
+    "usage_output_tokens": 2366,
+    "usage_total_tokens": 113527,
+    "usage_cached_read_tokens": 101248,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 19,
+  "part_delta": 2028,
+  "part_end": 19
+ },
+ "claims": [
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 39.93175001232885
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 35.9829590015579
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 21.3376
+}

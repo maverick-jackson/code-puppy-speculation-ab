@@ -1,0 +1,11 @@
+{
+ "answer": "972|301, 302, 303|Content-Length, Transfer-Encoding|Cookie",
+ "expected": "972|301,302,303|content-length,transfer-encoding|cookie",
+ "fields_ok": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

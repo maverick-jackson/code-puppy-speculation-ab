@@ -1,0 +1,10 @@
+{
+ "id": "f3_invkit_bulk_discount",
+ "family": "code",
+ "base": "fixture:invkit",
+ "pythonpath": ".",
+ "prompt": "You are in a checkout of invkit, a small Python inventory toolkit (package source in invkit/). Bug report: the bulk discount policy is 5 percent off an order line when 10 or more units of one SKU are ordered, but an order line of exactly 10 units currently gets no discount (11 or more does). Find the cause and fix it. Change only library source files; do not add, edit or delete any test files. When you are finished, end your reply with one final line exactly: DONE",
+ "bug_patch": null,
+ "hidden": "hidden/test_hidden.py",
+ "reference": "reference.patch"
+}

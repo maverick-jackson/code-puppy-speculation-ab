@@ -1,0 +1,84 @@
+{
+ "arm": "on",
+ "model": "proxy-deepseek-flash",
+ "cwd": "runs/repos/click",
+ "prompt_file": "tasks/g1_click_exceptions.txt",
+ "start_utc": "2026-10-10T00:34:45.909328",
+ "end_utc": "2026-10-10T00:34:55.845712",
+ "wall_s": 9.936,
+ "exit_code": 0,
+ "timed_out": false,
+ "cmd": [
+  "/Users/tinyr/rig/tools/bin/code-puppy",
+  "-p",
+  "<prompt>",
+  "-m",
+  "proxy-deepseek-flash",
+  "--yolo",
+  "true",
+  "--usage-file",
+  "/Users/tinyr/rig/work/cp-spec-ab/runs/pilot/proxy-deepseek-flash/g1_click_exceptions/on/usage.json"
+ ],
+ "start_epoch": 1791592485.909455,
+ "cp_version": "0.0.896",
+ "proxy_requests": [
+  {
+   "request_id": "89266a16-0590-4c47-9834-35e1db7d8679",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "6377",
+   "completion_tokens": "87",
+   "spend": "0.000933486",
+   "status": "success",
+   "start": "2026-10-10T00:34:49.442",
+   "first_token": "2026-10-10T00:34:49.892",
+   "end": "2026-10-10T00:34:50.741",
+   "duration_ms": "1298",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "879fca0f-2873-4d7f-9540-08edd959cb56",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "7061",
+   "completion_tokens": "95",
+   "spend": "0.00017535",
+   "status": "success",
+   "start": "2026-10-10T00:34:50.760",
+   "first_token": "2026-10-10T00:34:51.306",
+   "end": "2026-10-10T00:34:51.944",
+   "duration_ms": "1183",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "c4848a6a-921e-474e-88be-ba992ebe5e0d",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "8274",
+   "completion_tokens": "164",
+   "spend": "0.00030462",
+   "status": "success",
+   "start": "2026-10-10T00:34:51.961",
+   "first_token": "2026-10-10T00:34:52.417",
+   "end": "2026-10-10T00:34:53.542",
+   "duration_ms": "1581",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "778352e2-346c-41a7-84fe-a0aaf96b22ff",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "8792",
+   "completion_tokens": "219",
+   "spend": "0.00022716",
+   "status": "success",
+   "start": "2026-10-10T00:34:53.561",
+   "first_token": "2026-10-10T00:34:54.011",
+   "end": "2026-10-10T00:34:55.102",
+   "duration_ms": "1540",
+   "cache_hit": "False"
+  }
+ ],
+ "proxy_spend_usd": 0.001641,
+ "proxy_prompt_tokens": 30504,
+ "proxy_completion_tokens": 565,
+ "proxy_models": [
+  "deepseek/deepseek-chat"
+ ]
+}

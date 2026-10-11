@@ -1,0 +1,168 @@
+{
+ "pid": 3611,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791612292.582958,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 184,
+   "first_s": 1.1502,
+   "last_s": 2.7401
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 3,
+   "first_s": 1.1841,
+   "last_s": 2.6672
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 3,
+   "first_s": 1.2854,
+   "last_s": 2.703
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 2,
+   "first_s": 2.5032,
+   "last_s": 2.6984
+  }
+ },
+ "spec_final": {
+  "hits": 3,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 69.1,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.1212,
+   "initial_arg_chars": 0,
+   "arg_deltas": 21,
+   "arg_delta_chars": 59,
+   "subagent_session": null,
+   "end_s": 1.2395
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.1963,
+   "initial_arg_chars": 0,
+   "arg_deltas": 171,
+   "arg_delta_chars": 460,
+   "subagent_session": null,
+   "end_s": 2.7398
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.1829
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.2419
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.2834,
+   "duration_ms": 73.5,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/CHANGELOG.md', line_number"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.2852,
+   "duration_ms": 43.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [{'file_path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/CHAN"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.4669
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.5008,
+   "duration_ms": 3.3,
+   "error_like": false,
+   "result_head": "content='            return False if isatty is None else isatty()\\n        except ValueError:\\n            # in some situation (at the end of a pytest run for e"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.6662
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.6977,
+   "duration_ms": 3.5,
+   "error_like": false,
+   "result_head": "content='from rich.style import Style\\nfrom rich.text import Text\\n\\n\\ndef test_dumb_terminal():\\n    console = Console(force_terminal=True, _environ={})\\n    a"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 2.7419
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 2.7432,
+   "duration_ms": 1.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '            return False if isatty is None else isatty()\\n        except ValueError:\\n            # in some situation (at th"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "f1d977e5-98dd-4afe-a38a-4f9bcf04fab0",
+   "start_s": 0.1739,
+   "start_wall": 1791612292.756834,
+   "end_s": 4.7603,
+   "success": true,
+   "error": null,
+   "response_text": "Crystal clear from `rich/console.py`.\n\nThe sizing logic (`Console.size`, ~line 996):\n- `is_dumb_terminal` \u2192 `ConsoleDimensions(80, 25)` \u2014 so **width 80, height 25**.\n- Dumb detection (`is_dumb_terminal`, ~line 968): `_term = self._environ.get(\"TERM\", \"\")` then `_term.lower() in (\"dumb\", \"unknown\")` \u2014 so TERM values are **dumb, unknown** (case-insensitive via `.lower()`).\n- Overrides: `columns = self._environ.get(\"COLUMNS\")` and `lines = self._environ.get(\"LINES\")` \u2014 so **COLUMNS, LINES**.\n\nNote the precedence quirk, being pedantic: if you pass `_width`/`_height` (or `width=`/`height=`) explicitly, that first `if` short-circuits *before* the dumb check. And even in the dumb branch, `ConsoleDimensions(80, 25)` ignores `legacy_windows` and any env overrides. COLUMNS/LINES only kick in for the non-dumb path.\n\nANSWER: 80|25|dumb, unknown|COLUMNS, LINES",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 23604,
+    "usage_output_tokens": 526,
+    "usage_total_tokens": 24130,
+    "usage_cached_read_tokens": 15104,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 4,
+  "part_delta": 469,
+  "part_end": 4
+ },
+ "claims": [
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 101.5121660020668
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 36.24708400457166
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 32.809666998218745
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 4.8303
+}

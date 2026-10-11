@@ -1,0 +1,101 @@
+{
+ "arm": "on",
+ "model": "proxy-deepseek-flash",
+ "cwd": "/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click",
+ "prompt_file": "/Users/tinyr/rig/work/cp-spec-ab/runs/smoke2/proxy-deepseek-flash/g2_click_completion/r1/on/a1/prompt.txt",
+ "start_utc": "2026-10-10T07:45:01.403030",
+ "end_utc": "2026-10-10T07:45:14.460201",
+ "wall_s": 13.057,
+ "wall_epoch_s": 13.057,
+ "slept": false,
+ "exit_code": 0,
+ "timed_out": false,
+ "cmd": [
+  "/Users/tinyr/rig/tools/bin/code-puppy",
+  "-p",
+  "<prompt>",
+  "-m",
+  "proxy-deepseek-flash",
+  "--yolo",
+  "true",
+  "--usage-file",
+  "/Users/tinyr/rig/work/cp-spec-ab/runs/smoke2/proxy-deepseek-flash/g2_click_completion/r1/on/a1/usage.json"
+ ],
+ "start_epoch": 1791618301.403035,
+ "end_epoch": 1791618314.461143,
+ "cp_version": "0.0.896",
+ "proxy_foreign_rows": 0,
+ "proxy_requests": [
+  {
+   "request_id": "36dc93b5-48f0-44a5-bf1f-6c3b80018e65",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "6426",
+   "completion_tokens": "80",
+   "spend": "0.0009366359999999999",
+   "status": "success",
+   "start": "2026-10-10T07:45:04.917",
+   "first_token": "2026-10-10T07:45:05.543",
+   "end": "2026-10-10T07:45:06.366",
+   "duration_ms": "1448",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "fd998f19-d6bc-4291-8ee9-6a8c4229b235",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "7689",
+   "completion_tokens": "114",
+   "spend": "0.00028095",
+   "status": "success",
+   "start": "2026-10-10T07:45:06.381",
+   "first_token": "2026-10-10T07:45:07.091",
+   "end": "2026-10-10T07:45:08.153",
+   "duration_ms": "1772",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "ab00fa44-bfd9-4582-aeef-60f217fc47e6",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "10116",
+   "completion_tokens": "115",
+   "spend": "0.00045744",
+   "status": "success",
+   "start": "2026-10-10T07:45:08.171",
+   "first_token": "2026-10-10T07:45:08.658",
+   "end": "2026-10-10T07:45:09.533",
+   "duration_ms": "1361",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "67b382ea-da35-4021-874c-35434f9e8420",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "12995",
+   "completion_tokens": "77",
+   "spend": "0.000508986",
+   "status": "success",
+   "start": "2026-10-10T07:45:09.548",
+   "first_token": "2026-10-10T07:45:10.090",
+   "end": "2026-10-10T07:45:10.734",
+   "duration_ms": "1186",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "06484801-916d-4670-a1ed-7a1380047d7a",
+   "model": "deepseek/deepseek-chat",
+   "prompt_tokens": "13216",
+   "completion_tokens": "481",
+   "spend": "0.000351768",
+   "status": "success",
+   "start": "2026-10-10T07:45:10.754",
+   "first_token": "2026-10-10T07:45:11.392",
+   "end": "2026-10-10T07:45:13.716",
+   "duration_ms": "2961",
+   "cache_hit": "False"
+  }
+ ],
+ "proxy_spend_usd": 0.002536,
+ "proxy_prompt_tokens": 50442,
+ "proxy_completion_tokens": 867,
+ "proxy_models": [
+  "deepseek/deepseek-chat"
+ ]
+}

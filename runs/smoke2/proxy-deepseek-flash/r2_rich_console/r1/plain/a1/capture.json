@@ -1,0 +1,188 @@
+{
+ "pid": 3578,
+ "arm_override": "codemode_plain",
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791612278.814626,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.8635,
+   "initial_arg_chars": 0,
+   "arg_deltas": 29,
+   "arg_delta_chars": 92,
+   "subagent_session": null,
+   "end_s": 1.8768
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.005,
+   "initial_arg_chars": 0,
+   "arg_deltas": 109,
+   "arg_delta_chars": 396,
+   "subagent_session": null,
+   "end_s": 3.4262
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.563,
+   "initial_arg_chars": 0,
+   "arg_deltas": 36,
+   "arg_delta_chars": 117,
+   "subagent_session": null,
+   "end_s": 4.7144
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.0089,
+   "initial_arg_chars": 0,
+   "arg_deltas": 92,
+   "arg_delta_chars": 331,
+   "subagent_session": null,
+   "end_s": 6.4643
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.8793
+  },
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.8999
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.9745,
+   "duration_ms": 26.0,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich (recursive=True)\\n__ini"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.9761,
+   "duration_ms": 96.5,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/r"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.4292
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 3.4314
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 3.5005,
+   "duration_ms": 41.5,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/console.py', line_num"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 3.5015
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 3.5565,
+   "duration_ms": 28.4,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/console.py', line_num"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.5578,
+   "duration_ms": 128.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '=== dumb ===\\n/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/c"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.7179
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 4.7207
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 4.7538,
+   "duration_ms": 1.9,
+   "error_like": false,
+   "result_head": "content='            self._force_terminal = True\\n            return True\\n\\n        isatty: Optional[Callable[[], bool]] = getattr(self.file, \"isatty\", None)\\n"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.7549,
+   "duration_ms": 36.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '            self._force_terminal = True\\n            return True\\n\\n        isatty: Optional[Callable[[], bool]] = getattr(s"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.4655
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.4666,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"dumb branch returns ConsoleDimensions(80, 25) at line ~1004, env overrides come later.\\nTERM values (lowercased): ('dumb', '"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "620b0018-c8a2-407d-8b15-d8fbc45f167d",
+   "start_s": 0.1653,
+   "start_wall": 1791612278.979939,
+   "end_s": 9.2141,
+   "success": true,
+   "error": null,
+   "response_text": "Alright, dug through `rich/console.py`. Here's the deal:\n\n**How `Console.size` decides (lines ~995-1035):**\n1. If `_width` and `_height` are both set explicitly \u2192 return those.\n2. If it's a dumb terminal \u2192 return `ConsoleDimensions(80, 25)` and **bail out immediately**.\n3. Otherwise query `os.get_terminal_size()`.\n4. Then apply env overrides: `COLUMNS` (if digit) \u2192 width, `LINES` (if digit) \u2192 height.\n5. Fall back to `80`/`25` if nothing usable.\n\n**`is_dumb_terminal` (lines ~968-977):**\n```python\n_term = self._environ.get(\"TERM\", \"\")\nis_dumb = _term.lower() in (\"dumb\", \"unknown\")\nreturn self.is_terminal and is_dumb\n```\nSo a terminal is dumb when `TERM` (case-insensitively) is `dumb` or `unknown`, and it's actually a terminal.\n\nWorth noting the pedantic bit: because the dumb branch short-circuits *before* the `COLUMNS`/`LINES` reads, a dumb terminal reports **80\u00d725** no matter what those env vars say. YAGNI would argue the override block could've been hoisted, but hey, that's the upstream behavior.\n\n- (1) width for dumb terminal: **80**\n- (2) height for dumb terminal: **25**\n- (3) TERM values: **dumb, unknown**\n- (4) override env vars: **COLUMNS, LINES**\n\nANSWER: 80|25|dumb, unknown|COLUMNS, LINES",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 44078,
+    "usage_output_tokens": 835,
+    "usage_total_tokens": 44913,
+    "usage_cached_read_tokens": 34176,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 9,
+  "part_delta": 722,
+  "part_end": 9
+ },
+ "codemode_override_applied": 2,
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 9.2702
+}

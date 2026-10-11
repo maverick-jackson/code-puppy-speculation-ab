@@ -1,0 +1,162 @@
+{
+ "pid": 5816,
+ "arm_override": "codemode_plain",
+ "plugin_loaded_s": 0.0008,
+ "t0_epoch": 1791618356.5505762,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.1916,
+   "initial_arg_chars": 0,
+   "arg_deltas": 30,
+   "arg_delta_chars": 95,
+   "subagent_session": null,
+   "end_s": 1.3357
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.6544,
+   "initial_arg_chars": 0,
+   "arg_deltas": 28,
+   "arg_delta_chars": 92,
+   "subagent_session": null,
+   "end_s": 2.7758
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.7392,
+   "initial_arg_chars": 0,
+   "arg_deltas": 36,
+   "arg_delta_chars": 104,
+   "subagent_session": null,
+   "end_s": 3.9323
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.8703,
+   "initial_arg_chars": 0,
+   "arg_deltas": 67,
+   "arg_delta_chars": 188,
+   "subagent_session": null,
+   "end_s": 5.1323
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.3402
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.3677
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.3963,
+   "duration_ms": 2.1,
+   "error_like": false,
+   "result_head": "content='from .__version__ import __description__, __title__, __version__\\nfrom ._api import delete, get, head, options, patch, post, put, request, stream\\nfrom"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.3972,
+   "duration_ms": 56.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'from .__version__ import __description__, __title__, __version__\\nfrom ._api import delete, get, head, options, patch, post,"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 2.7802
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.7829
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.8203,
+   "duration_ms": 4.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (12,761 chars); stored to handle \\'01a124c6-95ee-761a-94e0-8ca6bc53a19d/call_00_2a1AdDWQmqqKo5katIr13681__1.0\\'."
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 2.821,
+   "duration_ms": 40.6,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-1>\", line 2, in <module>\\n    print(cfg[\"content\"])\\n          ~~~~~~~~~~~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.9347
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.9366,
+   "duration_ms": 1.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '[Tool output too large (12,761 chars); stored to handle \\'01a124c6-95ee-761a-94e0-8ca6bc53a19d/call_00_2a1AdDWQmqqKo5katIr13"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 5.1352
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 5.1381,
+   "duration_ms": 2.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value=(69, ['__description__', '__title__', '__version__', 'ASGITransport', 'AsyncBaseTransport'], ['WriteError', 'WriteTimeout', 'WSGITranspo"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "99c8d5fd-d623-4829-8820-b3e111f361df",
+   "start_s": 0.1671,
+   "start_wall": 1791618356.7177222,
+   "end_s": 6.6092,
+   "success": true,
+   "error": null,
+   "response_text": "Woof! Straight from the source, no file-touching, here's the dirt:\n\n1. **`__all__` in `httpx/__init__.py`** \u2192 **69 names** (every import gets its own setattr, so no funny business \u2014 just a plain list of 69 strings).\n2. **`DEFAULT_TIMEOUT_CONFIG`** \u2192 `Timeout(timeout=5.0)` \u2192 **5.0 seconds**.\n3. **`DEFAULT_LIMITS`** \u2192 `Limits(max_connections=100, ...)` \u2192 **100**.\n4. **`max_keepalive_connections`** \u2192 **20**.\n\n(Also snagged `DEFAULT_MAX_REDIRECTS = 20` for free, but nobody asked. \ud83d\ude0e)\n\nANSWER: 69|5.0|100|20",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 38339,
+    "usage_output_tokens": 487,
+    "usage_total_tokens": 38826,
+    "usage_cached_read_tokens": 30208,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 7,
+  "part_delta": 373,
+  "part_end": 7
+ },
+ "codemode_override_applied": 2,
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 6.6805
+}

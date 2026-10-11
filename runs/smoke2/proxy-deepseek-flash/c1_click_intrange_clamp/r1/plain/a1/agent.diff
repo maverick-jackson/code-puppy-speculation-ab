@@ -1,0 +1,15 @@
+diff --git a/src/click/types.py b/src/click/types.py
+index 59bc724..cfaa416 100644
+--- a/src/click/types.py
++++ b/src/click/types.py
+@@ -536,7 +536,9 @@ class IntRange(_NumberRangeBase, IntParamType):
+         if not open:
+             return bound
+ 
+-        return bound
++        # An open bound is not itself part of the range, so move one
++        # integer step inward to land on the nearest valid value.
++        return bound + dir
+ 
+ 
+ class FloatParamType(_NumberParamTypeBase):

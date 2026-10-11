@@ -1,0 +1,36 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "c1_click_intrange_clamp",
+ "family": "code",
+ "arm": "plain",
+ "rep": 1,
+ "attempt": 1,
+ "order_pos": 0,
+ "block_index": 1,
+ "arm_order": [
+  "plain",
+  "off",
+  "on"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|c1_click_intrange_clamp|1",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T05:56:58.727511",
+ "end_utc": "2026-10-10T05:57:20.646020",
+ "end_epoch": 1791611840.646806,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": true,
+ "grader": {
+  "pytest_rc": 0,
+  "pytest_summary": "4 passed in 0.02s",
+  "diff_stat": [
+   " 1 file changed, 3 insertions(+), 1 deletion(-)"
+  ],
+  "touched_tests": []
+ },
+ "grade_s": 0.17,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/c1_click_intrange_clamp/r1/plain/a1"
+}

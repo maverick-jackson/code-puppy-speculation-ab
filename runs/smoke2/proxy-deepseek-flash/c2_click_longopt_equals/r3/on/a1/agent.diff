@@ -1,0 +1,13 @@
+diff --git a/src/click/parser.py b/src/click/parser.py
+index 402acdf..337ae17 100644
+--- a/src/click/parser.py
++++ b/src/click/parser.py
+@@ -502,7 +502,7 @@ class OptionParser:
+         # supporting explicitly attached values.  In any case, we will try
+         # to long match the option first.
+         if "=" in arg:
+-            long_opt, explicit_value = arg.split("=")[:2]
++            long_opt, _, explicit_value = arg.partition("=")
+         else:
+             long_opt = arg
+         norm_long_opt = normalize_opt(long_opt, self.ctx)

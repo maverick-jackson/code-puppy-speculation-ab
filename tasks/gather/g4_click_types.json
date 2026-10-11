@@ -1,0 +1,24 @@
+{
+ "id": "g4_click_types",
+ "family": "gather",
+ "repo": "click",
+ "prompt": "You are in a checkout of the Python library click. Using only the files in this repository, answer: (1) how many classes defined in src/click/types.py inherit, directly or indirectly, from ParamType (do not count ParamType itself); (2) the name of the function in that file that picks a ParamType for a given Python type or default value; (3) the line number in src/click/types.py on which that function is defined (the def line); (4) the integer value of MAX_BYTES_WRITTEN in click's Windows console support module. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <count>|<function name>|<line number>|<value>",
+ "answer": [
+  {
+   "kind": "int",
+   "value": 17
+  },
+  {
+   "kind": "name",
+   "value": "convert_type"
+  },
+  {
+   "kind": "int",
+   "value": 999
+  },
+  {
+   "kind": "int",
+   "value": 32767
+  }
+ ]
+}

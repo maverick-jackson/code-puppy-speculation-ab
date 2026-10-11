@@ -1,0 +1,10 @@
+{
+ "pytest_rc": 0,
+ "pytest_summary": "3 passed in 0.00s",
+ "pytest_out": "...                                                                      [100%]\n3 passed in 0.00s\n",
+ "diff_stat": [
+  " 1 file changed, 17 insertions(+), 2 deletions(-)"
+ ],
+ "touched_tests": [],
+ "correct": true
+}

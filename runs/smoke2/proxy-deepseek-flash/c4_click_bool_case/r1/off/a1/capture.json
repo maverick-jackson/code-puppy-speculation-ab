@@ -1,0 +1,179 @@
+{
+ "pid": 3780,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791612341.664379,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "shell",
+   "start_s": 1.2568,
+   "initial_arg_chars": 0,
+   "arg_deltas": 21,
+   "arg_delta_chars": 59,
+   "subagent_session": null,
+   "end_s": 1.2665
+  },
+  {
+   "tool": "grep",
+   "start_s": 1.2666,
+   "initial_arg_chars": 0,
+   "arg_deltas": 23,
+   "arg_delta_chars": 66,
+   "subagent_session": null,
+   "end_s": 1.3651
+  },
+  {
+   "tool": "read_file",
+   "start_s": 2.6608,
+   "initial_arg_chars": 0,
+   "arg_deltas": 28,
+   "arg_delta_chars": 71,
+   "subagent_session": null,
+   "end_s": 2.8522
+  },
+  {
+   "tool": "replace_in_file",
+   "start_s": 3.9117,
+   "initial_arg_chars": 0,
+   "arg_deltas": 174,
+   "arg_delta_chars": 541,
+   "subagent_session": null,
+   "end_s": 4.4374
+  },
+  {
+   "tool": "shell",
+   "start_s": 5.5177,
+   "initial_arg_chars": 0,
+   "arg_deltas": 157,
+   "arg_delta_chars": 464,
+   "subagent_session": null,
+   "end_s": 6.0825
+  },
+  {
+   "tool": "shell",
+   "start_s": 8.3517,
+   "initial_arg_chars": 0,
+   "arg_deltas": 185,
+   "arg_delta_chars": 535,
+   "subagent_session": null,
+   "end_s": 9.1584
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 1.3678
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.3694
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.4353,
+   "duration_ms": 37.5,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/types.py', line"
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 1.4884,
+   "duration_ms": 120.4,
+   "error_like": false,
+   "result_head": "success=True command='cd src/click && grep -rn \"valid boolean\" .' error='' stdout='./types.py:611:            _(\"{value!r} is not a valid boolean.\").format(valu"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.8541
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.8838,
+   "duration_ms": 1.6,
+   "error_like": false,
+   "result_head": "content='    boundary is marked ``open``.\\n\\n    .. versionchanged:: 8.0\\n        Added the ``min_open`` and ``max_open`` parameters.\\n    \"\"\"\\n\\n    name = \"fl"
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "pre",
+   "t_s": 4.4389
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "post",
+   "t_s": 4.4707,
+   "duration_ms": 4.3,
+   "error_like": false,
+   "result_head": "{'success': True, 'path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/types.py', 'messag"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 6.085
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 7.2079,
+   "duration_ms": 1122.2,
+   "error_like": true,
+   "result_head": "success=False command='cd /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click && python -c \"\\nimport click\\"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 9.16
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 9.2736,
+   "duration_ms": 113.3,
+   "error_like": false,
+   "result_head": "success=True command='cd /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click && PYTHONPATH=src python -c \"\\"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "07c73c51-b89a-4fbc-bb8b-f7ada3515851",
+   "start_s": 0.1888,
+   "start_wall": 1791612341.8531961,
+   "end_s": 11.0118,
+   "success": true,
+   "error": null,
+   "response_text": "Case-insensitive parsing works, whitespace is trimmed, and invalid input still fails properly.\n\n**Cause:** `BoolParamType.convert` in `src/click/types.py` stripped whitespace but compared against lowercase-only literal sets with a case-sensitive `in` check, so `TRUE`, `Yes`, `Off`, etc. fell through to `self.fail(...)`.\n\n**Fix:** Normalize case as well as whitespace \u2014 `norm = value.strip().lower()` \u2014 so the existing literal sets match regardless of casing. One-line change, no behavior change for valid lowercase input, no test files touched.\n\nDONE",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 32109,
+    "usage_output_tokens": 1006,
+    "usage_total_tokens": 33115,
+    "usage_cached_read_tokens": 26112,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 11,
+  "part_delta": 780,
+  "part_end": 11
+ },
+ "speculation_enabled_cfg": false,
+ "dumped_at_s": 11.073
+}

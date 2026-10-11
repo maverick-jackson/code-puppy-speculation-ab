@@ -1,0 +1,245 @@
+{
+ "pid": 4047,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0008,
+ "t0_epoch": 1791612402.0734668,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "shell",
+   "start_s": 1.2462,
+   "initial_arg_chars": 0,
+   "arg_deltas": 19,
+   "arg_delta_chars": 46,
+   "subagent_session": null,
+   "end_s": 1.3445
+  },
+  {
+   "tool": "grep",
+   "start_s": 1.345,
+   "initial_arg_chars": 0,
+   "arg_deltas": 20,
+   "arg_delta_chars": 57,
+   "subagent_session": null,
+   "end_s": 1.4744
+  },
+  {
+   "tool": "read_file",
+   "start_s": 2.847,
+   "initial_arg_chars": 0,
+   "arg_deltas": 66,
+   "arg_delta_chars": 142,
+   "subagent_session": null,
+   "end_s": 3.0642
+  },
+  {
+   "tool": "grep",
+   "start_s": 3.0646,
+   "initial_arg_chars": 0,
+   "arg_deltas": 22,
+   "arg_delta_chars": 56,
+   "subagent_session": null,
+   "end_s": 3.2605
+  },
+  {
+   "tool": "grep",
+   "start_s": 4.3163,
+   "initial_arg_chars": 0,
+   "arg_deltas": 26,
+   "arg_delta_chars": 64,
+   "subagent_session": null,
+   "end_s": 4.3791
+  },
+  {
+   "tool": "grep",
+   "start_s": 4.3795,
+   "initial_arg_chars": 0,
+   "arg_deltas": 28,
+   "arg_delta_chars": 69,
+   "subagent_session": null,
+   "end_s": 4.5561
+  },
+  {
+   "tool": "list_files",
+   "start_s": 4.5567,
+   "initial_arg_chars": 0,
+   "arg_deltas": 13,
+   "arg_delta_chars": 34,
+   "subagent_session": null,
+   "end_s": 4.6402
+  },
+  {
+   "tool": "grep",
+   "start_s": 6.0279,
+   "initial_arg_chars": 0,
+   "arg_deltas": 35,
+   "arg_delta_chars": 100,
+   "subagent_session": null,
+   "end_s": 6.2431
+  },
+  {
+   "tool": "read_file",
+   "start_s": 7.4316,
+   "initial_arg_chars": 0,
+   "arg_deltas": 81,
+   "arg_delta_chars": 185,
+   "subagent_session": null,
+   "end_s": 7.6372
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 1.478
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.4805
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.5597,
+   "duration_ms": 52.7,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/__init__.py', line_"
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 1.602,
+   "duration_ms": 123.8,
+   "error_like": false,
+   "result_head": "success=True command='ls && echo \"---\" && ls httpx/' error='' stdout='CHANGELOG.md\\ndocs\\nhttpx\\nLICENSE.md\\nmkdocs.yml\\npyproject.toml\\nREADME_chinese.md\\nREAD"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.2627
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 3.2638
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.2923,
+   "duration_ms": 2.6,
+   "error_like": false,
+   "result_head": "content='\"\"\"\\nOur exception hierarchy:\\n\\n* HTTPError\\n  x RequestError\\n    + TransportError\\n      - TimeoutException\\n        \u00b7 ConnectTimeout\\n        \u00b7 Rea"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 3.3205,
+   "duration_ms": 35.7,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/_client.py', line_n"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.6429
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.644
+  },
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 4.6446
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 4.7149,
+   "duration_ms": 42.2,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/_transports (recursiv"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.7355,
+   "duration_ms": 72.4,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/_config.py', line_n"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.7512,
+   "duration_ms": 92.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (12,264 chars); stored to handle \\'01a1246b-ba4e-7362-af27-239e99ec52ec/call_01_aff3tmL8iv30pFaV3vDR6782.0\\'. Re"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 6.2441
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 6.2869,
+   "duration_ms": 22.4,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/httpx/httpx/_transports/default"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 7.6382
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 7.6682,
+   "duration_ms": 1.0,
+   "error_like": false,
+   "result_head": "content='from types import TracebackType\\n\\nimport httpcore\\n\\nfrom .._config import DEFAULT_LIMITS, Limits, Proxy, create_ssl_context\\nfrom .._exceptions impor"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "537b3784-6578-4d0d-9631-2fc298ad786f",
+   "start_s": 0.1801,
+   "start_wall": 1791612402.2535338,
+   "end_s": 9.645,
+   "success": true,
+   "error": null,
+   "response_text": "I have everything I need. Let me count carefully.\n\n**HTTPCORE_EXC_MAP entries** (lines 96\u2013109):\n1. TimeoutException\n2. ConnectTimeout\n3. ReadTimeout\n4. WriteTimeout\n5. PoolTimeout\n6. NetworkError\n7. ConnectError\n8. ReadError\n9. WriteError\n10. ProxyError\n11. UnsupportedProtocol\n12. ProtocolError\n13. LocalProtocolError\n14. RemoteProtocolError\n\n= **14 entries**.\n\n**Context manager function**: `map_httpcore_exceptions`.\n\n**Classes in `_exceptions.py` inheriting (directly/indirectly) from TransportError** (excluding TransportError itself):\n- TimeoutException (direct)\n- ConnectTimeout (via TimeoutException)\n- ReadTimeout (via TimeoutException)\n- WriteTimeout (via TimeoutException)\n- PoolTimeout (via TimeoutException)\n- NetworkError (direct)\n- ReadError (via NetworkError)\n- WriteError (via NetworkError)\n- ConnectError (via NetworkError)\n- CloseError (via NetworkError)\n- ProxyError (direct)\n- UnsupportedProtocol (direct)\n- ProtocolError (direct)\n- LocalProtocolError (via ProtocolError)\n- RemoteProtocolError (via ProtocolError)\n\n= **15 classes**.\n\n**Default max redirects**: `DEFAULT_MAX_REDIRECTS = 20`.\n\nWait \u2014 the doc comment says \"how many classes defined in httpx/_exceptions.py\" \u2014 all 15 above are defined in `_exceptions.py`. Good. Double-check none outside the list (DecodingError, TooManyRedirects inherit RequestError not TransportError; HTTPStatusError inherits HTTPError; InvalidURL/CookieConflict inherit Exception; Stream* inherit RuntimeError). Correct.\n\nANSWER: 14|map_httpcore_exceptions|15|20",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 49806,
+    "usage_output_tokens": 1037,
+    "usage_total_tokens": 50843,
+    "usage_cached_read_tokens": 39040,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 14,
+  "part_delta": 761,
+  "part_end": 14
+ },
+ "speculation_enabled_cfg": false,
+ "dumped_at_s": 9.708
+}

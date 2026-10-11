@@ -1,0 +1,475 @@
+{
+ "pid": 5224,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791617969.822894,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 286,
+   "first_s": 1.4001,
+   "last_s": 7.7584
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 10,
+   "first_s": 1.4421,
+   "last_s": 7.5336
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 4,
+   "first_s": 1.4806,
+   "last_s": 7.5672
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 10,
+   "first_s": 1.5006,
+   "last_s": 7.5721
+  }
+ },
+ "spec_final": {
+  "hits": 10,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 192.8,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.3772,
+   "initial_arg_chars": 0,
+   "arg_deltas": 38,
+   "arg_delta_chars": 122,
+   "subagent_session": null,
+   "end_s": 1.5465
+  },
+  {
+   "tool": "run_code",
+   "start_s": 1.5468,
+   "initial_arg_chars": 0,
+   "arg_deltas": 30,
+   "arg_delta_chars": 85,
+   "subagent_session": null,
+   "end_s": 1.6976
+  },
+  {
+   "tool": "run_code",
+   "start_s": 1.6981,
+   "initial_arg_chars": 0,
+   "arg_deltas": 24,
+   "arg_delta_chars": 75,
+   "subagent_session": null,
+   "end_s": 1.8391
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.03,
+   "initial_arg_chars": 0,
+   "arg_deltas": 70,
+   "arg_delta_chars": 258,
+   "subagent_session": null,
+   "end_s": 3.2622
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.2628,
+   "initial_arg_chars": 0,
+   "arg_deltas": 36,
+   "arg_delta_chars": 117,
+   "subagent_session": null,
+   "end_s": 3.4002
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.4011,
+   "initial_arg_chars": 0,
+   "arg_deltas": 73,
+   "arg_delta_chars": 246,
+   "subagent_session": null,
+   "end_s": 3.7515
+  },
+  {
+   "tool": "run_code",
+   "start_s": 5.555,
+   "initial_arg_chars": 0,
+   "arg_deltas": 97,
+   "arg_delta_chars": 296,
+   "subagent_session": null,
+   "end_s": 5.8699
+  },
+  {
+   "tool": "run_code",
+   "start_s": 5.8707,
+   "initial_arg_chars": 0,
+   "arg_deltas": 31,
+   "arg_delta_chars": 102,
+   "subagent_session": null,
+   "end_s": 6.0833
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.4635,
+   "initial_arg_chars": 0,
+   "arg_deltas": 97,
+   "arg_delta_chars": 263,
+   "subagent_session": null,
+   "end_s": 7.7581
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.7587,
+   "initial_arg_chars": 0,
+   "arg_deltas": 24,
+   "arg_delta_chars": 77,
+   "subagent_session": null,
+   "end_s": 7.8969
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.8975,
+   "initial_arg_chars": 0,
+   "arg_deltas": 38,
+   "arg_delta_chars": 117,
+   "subagent_session": null,
+   "end_s": 8.1042
+  },
+  {
+   "tool": "run_code",
+   "start_s": 8.1047,
+   "initial_arg_chars": 0,
+   "arg_deltas": 38,
+   "arg_delta_chars": 116,
+   "subagent_session": null,
+   "end_s": 8.2072
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.4404
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.4784,
+   "duration_ms": 6.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,256 chars); stored to handle \\'01a124c0-af40-75da-ab88-91b3452ee227/call_00_PvlI9Xl9f31rYOt6Ok8x7299__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.8453
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.8474,
+   "duration_ms": 1.8,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-1>\", line 1, in <module>\\n    print(src[\"num_tokens\"])\\n          ~~~~~~~~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.8478
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.8504
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.9264,
+   "duration_ms": 62.1,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/box.py', line_number="
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.9275,
+   "duration_ms": 79.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [{'file_path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.928
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.9289
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.9718,
+   "duration_ms": 23.4,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/markdown.py', line_nu"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.9728,
+   "duration_ms": 44.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [{'file_path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.0902
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.124,
+   "duration_ms": 4.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,256 chars); stored to handle \\'01a124c0-af40-75da-ab88-91b3452ee227/call_00_rmoJfi9gc1dodp6gXSFx3020__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.7575
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.7598,
+   "duration_ms": 2.0,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-5>\", line 1, in <module>\\n    content = full[\"content\"]\\n              ~~~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.7602
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.7629
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.7958,
+   "duration_ms": 2.1,
+   "error_like": false,
+   "result_head": "content='    \"    \\\\n\",\\n    ascii=True,\\n)\\n# fmt: on\\n\\n# Map Boxes that don\\'t render with raster fonts on to equivalent that do\\nLEGACY_WINDOWS_SUBSTITUTION"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.7967,
+   "duration_ms": 36.3,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '    \"    \\\\n\",\\n    ascii=True,\\n)\\n# fmt: on\\n\\n# Map Boxes that don\\'t render with raster fonts on to equivalent that do\\n"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.7972
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.7987
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.7993
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.8255,
+   "duration_ms": 2.0,
+   "error_like": false,
+   "result_head": "content='        collapse_padding: bool = True,\\n        pad_edge: bool = False,\\n        expand: bool = False,\\n    ) -> \"Table\":\\n        \"\"\"Get a table with "
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.845,
+   "duration_ms": 26.8,
+   "error_like": false,
+   "result_head": "content='        yield new_line\\n\\n    def __rich_measure__(\\n        self, console: \"Console\", options: \"ConsoleOptions\"\\n    ) -> \"Measurement\":\\n        _tit"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.8463,
+   "duration_ms": 48.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '        collapse_padding: bool = True,\\n        pad_edge: bool = False,\\n        expand: bool = False,\\n    ) -> \"Table\":\\n "
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 5.6169
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 5.6526,
+   "duration_ms": 4.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,256 chars); stored to handle \\'01a124c0-af40-75da-ab88-91b3452ee227/call_00_0NZ58mduDOO102OScPPs2293__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.0891
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.0913,
+   "duration_ms": 1.9,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-9>\", line 1, in <module>\\n    content = full[\"content\"]\\n              ~~~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.0924
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 6.0945
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 6.1584,
+   "duration_ms": 38.9,
+   "error_like": false,
+   "result_head": "matches=[] error=None truncated=False"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.1594,
+   "duration_ms": 66.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [], 'error': None, 'truncated': False}, metadata={'code_mode': True, 'tool_calls': {'call_01_Er6aDkzAuGzoXvd4lqPj8281__1': T"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 7.5324
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 7.5654,
+   "duration_ms": 3.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,256 chars); stored to handle \\'01a124c0-af40-75da-ab88-91b3452ee227/call_00_eCReHlDCzqYTEBvNRh7y6371__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 8.2109
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 8.2124,
+   "duration_ms": 1.3,
+   "error_like": true,
+   "result_head": "{'error': \"Tool 'run_code' exceeded max retries count of 3. Consider raising the retry limit, or see the docs on tool retries: https://pydantic.dev/docs/ai/tool"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "97ac6a19-019e-471a-8c4e-2ff1dfd5f856",
+   "start_s": 0.1613,
+   "start_wall": 1791617969.9841971,
+   "end_s": 8.2301,
+   "success": false,
+   "error": "UnexpectedModelBehavior(\"Tool 'run_code' exceeded max retries count of 3. Consider raising the retry limit, or see the docs on tool retries: https://pydantic.dev/docs/ai/tools-toolsets/tools-advanced/#tool-retries\")",
+   "response_text": "",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": null,
+    "usage_output_tokens": null,
+    "usage_total_tokens": null,
+    "usage_cached_read_tokens": null,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 16,
+  "part_delta": 690,
+  "part_end": 16
+ },
+ "claims": [
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 39.36391702154651
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 77.79554100125097
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 43.328957981429994
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 35.230667010182515
+  },
+  {
+   "tool": "read_file",
+   "ready": false,
+   "elapsed_ms": 34.5735420123674
+  },
+  {
+   "tool": "read_file",
+   "ready": false,
+   "elapsed_ms": 27.510124986292794
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 46.959833009168506
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 37.39549999590963
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 64.94599999859929
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 33.83312502410263
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 8.2861
+}

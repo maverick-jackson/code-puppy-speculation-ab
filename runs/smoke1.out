@@ -1,0 +1,38 @@
+2026-10-09T22:01:39 batch smoke1: 20 blocks x 3 arms, 0 records present, seed 20261010, allow_battery=True
+2026-10-09T22:01:39 proxy-deepseek-flash block 1/20 f4_invkit_report_desc r1 order=['off', 'on', 'plain']
+2026-10-09T22:02:49 proxy-deepseek-flash block 2/20 c1_click_intrange_clamp r1 order=['plain', 'off', 'on']
+2026-10-09T22:05:52 proxy-deepseek-flash f4_invkit_report_desc r1 off a1 wall=20.473 correct=True $0.002811 valid=True 
+2026-10-09T22:05:52 proxy-deepseek-flash f4_invkit_report_desc r1 on a1 wall=16.539 correct=True $0.002459 valid=True 
+2026-10-09T22:05:52 proxy-deepseek-flash f4_invkit_report_desc r1 plain a1 wall=32.324 correct=True $0.004524 valid=True 
+2026-10-09T22:05:52 proxy-deepseek-flash c1_click_intrange_clamp r1 plain a1 wall=97.688 correct=True $0.011973 valid=True 
+2026-10-09T22:05:52 proxy-deepseek-flash block 3/20 f2_invkit_thousands r1 order=['off', 'on', 'plain']
+2026-10-09T22:06:59 proxy-deepseek-flash c1_click_intrange_clamp r1 off a1 wall=37.64 correct=True $0.004835 valid=True 
+2026-10-09T22:06:59 proxy-deepseek-flash c1_click_intrange_clamp r1 on a1 wall=46.737 correct=True $0.006418 valid=True 
+2026-10-09T22:06:59 proxy-deepseek-flash block 4/20 f1_invkit_total_value r1 order=['on', 'off', 'plain']
+2026-10-09T22:08:01 proxy-deepseek-flash f2_invkit_thousands r1 off a1 wall=16.926 correct=True $0.001977 valid=True 
+2026-10-09T22:08:01 proxy-deepseek-flash f2_invkit_thousands r1 on a1 wall=22.087 correct=True $0.002933 valid=True 
+2026-10-09T22:08:01 proxy-deepseek-flash f2_invkit_thousands r1 plain a1 wall=26.603 correct=True $0.003449 valid=True 
+2026-10-09T22:08:01 proxy-deepseek-flash block 5/20 g1_click_exceptions r1 order=['on', 'plain', 'off']
+2026-10-09T22:08:32 proxy-deepseek-flash f1_invkit_total_value r1 on a1 wall=15.306 correct=True $0.002545 valid=True 
+2026-10-09T22:08:32 proxy-deepseek-flash block 6/20 g4_click_types r1 order=['plain', 'off', 'on']
+2026-10-09T22:09:22 proxy-deepseek-flash f1_invkit_total_value r1 off a1 wall=18.35 correct=True $0.002517 valid=True 
+2026-10-09T22:09:22 proxy-deepseek-flash f1_invkit_total_value r1 plain a1 wall=28.238 correct=True $0.004037 valid=True 
+2026-10-09T22:09:22 proxy-deepseek-flash g1_click_exceptions r1 on a1 wall=9.678 correct=True $0.001631 valid=True 
+2026-10-09T22:09:22 proxy-deepseek-flash block 7/20 f3_invkit_bulk_discount r1 order=['plain', 'on', 'off']
+2026-10-09T22:10:14 proxy-deepseek-flash g1_click_exceptions r1 plain a1 wall=11.726 correct=True $0.002069 valid=True 
+2026-10-09T22:10:14 proxy-deepseek-flash g1_click_exceptions r1 off a1 wall=8.831 correct=True $0.001616 valid=True 
+2026-10-09T22:10:14 proxy-deepseek-flash g4_click_types r1 plain a1 wall=22.364 correct=True $0.002733 valid=True 
+2026-10-09T22:10:14 proxy-deepseek-flash g4_click_types r1 off a1 wall=14.25 correct=True $0.001584 valid=True 
+2026-10-09T22:10:14 proxy-deepseek-flash block 8/20 c3_click_short_help r1 order=['on', 'plain', 'off']
+2026-10-09T22:23:07 proxy-deepseek-flash c3_click_short_help plain a1 invalid ['slept', 'agent_error', 'no_usage'], retrying now
+2026-10-09T22:23:07 proxy-deepseek-flash g4_click_types r1 on a1 wall=13.268 correct=True $0.002137 valid=True 
+2026-10-09T22:23:07 proxy-deepseek-flash f3_invkit_bulk_discount r1 plain a1 wall=17.583 correct=True $0.002227 valid=True 
+2026-10-09T22:23:07 proxy-deepseek-flash f3_invkit_bulk_discount r1 on a1 wall=14.003 correct=True $0.001886 valid=True 
+2026-10-09T22:23:07 proxy-deepseek-flash f3_invkit_bulk_discount r1 off a1 wall=19.272 correct=True $0.002127 valid=True 
+2026-10-09T22:23:07 proxy-deepseek-flash c3_click_short_help r1 on a1 wall=329.095 correct=True $0.047689 valid=True 
+2026-10-09T22:39:46 orphan finalized: runs/smoke1/proxy-deepseek-flash/c3_click_short_help/r1/plain/a1
+2026-10-09T22:39:46 batch smoke1: 20 blocks x 3 arms, 23 records present, seed 20261010, allow_battery=True
+2026-10-09T22:39:46 proxy-deepseek-flash: lid closed, pausing (poll 60 s)
+2026-10-09T23:26:07 proxy-deepseek-flash: lid closed, pausing (poll 60 s)
+2026-10-10T00:12:07 proxy-deepseek-flash: lid closed, pausing (poll 60 s)
+2026-10-10T00:34:06 proxy-deepseek-flash: lid closed, pausing (poll 60 s)

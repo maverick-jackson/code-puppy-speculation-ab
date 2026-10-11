@@ -1,0 +1,10 @@
+{
+ "id": "f2_invkit_thousands",
+ "family": "code",
+ "base": "fixture:invkit",
+ "pythonpath": ".",
+ "prompt": "You are in a checkout of invkit, a small Python inventory toolkit (package source in invkit/). Bug report: parse_csv rejects numbers written with thousands separators. A row whose (quoted) quantity is \"1,200\" or whose price is \"1,299.50\" raises a ParseError, but these should parse as 1200 and 1299.5. Values that are not numbers must still raise ParseError with the correct line number, and negative values must still be rejected. Fix it. Change only library source files; do not add, edit or delete any test files. When you are finished, end your reply with one final line exactly: DONE",
+ "bug_patch": null,
+ "hidden": "hidden/test_hidden.py",
+ "reference": "reference.patch"
+}

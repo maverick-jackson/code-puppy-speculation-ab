@@ -1,0 +1,284 @@
+{
+ "pid": 5568,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791618304.7073548,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 216,
+   "first_s": 1.4224,
+   "last_s": 6.0276
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 7,
+   "first_s": 1.5503,
+   "last_s": 5.973
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 7,
+   "first_s": 1.659,
+   "last_s": 6.0129
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 4,
+   "first_s": 3.174,
+   "last_s": 6.0079
+  }
+ },
+ "spec_final": {
+  "hits": 7,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 132.5,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.3953,
+   "initial_arg_chars": 0,
+   "arg_deltas": 42,
+   "arg_delta_chars": 117,
+   "subagent_session": null,
+   "end_s": 1.6587
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.069,
+   "initial_arg_chars": 0,
+   "arg_deltas": 82,
+   "arg_delta_chars": 287,
+   "subagent_session": null,
+   "end_s": 3.4462
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.5088,
+   "initial_arg_chars": 0,
+   "arg_deltas": 69,
+   "arg_delta_chars": 226,
+   "subagent_session": null,
+   "end_s": 4.8257
+  },
+  {
+   "tool": "run_code",
+   "start_s": 5.895,
+   "initial_arg_chars": 0,
+   "arg_deltas": 39,
+   "arg_delta_chars": 122,
+   "subagent_session": null,
+   "end_s": 6.0274
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.5488
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.6247,
+   "duration_ms": 50.4,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/shell_completio"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.6612
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.6624,
+   "duration_ms": 1.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '{\\'matches\\': [{\\'file_path\\': \\'/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-fla"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.138
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.1722,
+   "duration_ms": 3.5,
+   "error_like": false,
+   "result_head": "content='import typing as t\\nfrom gettext import gettext as _\\nfrom gettext import ngettext\\n\\nfrom ._compat import get_text_stderr\\nfrom .utils import echo\\nfr"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.1802
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.2094,
+   "duration_ms": 4.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (19,432 chars); stored to handle \\'01a124c5-cb67-729d-a1cd-56bdb4bb9c9e/call_00_k0RbNwxhvChCvSnDZ0TL4026__spec_2"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 3.2554
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 3.3122,
+   "duration_ms": 31.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (11,216 chars); stored to handle \\'01a124c5-cb67-729d-a1cd-56bdb4bb9c9e/call_00_k0RbNwxhvChCvSnDZ0TL4026__spec_3"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.4492
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.4508,
+   "duration_ms": 1.4,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\n[stdout before error]\\nimport typing as t\\nfrom gettext import gettext as _\\nfrom gettext import ngettext\\n\\nfrom ._compat import get"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.6618
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.7335,
+   "duration_ms": 45.7,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/shell_completio"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 4.7621
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 4.7902,
+   "duration_ms": 2.6,
+   "error_like": false,
+   "result_head": "content='\\n    name = \"bash\"\\n    source_template = _SOURCE_BASH\\n\\n    @staticmethod\\n    def _check_version() -> None:\\n        import subprocess\\n\\n        o"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.8278
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.8292,
+   "duration_ms": 1.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '{\\'matches\\': [{\\'file_path\\': \\'/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-fla"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 5.9719
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 6.0071,
+   "duration_ms": 3.9,
+   "error_like": false,
+   "result_head": "content='            ``_{PROG_NAME}_COMPLETE``.\\n\\n        .. versionchanged:: 8.2.0\\n            Dots (``.``) in ``prog_name`` are replaced with underscores (`"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.0295
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.0306,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '            ``_{PROG_NAME}_COMPLETE``.\\n\\n        .. versionchanged:: 8.2.0\\n            Dots (``.``) in ``prog_name`` are r"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "0832d4b0-3439-4d46-8ed7-4683dd586c08",
+   "start_s": 0.1633,
+   "start_wall": 1791618304.870646,
+   "end_s": 9.0147,
+   "success": true,
+   "error": null,
+   "response_text": "All confirmed. Let me tally the exception classes.\n\nClasses in `exceptions.py`: ClickException, UsageError, BadParameter, MissingParameter, NoSuchOption, BadOptionUsage, BadArgumentUsage, FileError, Abort, Exit.\n\n- Chain from ClickException: UsageError, BadParameter (via UsageError), MissingParameter (via BadParameter), NoSuchOption (via UsageError), BadOptionUsage (via UsageError), BadArgumentUsage (via UsageError), FileError \u2192 7\n- `Abort(RuntimeError)` and `Exit(RuntimeError)` do **not** inherit from ClickException.\n\nEnv var: prog_name `my-tool` \u2192 replace `-`\u2192`_` \u2192 `my_tool` \u2192 `_my_tool_COMPLETE`.upper() \u2192 `_MY_TOOL_COMPLETE`.\n\nBase class of `Exit` \u2192 `RuntimeError`.\n\nYapped my way through the whole repo \u2014 here's the scoop:\n\n1. **Min Bash version: 4.4** \u2014 `_check_version()` in `shell_completion.py` bails on `major < 4 or major == 4 and minor < 4`, and the docs say \"Bash (version 4.4 and up)\".\n\n2. **Classes inheriting from ClickException: 7** \u2014 `UsageError`, `BadParameter`, `MissingParameter` (via BadParameter), `NoSuchOption`, `BadOptionUsage`, `BadArgumentUsage`, and `FileError`. The sneaky `Abort` and `Exit` both subclass `RuntimeError`, so they don't count (and I didn't count `ClickException` itself, good puppy \ud83d\udc45).\n\n3. **Env var: `_MY_TOOL_COMPLETE`** \u2014 click does `prog_name.replace(\"-\",\"_\").replace(\".\",\"_\")` then wraps as `_{name}_COMPLETE`.upper(), so `my-tool` \u2192 `_MY_TOOL_COMPLETE`.\n\n4. **`Exit`'s direct base class: `RuntimeError`** \u2014 `class Exit(RuntimeError)`, the drama queen of \"just quit already\".\n\nNo files were harmed in the making of this answer. \ud83d\udc36\n\nANSWER: 4.4|7|_MY_TOOL_COMPLETE|RuntimeError",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 50442,
+    "usage_output_tokens": 867,
+    "usage_total_tokens": 51309,
+    "usage_cached_read_tokens": 37760,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 9,
+  "part_delta": 751,
+  "part_end": 9
+ },
+ "claims": [
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 76.9349160254933
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 36.01266597979702
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 30.256708996603265
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 58.224207983585075
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 72.67862500157207
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 29.531417007092386
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 36.73637498286553
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 9.0759
+}

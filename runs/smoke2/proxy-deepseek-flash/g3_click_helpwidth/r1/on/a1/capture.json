@@ -1,0 +1,168 @@
+{
+ "pid": 3711,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0009,
+ "t0_epoch": 1791612322.0704262,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 73,
+   "first_s": 1.4568,
+   "last_s": 3.0678
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 3,
+   "first_s": 1.4641,
+   "last_s": 3.0319
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 2,
+   "first_s": 1.5602,
+   "last_s": 3.0638
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 3,
+   "first_s": 1.5603,
+   "last_s": 3.0715
+  }
+ },
+ "spec_final": {
+  "hits": 3,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 107.2,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.4539,
+   "initial_arg_chars": 0,
+   "arg_deltas": 42,
+   "arg_delta_chars": 163,
+   "subagent_session": null,
+   "end_s": 1.5679
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.8014,
+   "initial_arg_chars": 0,
+   "arg_deltas": 39,
+   "arg_delta_chars": 134,
+   "subagent_session": null,
+   "end_s": 3.0675
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.4631
+  },
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.4871
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.5332,
+   "duration_ms": 19.7,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click (recursive=False)\\n.editorc"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.5589,
+   "duration_ms": 70.5,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/formatting.py',"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.5698
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.5709,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"{'matches': [{'file_path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/wo"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.0311
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.0628,
+   "duration_ms": 2.4,
+   "error_like": false,
+   "result_head": "content='import typing as t\\nfrom contextlib import contextmanager\\nfrom gettext import gettext as _\\n\\nfrom ._compat import term_len\\nfrom .parser import split"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.0697
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.0714,
+   "duration_ms": 1.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'import typing as t\\nfrom contextlib import contextmanager\\nfrom gettext import gettext as _\\n\\nfrom ._compat import term_len"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "794c47c4-9b30-4e40-9f86-6179e628570d",
+   "start_s": 0.1847,
+   "start_wall": 1791612322.255132,
+   "end_s": 4.649,
+   "success": true,
+   "error": null,
+   "response_text": "I have everything. Let me confirm the answers:\n\n1. **Path**: `src/click/formatting.py`\n2. **Max width**: `max_width = 80` (when `max_width is None`)\n3. **Minimum width**: `max(..., 50)` \u2192 50\n4. **Variable**: `FORCED_WIDTH`\n\nThe width computation: `width = max(min(shutil.get_terminal_size().columns, max_width) - 2, 50)` \u2014 clamps terminal columns to max_width (80), subtracts 2, floors at 50.\n\nANSWER: src/click/formatting.py|80|50|FORCED_WIDTH",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 21687,
+    "usage_output_tokens": 308,
+    "usage_total_tokens": 21995,
+    "usage_cached_read_tokens": 13824,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 5,
+  "part_delta": 252,
+  "part_end": 5
+ },
+ "claims": [
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 97.33404198777862
+  },
+  {
+   "tool": "list_files",
+   "ready": true,
+   "elapsed_ms": 73.30241601448506
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 33.93599999253638
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 4.7027
+}

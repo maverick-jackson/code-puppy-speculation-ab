@@ -1,0 +1,11 @@
+{
+ "answer": "src/click/formatting.py|80|50|FORCED_WIDTH",
+ "expected": "src/click/formatting.py|80|50|FORCED_WIDTH",
+ "fields_ok": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

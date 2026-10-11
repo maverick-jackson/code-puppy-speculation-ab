@@ -1,0 +1,410 @@
+{
+ "pid": 6737,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791623623.9521039,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 915,
+   "first_s": 1.4473,
+   "last_s": 16.2394
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 4,
+   "first_s": 1.5705,
+   "last_s": 7.9971
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 4,
+   "first_s": 1.6505,
+   "last_s": 8.0362
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 3,
+   "first_s": 1.7057,
+   "last_s": 8.0325
+  },
+  "EagerExecutionCompletedEvent": {
+   "n": 4,
+   "first_s": 11.3583,
+   "last_s": 16.962
+  }
+ },
+ "spec_final": {
+  "hits": 4,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 116.3,
+  "eager_saved_ms": 232.9
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.4409,
+   "initial_arg_chars": 0,
+   "arg_deltas": 62,
+   "arg_delta_chars": 208,
+   "subagent_session": null,
+   "end_s": 1.7052
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.9086,
+   "initial_arg_chars": 0,
+   "arg_deltas": 38,
+   "arg_delta_chars": 123,
+   "subagent_session": null,
+   "end_s": 3.0448
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.295,
+   "initial_arg_chars": 0,
+   "arg_deltas": 120,
+   "arg_delta_chars": 448,
+   "subagent_session": null,
+   "end_s": 4.8434
+  },
+  {
+   "tool": "replace_in_file",
+   "start_s": 5.9946,
+   "initial_arg_chars": 0,
+   "arg_deltas": 68,
+   "arg_delta_chars": 207,
+   "subagent_session": null,
+   "end_s": 6.395
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.4958,
+   "initial_arg_chars": 0,
+   "arg_deltas": 191,
+   "arg_delta_chars": 571,
+   "subagent_session": null,
+   "end_s": 8.5025
+  },
+  {
+   "tool": "run_code",
+   "start_s": 10.7904,
+   "initial_arg_chars": 0,
+   "arg_deltas": 173,
+   "arg_delta_chars": 513,
+   "subagent_session": null,
+   "end_s": 11.3463
+  },
+  {
+   "tool": "run_code",
+   "start_s": 12.6116,
+   "initial_arg_chars": 0,
+   "arg_deltas": 124,
+   "arg_delta_chars": 335,
+   "subagent_session": null,
+   "end_s": 13.0834
+  },
+  {
+   "tool": "run_code",
+   "start_s": 14.3764,
+   "initial_arg_chars": 0,
+   "arg_deltas": 123,
+   "arg_delta_chars": 334,
+   "subagent_session": null,
+   "end_s": 14.7776
+  },
+  {
+   "tool": "run_code",
+   "start_s": 15.8917,
+   "initial_arg_chars": 0,
+   "arg_deltas": 116,
+   "arg_delta_chars": 298,
+   "subagent_session": null,
+   "end_s": 16.2392
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.5685
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.649,
+   "duration_ms": 54.0,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/decorators.py',"
+  },
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.6549
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.697,
+   "duration_ms": 22.2,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click (recursive=True)\\"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.7072
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.7086,
+   "duration_ms": 1.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '{\\'matches\\': [{\\'file_path\\': \\'/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-fla"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.9893
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.0248,
+   "duration_ms": 3.8,
+   "error_like": false,
+   "result_head": "content='                and next_rarg[:1] in self._opt_prefixes\\n                and len(next_rarg) > 1\\n            ):\\n                # The next arg looks l"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.0471
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.0487,
+   "duration_ms": 1.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '                and next_rarg[:1] in self._opt_prefixes\\n                and len(next_rarg) > 1\\n            ):\\n           "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.8448
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.8455,
+   "duration_ms": 0.5,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-4>\", line 1, in <module>\\n    res = await replace_in_file(\\n    ...<5 lines"
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "pre",
+   "t_s": 6.3974
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "post",
+   "t_s": 6.4321,
+   "duration_ms": 5.3,
+   "error_like": false,
+   "result_head": "{'success': True, 'path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/parser.py', 'messa"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 7.9959
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 8.0308,
+   "duration_ms": 4.2,
+   "error_like": false,
+   "result_head": "content='    def _process_opts(self, arg: str, state: ParsingState) -> None:\\n        explicit_value = None\\n        # Long option handling happens in two parts"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 8.5099
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 8.5132
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 9.6408,
+   "duration_ms": 1125.9,
+   "error_like": true,
+   "result_head": "success=False command='cd /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click && python -c \"import click; f"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 9.6441,
+   "duration_ms": 1133.3,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '    def _process_opts(self, arg: str, state: ParsingState) -> None:\\n        explicit_value = None\\n        # Long option ha"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 11.2441
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 11.3482
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 11.3576,
+   "duration_ms": 113.3,
+   "error_like": false,
+   "result_head": "success=True command='cd /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click && PYTHONPATH=src python -c \"\\"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 11.3583,
+   "duration_ms": 9.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'output: got=a=b=c\\nexit 0\\nERR \\n'}, metadata={'code_mode': True, 'tool_calls': {'call_00_Xup2yX8lXRTUawqRsSHN8322__1': Tool"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 13.0598
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 13.0861
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 13.2886,
+   "duration_ms": 228.6,
+   "error_like": false,
+   "result_head": "success=True command='cd /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click && PYTHONPATH=src python -m py"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 13.2893,
+   "duration_ms": 203.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'ERROR: file or directory not found: tests/test_parsing.py\\n\\n\\nno tests ran in 0.00s\\nERR \\n'}, metadata={'code_mode': True,"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 14.6837
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 14.7793
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 15.0082,
+   "duration_ms": 324.2,
+   "error_like": false,
+   "result_head": "success=True command='cd /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click && PYTHONPATH=src python -m py"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 15.0089,
+   "duration_ms": 229.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '........................................................................ [ 60%]\\n..........................................."
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 16.2228
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 16.2414
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 16.9612,
+   "duration_ms": 738.2,
+   "error_like": false,
+   "result_head": "success=True command='cd /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click && PYTHONPATH=src python -m py"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 16.9619,
+   "duration_ms": 720.3,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '........................................................................ [ 11%]\\n...................................x......."
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "ae3cb31e-f459-4f63-abc9-a84be6b271e4",
+   "start_s": 0.1649,
+   "start_wall": 1791623624.117045,
+   "end_s": 18.8482,
+   "success": true,
+   "error": null,
+   "response_text": "All green. \n\n**The bug:** In `src/click/parser.py`, `_process_opts` did:\n\n```python\nlong_opt, explicit_value = arg.split(\"=\")[:2]\n```\n\n`str.split(\"=\")` chops the string at *every* equals sign, and `[:2]` then throws away all but the first two pieces. So `--name=a=b=c` became `(\"--name\", \"a\")` \u2014 the `b=c` tail evaporated into the void. Classic off-by-`=` mistake. \ud83d\ude43\n\n**The fix:**\n\n```python\nlong_opt, _, explicit_value = arg.partition(\"=\")\n```\n\n`partition` splits on the *first* occurrence only, so everything after that first `=` lands intact in `explicit_value`. No more value amputation.\n\n**Verification:**\n- `--name=a=b=c` now delivers `a=b=c` (was `a`).\n- Parser/options tests: 119 passed.\n- Full suite: 588 passed, 22 skipped, 1 xfailed.\n\nNo test files touched \u2014 only `src/click/parser.py`.\n\nDONE",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 87098,
+    "usage_output_tokens": 1699,
+    "usage_total_tokens": 88797,
+    "usage_cached_read_tokens": 78080,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 18,
+  "part_delta": 1434,
+  "part_end": 18
+ },
+ "claims": [
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 82.22616699640639
+  },
+  {
+   "tool": "list_files",
+   "ready": true,
+   "elapsed_ms": 42.70412499317899
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 36.89545800443739
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 36.72779200132936
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 18.9186
+}

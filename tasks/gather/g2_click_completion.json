@@ -1,0 +1,24 @@
+{
+ "id": "g2_click_completion",
+ "family": "gather",
+ "repo": "click",
+ "prompt": "You are in a checkout of the Python library click. Using only the files in this repository, answer: (1) the minimum Bash version (major.minor) that click's bash shell completion accepts; (2) how many classes defined in src/click/exceptions.py inherit, directly or indirectly, from ClickException (do not count ClickException itself); (3) for a command line program named my-tool, the exact environment variable name click reads to trigger shell completion; (4) the direct base class of click's Exit exception. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <version>|<count>|<env var>|<base class>",
+ "answer": [
+  {
+   "kind": "str",
+   "value": "4.4"
+  },
+  {
+   "kind": "int",
+   "value": 7
+  },
+  {
+   "kind": "name",
+   "value": "_MY_TOOL_COMPLETE"
+  },
+  {
+   "kind": "name",
+   "value": "RuntimeError"
+  }
+ ]
+}

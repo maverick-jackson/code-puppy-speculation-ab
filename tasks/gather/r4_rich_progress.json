@@ -1,0 +1,24 @@
+{
+ "id": "r4_rich_progress",
+ "family": "gather",
+ "repo": "rich",
+ "prompt": "You are in a checkout of the Python library rich. Using only the files in this repository, answer: (1) the default refresh_per_second of rich.status.Status; (2) the default spinner name of rich.status.Status; (3) the default refresh_per_second of the rich.progress.Progress class; (4) how many unit suffixes (kB, MB and so on) rich.filesize.decimal can use. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <status refresh>|<spinner name>|<progress refresh>|<suffix count>",
+ "answer": [
+  {
+   "kind": "num",
+   "value": 12.5
+  },
+  {
+   "kind": "name",
+   "value": "dots"
+  },
+  {
+   "kind": "num",
+   "value": 10
+  },
+  {
+   "kind": "int",
+   "value": 8
+  }
+ ]
+}

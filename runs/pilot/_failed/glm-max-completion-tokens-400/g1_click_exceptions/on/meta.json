@@ -1,0 +1,24 @@
+{
+ "arm": "on",
+ "model": "proxy-zai-glm-4.7",
+ "cwd": "runs/repos/click",
+ "prompt_file": "tasks/g1_click_exceptions.txt",
+ "start_utc": "2026-10-10T00:36:13.025391",
+ "end_utc": "2026-10-10T00:36:17.366893",
+ "wall_s": 4.341,
+ "exit_code": 0,
+ "timed_out": false,
+ "cmd": [
+  "/Users/tinyr/rig/tools/bin/code-puppy",
+  "-p",
+  "<prompt>",
+  "-m",
+  "proxy-zai-glm-4.7",
+  "--yolo",
+  "true",
+  "--usage-file",
+  "/Users/tinyr/rig/work/cp-spec-ab/runs/pilot/proxy-zai-glm-4.7/g1_click_exceptions/on/usage.json"
+ ],
+ "start_epoch": 1791592573.0255208,
+ "cp_version": "0.0.896"
+}

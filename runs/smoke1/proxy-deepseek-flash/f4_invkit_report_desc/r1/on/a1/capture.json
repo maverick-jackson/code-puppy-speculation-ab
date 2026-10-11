@@ -1,0 +1,376 @@
+{
+ "pid": 98172,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791597723.1763341,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 511,
+   "first_s": 1.4727,
+   "last_s": 10.1095
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 6,
+   "first_s": 1.5145,
+   "last_s": 3.0595
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 6,
+   "first_s": 1.5918,
+   "last_s": 3.2407
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 5,
+   "first_s": 1.6195,
+   "last_s": 3.2346
+  },
+  "EagerExecutionCompletedEvent": {
+   "n": 3,
+   "first_s": 7.0397,
+   "last_s": 10.2171
+  }
+ },
+ "spec_final": {
+  "hits": 6,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 124.0,
+  "eager_saved_ms": 176.1
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.4618,
+   "initial_arg_chars": 0,
+   "arg_deltas": 40,
+   "arg_delta_chars": 134,
+   "subagent_session": null,
+   "end_s": 1.6494
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.8151,
+   "initial_arg_chars": 0,
+   "arg_deltas": 85,
+   "arg_delta_chars": 274,
+   "subagent_session": null,
+   "end_s": 3.2583
+  },
+  {
+   "tool": "replace_in_file",
+   "start_s": 4.2439,
+   "initial_arg_chars": 0,
+   "arg_deltas": 291,
+   "arg_delta_chars": 925,
+   "subagent_session": null,
+   "end_s": 5.0815
+  },
+  {
+   "tool": "replace_in_file",
+   "start_s": 5.082,
+   "initial_arg_chars": 0,
+   "arg_deltas": 234,
+   "arg_delta_chars": 769,
+   "subagent_session": null,
+   "end_s": 5.7928
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.6728,
+   "initial_arg_chars": 0,
+   "arg_deltas": 41,
+   "arg_delta_chars": 130,
+   "subagent_session": null,
+   "end_s": 6.8562
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.8948,
+   "initial_arg_chars": 0,
+   "arg_deltas": 124,
+   "arg_delta_chars": 409,
+   "subagent_session": null,
+   "end_s": 8.3293
+  },
+  {
+   "tool": "run_code",
+   "start_s": 9.2929,
+   "initial_arg_chars": 0,
+   "arg_deltas": 241,
+   "arg_delta_chars": 695,
+   "subagent_session": null,
+   "end_s": 10.1093
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.5131
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.5908,
+   "duration_ms": 51.6,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/invkit (recursive=True)\\nREADME.md (190 B)\\ninvkit/\\n  __ini"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.6026
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.6186,
+   "duration_ms": 2.3,
+   "error_like": false,
+   "result_head": "content='from typing import Iterable, List\\n\\nfrom .models import Item\\n\\nCOLUMNS = (\"sku\", \"name\", \"category\", \"quantity\", \"price\")\\nSORT_KEYS = {\\n    \"sku\": "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.6511
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.652,
+   "duration_ms": 0.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '{\\'content\\': \\'DIRECTORY LISTING: /Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/invkit (recursive"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.8875
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.9242,
+   "duration_ms": 4.3,
+   "error_like": false,
+   "result_head": "content='\"\"\"Command line entry point: python -m invkit.cli FILE.csv [--sort KEY] [--low N]\"\"\"\\nimport argparse\\nimport sys\\nfrom pathlib import Path\\n\\nfrom .pa"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.9891
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.0188,
+   "duration_ms": 3.8,
+   "error_like": false,
+   "result_head": "content='\"\"\"invkit: a tiny inventory toolkit.\"\"\"\\nfrom .models import Item\\nfrom .store import Inventory\\nfrom .parsing import parse_csv\\nfrom .pricing import p"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.0287
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.0504,
+   "duration_ms": 2.3,
+   "error_like": false,
+   "result_head": "content='import pytest\\n\\nfrom invkit import Inventory, Item, format_report, parse_csv, price_order\\n\\nCSV = \"\"\"sku,name,category,price,quantity,tags\\nA1,Anvil,"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.0589
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.0737,
+   "duration_ms": 1.6,
+   "error_like": false,
+   "result_head": "content='from dataclasses import dataclass, field\\n\\n\\n@dataclass\\nclass Item:\\n    sku: str\\n    name: str\\n    category: str\\n    price: float\\n    quantity: "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.2619
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.2639,
+   "duration_ms": 1.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '{\\'content\\': \\'\"\"\"Command line entry point: python -m invkit.cli FILE.csv [--sort KEY] [--low N]\"\"\"\\\\nimport argparse\\\\nimp"
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "pre",
+   "t_s": 5.7944
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "pre",
+   "t_s": 5.7959
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "post",
+   "t_s": 5.8256,
+   "duration_ms": 4.2,
+   "error_like": false,
+   "result_head": "{'success': True, 'path': '/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/invkit/invkit/report.py', 'message': 'Replacements applied.',"
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "post",
+   "t_s": 5.8517,
+   "duration_ms": 30.6,
+   "error_like": false,
+   "result_head": "{'success': True, 'path': '/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/invkit/invkit/cli.py', 'message': 'Replacements applied.', 'c"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 6.8147
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.8583
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 7.039,
+   "duration_ms": 224.2,
+   "error_like": false,
+   "result_head": "success=True command='python -m pytest -q' error='' stdout='....                                                                     [100%]\\n4 passed in 0.01s' "
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 7.0396,
+   "duration_ms": 181.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '....                                                                     [100%]\\n4 passed in 0.01s  0\\n'}, metadata={'code_m"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 8.315
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 8.3315
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 8.4321,
+   "duration_ms": 117.0,
+   "error_like": false,
+   "result_head": "success=True command='python - <<\\'PY\\'\\nfrom invkit import Item, format_report\\nitems = [Item(\"A1\",\"Anvil\",\"Tools\",25.0,3), Item(\"B2\",\"Bolt\",\"Hardware\",0.10,50"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 8.4342,
+   "duration_ms": 102.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'SKU  NAME   CATEGORY  QUANTITY  PRICE\\n---  -----  --------  --------  -----\\nA1   Anvil  Tools     3         25.00\\nB2   Bo"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 9.986
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 10.1112
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 10.2135,
+   "duration_ms": 227.4,
+   "error_like": false,
+   "result_head": "success=True command='printf \\'sku,name,category,price,quantity,tags\\\\nA1,Anvil,Tools,25.00,3,heavy;metal\\\\nB2,Bolt,Hardware,0.10,500,\\\\nC3,Clamp,Tools,7.50,12,"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 10.217,
+   "duration_ms": 105.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '== default sort by sku ==\\nSKU  NAME   CATEGORY  QUANTITY  PRICE\\n---  -----  --------  --------  -----\\nA1   Anvil  Tools  "
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "1d9fef98-a5e9-4c43-8f94-f9ad46a8cc1d",
+   "start_s": 0.1571,
+   "start_wall": 1791597723.333458,
+   "end_s": 12.6781,
+   "success": true,
+   "error": null,
+   "response_text": "All green, woof! \ud83d\udc36\n\nWhat I changed (library source only \u2014 no test files touched):\n\n**`invkit/report.py`**\n- `format_report(items, sort_by=\"sku\", descending=False)` \u2014 new keyword-only-ish param (stays positional-compatible, defaults `False`).\n- Feeds `reverse=descending` straight into `sorted(...)`, so it works uniformly for *every* key in `SORT_KEYS` (`sku`, `name`, `quantity`, `price`, `value`) instead of hand-rolling per-key reversal. DRY wins.\n\n**`invkit/cli.py`**\n- Added `--desc` via `action=\"store_true\"` (so it's flag-only, no value, and `False` by default).\n- Passed it through: `format_report(items, sort_by=args.sort, descending=args.desc)`.\n- Nudged the module docstring to mention `[--desc]`.\n\nVerification:\n- `pytest -q` \u2192 4 passed (untouched suite still happy).\n- Direct API check: `descending=True` reverses on a non-default key (`quantity`).\n- CLI checks: plain invocation is byte-identical to before (default behaviour preserved), `--sort price --desc` reverses, `--desc` alone reverses the default `sku` ordering, and it composes fine with `--low`.\n\nOne tiny call-out (not a blocker): for equal sort keys Python's stable sort preserves input order rather than reversing ties \u2014 standard `reverse=True` semantics, so `descending=True` is exactly the mirror of the ascending comparator, nothing weirder.\n\nDONE",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 59508,
+    "usage_output_tokens": 1671,
+    "usage_total_tokens": 61179,
+    "usage_cached_read_tokens": 50816,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 11,
+  "part_delta": 1459,
+  "part_end": 11
+ },
+ "claims": [
+  {
+   "tool": "list_files",
+   "ready": false,
+   "elapsed_ms": 79.37012499314733
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 17.14337500743568
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 37.57658298127353
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 31.156125012785196
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 22.8156250086613
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 15.279749990440905
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 12.735
+}

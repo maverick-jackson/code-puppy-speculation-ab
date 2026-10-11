@@ -1,0 +1,42 @@
+{
+ "pid": 94537,
+ "arm_override": "codemode_plain",
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791592585.277856,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [],
+ "tool_calls": [],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-zai-glm-4.7",
+   "session": "04547522-fbc7-456d-92c8-ae3bd6c29a08",
+   "start_s": 0.1655,
+   "start_wall": 1791592585.443347,
+   "end_s": 0.2567,
+   "success": false,
+   "error": "ModelHTTPError('status_code: 400, model_name: zai-glm-4.7, body: {\\'message\\': \"litellm.UnsupportedParamsError: zai does not support parameters: [\\'max_completion_tokens\\'], for model=glm-4.7. To drop these, set `litellm.drop_params=True` or for proxy:\\\\n\\\\n`litellm_settings:\\\\n drop_params: true`\\\\n. \\\\n If you want to use these params dynamically send allowed_openai_params=[\\'max_completion_tokens\\'] in your request.. Received Model Group=zai-glm-4.7\\\\nAvailable Model Group Fallbacks=None\", \\'type\\': \\'invalid_request_error\\', \\'param\\': None, \\'code\\': \\'400\\'}')",
+   "response_text": "",
+   "metadata": {
+    "model": "proxy-zai-glm-4.7",
+    "usage_input_tokens": null,
+    "usage_output_tokens": null,
+    "usage_total_tokens": null,
+    "usage_cached_read_tokens": null,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {},
+ "codemode_plain_applied": 2,
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 0.3061
+}

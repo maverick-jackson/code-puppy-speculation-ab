@@ -1,0 +1,11 @@
+{
+ "answer": "17|convert_type|999|32767",
+ "expected": "17|convert_type|999|32767",
+ "fields_ok": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

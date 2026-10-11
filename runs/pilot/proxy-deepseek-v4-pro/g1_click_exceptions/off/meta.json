@@ -1,0 +1,86 @@
+{
+ "arm": "off",
+ "model": "proxy-deepseek-v4-pro",
+ "cwd": "runs/repos/click",
+ "prompt_file": "tasks/g1_click_exceptions.txt",
+ "start_utc": "2026-10-10T01:36:38.163415",
+ "end_utc": "2026-10-10T01:36:52.121214",
+ "wall_s": 13.958,
+ "wall_epoch_s": 13.958,
+ "slept": false,
+ "exit_code": 0,
+ "timed_out": false,
+ "cmd": [
+  "/Users/tinyr/rig/tools/bin/code-puppy",
+  "-p",
+  "<prompt>",
+  "-m",
+  "proxy-deepseek-v4-pro",
+  "--yolo",
+  "true",
+  "--usage-file",
+  "/Users/tinyr/rig/work/cp-spec-ab/runs/pilot/proxy-deepseek-v4-pro/g1_click_exceptions/off/usage.json"
+ ],
+ "start_epoch": 1791596198.163541,
+ "cp_version": "0.0.896",
+ "proxy_requests": [
+  {
+   "request_id": "72842f87-1ba8-4eff-a3d1-990e356b6b21",
+   "model": "deepseek/deepseek-v4-pro",
+   "prompt_tokens": "4164",
+   "completion_tokens": "93",
+   "spend": "0.00293238",
+   "status": "success",
+   "start": "2026-10-10T01:36:41.555",
+   "first_token": "2026-10-10T01:36:42.017",
+   "end": "2026-10-10T01:36:43.165",
+   "duration_ms": "1610",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "342488d6-5f40-46c4-8298-924a217f5e31",
+   "model": "deepseek/deepseek-v4-pro",
+   "prompt_tokens": "5123",
+   "completion_tokens": "123",
+   "spend": "0.001011472",
+   "status": "success",
+   "start": "2026-10-10T01:36:43.268",
+   "first_token": "2026-10-10T01:36:43.815",
+   "end": "2026-10-10T01:36:44.926",
+   "duration_ms": "1658",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "22ca0b3a-486e-4431-b2ee-76f578bae71c",
+   "model": "deepseek/deepseek-v4-pro",
+   "prompt_tokens": "6757",
+   "completion_tokens": "294",
+   "spend": "0.00177518",
+   "status": "success",
+   "start": "2026-10-10T01:36:44.978",
+   "first_token": "2026-10-10T01:36:45.452",
+   "end": "2026-10-10T01:36:48.725",
+   "duration_ms": "3746",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "2acea3e6-bf20-482e-9161-35aeaccf23d9",
+   "model": "deepseek/deepseek-v4-pro",
+   "prompt_tokens": "7227",
+   "completion_tokens": "166",
+   "spend": "0.00060698",
+   "status": "success",
+   "start": "2026-10-10T01:36:48.787",
+   "first_token": "2026-10-10T01:36:49.254",
+   "end": "2026-10-10T01:36:51.435",
+   "duration_ms": "2648",
+   "cache_hit": "False"
+  }
+ ],
+ "proxy_spend_usd": 0.006326,
+ "proxy_prompt_tokens": 23271,
+ "proxy_completion_tokens": 676,
+ "proxy_models": [
+  "deepseek/deepseek-v4-pro"
+ ]
+}

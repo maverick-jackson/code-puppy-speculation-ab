@@ -1,0 +1,36 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "c4_click_bool_case",
+ "family": "code",
+ "arm": "plain",
+ "rep": 1,
+ "attempt": 1,
+ "order_pos": 2,
+ "block_index": 10,
+ "arm_order": [
+  "off",
+  "on",
+  "plain"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|c4_click_bool_case|1",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T06:06:13.418502",
+ "end_utc": "2026-10-10T06:06:36.905041",
+ "end_epoch": 1791612396.906732,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": true,
+ "grader": {
+  "pytest_rc": 0,
+  "pytest_summary": "17 passed in 0.03s",
+  "diff_stat": [
+   " 1 file changed, 1 insertion(+), 1 deletion(-)"
+  ],
+  "touched_tests": []
+ },
+ "grade_s": 0.25,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/c4_click_bool_case/r1/plain/a1"
+}

@@ -1,0 +1,38 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "g3_click_helpwidth",
+ "family": "gather",
+ "arm": "on",
+ "rep": 1,
+ "attempt": 1,
+ "order_pos": 1,
+ "block_index": 9,
+ "arm_order": [
+  "off",
+  "on",
+  "plain"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|g3_click_helpwidth|1",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T06:05:18.406828",
+ "end_utc": "2026-10-10T06:05:27.527503",
+ "end_epoch": 1791612327.528322,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": true,
+ "grader": {
+  "answer": "src/click/formatting.py|80|50|FORCED_WIDTH",
+  "expected": "src/click/formatting.py|80|50|FORCED_WIDTH",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   true
+  ]
+ },
+ "grade_s": 0.01,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/g3_click_helpwidth/r1/on/a1"
+}

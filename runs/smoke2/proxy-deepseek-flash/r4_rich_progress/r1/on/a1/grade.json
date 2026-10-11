@@ -1,0 +1,11 @@
+{
+ "answer": "12.5|dots|10|8",
+ "expected": "12.5|dots|10|8",
+ "fields_ok": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

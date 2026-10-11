@@ -1,0 +1,9 @@
+{
+  "input_tokens": 62248,
+  "output_tokens": 998,
+  "cache_read_tokens": 54272,
+  "cache_write_tokens": 0,
+  "requests": 8,
+  "tool_calls": 15,
+  "cost_usd": null
+}

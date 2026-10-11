@@ -1,0 +1,36 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "f3_invkit_bulk_discount",
+ "family": "code",
+ "arm": "off",
+ "rep": 3,
+ "attempt": 1,
+ "order_pos": 2,
+ "block_index": 14,
+ "arm_order": [
+  "plain",
+  "on",
+  "off"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|f3_invkit_bulk_discount|3",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T09:19:30.133131",
+ "end_utc": "2026-10-10T09:19:45.386137",
+ "end_epoch": 1791623985.387032,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": true,
+ "grader": {
+  "pytest_rc": 0,
+  "pytest_summary": "4 passed in 0.00s",
+  "diff_stat": [
+   " 1 file changed, 1 insertion(+), 1 deletion(-)"
+  ],
+  "touched_tests": []
+ },
+ "grade_s": 0.16,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/f3_invkit_bulk_discount/r3/off/a1"
+}

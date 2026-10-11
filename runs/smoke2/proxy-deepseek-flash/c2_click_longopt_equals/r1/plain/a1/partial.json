@@ -1,0 +1,36 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "c2_click_longopt_equals",
+ "family": "code",
+ "arm": "plain",
+ "rep": 1,
+ "attempt": 1,
+ "order_pos": 1,
+ "block_index": 12,
+ "arm_order": [
+  "on",
+  "plain",
+  "off"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|c2_click_longopt_equals|1",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T07:36:15.630120",
+ "end_utc": "2026-10-10T07:36:56.183256",
+ "end_epoch": 1791617816.1842968,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": true,
+ "grader": {
+  "pytest_rc": 0,
+  "pytest_summary": "3 passed in 0.02s",
+  "diff_stat": [
+   " 1 file changed, 1 insertion(+), 1 deletion(-)"
+  ],
+  "touched_tests": []
+ },
+ "grade_s": 0.18,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/c2_click_longopt_equals/r1/plain/a1"
+}

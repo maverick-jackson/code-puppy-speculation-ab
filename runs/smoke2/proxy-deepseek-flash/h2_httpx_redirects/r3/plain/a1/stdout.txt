@@ -1,0 +1,130 @@
+]11;#1a1b26]10;#c0caf5]4;0;#15161e]4;1;#f7768e]4;2;#9ece6a]4;3;#e0af68]4;4;#7aa2f7]4;5;#bb9af7]4;6;#7dcfff]4;7;#a9b1d6]4;8;#414868]4;9;#f7768e]4;10;#9ece6a]4;11;#e0af68]4;12;#7aa2f7]4;13;#bb9af7]4;14;#7dcfff]4;15;#c0caf5🎯 Using model: proxy-deepseek-flash
+Current version: 0.0.896
+Update phase disabled because NO_VERSION_UPDATE is set to 1 or true
+Core plugins version: 0.0.77
+macOS Computer Use is off by default. Run `/computer-use enable` to opt in.
+Executing prompt: You are in a checkout of the Python library httpx. Using only 
+the files in this repository, answer about redirect handling in the sync and 
+async clients: (1) the line number in httpx/_client.py of the line that raises 
+TooManyRedirects (the line containing the raise statement); (2) the HTTP status 
+codes (numbers) for which a redirect can change the request method to GET, as a 
+comma separated list; (3) the request headers that are removed when the redirect
+switches the method to GET, as a comma separated list; (4) the one request 
+header that is removed on every redirect regardless of origin or method. Do not 
+modify any files. End your reply with one final line exactly in the form ANSWER:
+<line number>|<status codes>|<headers>|<header>
+
+I'll dig into the redirect handling code in httpx.
+
+● run_code  code="hits = await grep(search_string="TooManyRedirects", director…
+
+● grep  search_string=TooManyRedirects · directory=httpx
+
+
+I see two raise statements. Let me check the context around both to find the
+sync vs async distinction the question asks about.
+
+● run_code  code="for m in hits["matches"]: if m["file_path"].endswith("_clien…
+
+● read_file  file_path=httpx/_client.py · start_line=932 · num_lines=70
+
+● read_file  file_path=httpx/_client.py · start_line=1679 · num_lines=70
+
+
+Both sync (972) and async (1719) have identical [2mraise[22m statements. Now let me
+examine [2m_build_redirect_request[22m for the method/header handling.
+
+● run_code  code="hits2 = await grep(search_string="_build_redirect_request", …
+
+● grep  search_string=_build_redirect_request · directory=httpx/_client.py
+
+● read_file  file_path=httpx/_client.py · start_line=600 · num_lines=140
+
+
+Let me find the actual [2m_build_redirect_request[22m method definition and the
+redirect method/header logic.
+
+● run_code  code="hits3 = await grep(search_string="def _redirect_method|def _…
+
+● grep  search_string="def _redirect_method|def _redirect_headers|def _build_r…
+
+
+Found it. Let me read lines 454-570 to get the full redirect logic.
+
+● run_code  code="r = await read_file(file_path="httpx/_client.py", start_line…
+
+● read_file  file_path=httpx/_client.py · start_line=454 · num_lines=120
+
+
+I have everything I need. Let me consolidate:
+
+[1m[38;2;192;202;245m1. Line number of the `raise TooManyRedirects`[22m: The question says "in the sync
+and async clients". There are two — line 972 (sync) and line 1719 (async). Let
+me verify the exact line content positions.
+
+● run_code  code="r2 = await read_file(file_path="httpx/_client.py", start_lin…
+
+● read_file  file_path=httpx/_client.py · start_line=970 · num_lines=4
+
+● read_file  file_path=httpx/_client.py · start_line=1717 · num_lines=4
+
+
+The [2msubprocess[22m import broke the snippet (as expected — no such module). But the
+read confirmed both raise lines. Let me confirm the status code constants and
+finalize.
+
+● run_code  code="sc = await grep(search_string="MOVED_PERMANENTLY|FOUND|SEE_O…
+
+● grep  search_string=MOVED_PERMANENTLY|FOUND|SEE_OTHER|TEMPORARY_REDIRECT|PER…
+
+
+Empty — let me check the file directly.
+
+● run_code  code="sc = await grep(search_string="FOUND|SEE_OTHER|MOVED", direc…
+
+● grep  search_string=FOUND|SEE_OTHER|MOVED · directory=httpx
+
+
+Everything confirmed. Let me put together the analysis.
+
+[1m[38;2;192;202;245m[38;2;125;207;255mFindings   [0m
+[38;2;125;207;255m───────────[0m
+
+[1m[38;2;192;202;245m(1) `raise TooManyRedirects` line number[22m
+
+There are two raise sites in [2mhttpx/_client.py[22m — one in the sync client's
+[2m_send_handling_redirects[22m, one in the async client's. Both are the self-same
+line:
+
+[38;2;187;154;247m•[0m Line [1m[38;2;192;202;245m972[22m (sync path)
+[38;2;187;154;247m•[0m Line [1m[38;2;192;202;245m1719[22m (async path)
+
+[1m[38;2;192;202;245m(2) Status codes that can flip the method to GET[22m — from [2m_redirect_method[22m (lines
+473–494):
+
+[38;2;187;154;247m•[0m [2m303 SEE_OTHER[22m → GET (unless HEAD)
+[38;2;187;154;247m•[0m [2m302 FOUND[22m → GET (unless HEAD)
+[38;2;187;154;247m•[0m [2m301 MOVED_PERMANENTLY[22m → GET (only when the method was POST)
+
+So: [1m[38;2;192;202;245m301, 302, 303[22m
+
+[1m[38;2;192;202;245m(3) Headers stripped when the method switches to GET[22m — in [2m_redirect_headers[22m
+(lines 540–544), guarded by [2mmethod != request.method and method == "GET"[22m:
+
+[38;2;187;154;247m•[0m [2mContent-Length[22m and [2mTransfer-Encoding[22m
+
+So: [1m[38;2;192;202;245mContent-Length, Transfer-Encoding[22m
+
+[1m[38;2;192;202;245m(4) The one header removed on every redirect regardless of origin/method[22m
+
+[2m_redirect_headers[22m unconditionally does [2mheaders.pop("Cookie", None)[22m — the client
+cookie store is always used to re-derive cookies instead. ([2mAuthorization[22m is only
+stripped cross-origin, and [2mHost[22m is only updated cross-origin.)
+
+So: [1m[38;2;192;202;245mCookie[22m
+
+Files were only read — nothing modified, paw-swear.   
+
+ANSWER: 972|301, 302, 303|Content-Length, Transfer-Encoding|Cookie
+
+]104]111]110

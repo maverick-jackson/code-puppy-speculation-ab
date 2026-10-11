@@ -1,0 +1,38 @@
+{
+ "batch": "smoke2",
+ "model": "proxy-deepseek-flash",
+ "task": "h3_httpx_content",
+ "family": "gather",
+ "arm": "off",
+ "rep": 1,
+ "attempt": 1,
+ "order_pos": 1,
+ "block_index": 14,
+ "arm_order": [
+  "on",
+  "off",
+  "plain"
+ ],
+ "seed": 20261010,
+ "block_seed": "20261010|proxy-deepseek-flash|h3_httpx_content|1",
+ "cp_version": "0.0.896",
+ "start_utc": "2026-10-10T07:38:06.727538",
+ "end_utc": "2026-10-10T07:38:19.040265",
+ "end_epoch": 1791617899.041118,
+ "power": "battery",
+ "allow_battery": true,
+ "correct": true,
+ "grader": {
+  "answer": "65536|identity, gzip, deflate, br|182|MAX_URL_LENGTH",
+  "expected": "65536|br,deflate,gzip,identity|182|MAX_URL_LENGTH",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   true
+  ]
+ },
+ "grade_s": 0.02,
+ "leak_suspect": [],
+ "run_dir": "runs/smoke2/proxy-deepseek-flash/h3_httpx_content/r1/off/a1"
+}

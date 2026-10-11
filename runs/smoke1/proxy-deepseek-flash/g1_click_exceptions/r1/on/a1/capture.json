@@ -1,0 +1,262 @@
+{
+ "pid": 99232,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791598085.184032,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 224,
+   "first_s": 1.3442,
+   "last_s": 4.2315
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 7,
+   "first_s": 1.3867,
+   "last_s": 4.0132
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 7,
+   "first_s": 1.4868,
+   "last_s": 4.0707
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 3,
+   "first_s": 1.4871,
+   "last_s": 2.6805
+  }
+ },
+ "spec_final": {
+  "hits": 7,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 150.3,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.3193,
+   "initial_arg_chars": 0,
+   "arg_deltas": 77,
+   "arg_delta_chars": 305,
+   "subagent_session": null,
+   "end_s": 1.6068
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.4958,
+   "initial_arg_chars": 0,
+   "arg_deltas": 62,
+   "arg_delta_chars": 184,
+   "subagent_session": null,
+   "end_s": 2.736
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.9315,
+   "initial_arg_chars": 0,
+   "arg_deltas": 97,
+   "arg_delta_chars": 304,
+   "subagent_session": null,
+   "end_s": 4.2312
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.3855
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.4232
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.4684,
+   "duration_ms": 56.6,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/CHANGES.rst', line_number=533, line_content='-   ``M"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.4847,
+   "duration_ms": 46.2,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/exceptions.py', line_number=47, line_conte"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.4907
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.5087
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.5424,
+   "duration_ms": 29.8,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/exceptions.py', line_number=24, line_conte"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.5573,
+   "duration_ms": 34.4,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/utils.py', line_number=56, line_content='d"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.5613
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.6051,
+   "duration_ms": 28.3,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/testing.py', line_number=110, line_content"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.6095
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.6113,
+   "duration_ms": 1.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [{'file_path': '/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/CHANGES.rst', 'line_number': 5"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.6424
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.6781,
+   "duration_ms": 2.2,
+   "error_like": false,
+   "result_head": "content='import typing as t\\nfrom gettext import gettext as _\\nfrom gettext import ngettext\\n\\nfrom ._compat import get_text_stderr\\nfrom .utils import echo\\nfr"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 2.7385
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 2.7399,
+   "duration_ms": 1.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'import typing as t\\nfrom gettext import gettext as _\\nfrom gettext import ngettext\\n\\nfrom ._compat import get_text_stderr\\n"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.0123
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.0684,
+   "duration_ms": 35.3,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/utils.py', line_number=56, line_content='d"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.2339
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.2352,
+   "duration_ms": 1.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '{\\'matches\\': [{\\'file_path\\': \\'/Users/tinyr/rig/work/cp-spec-ab/runs/smoke1/_work/proxy-deepseek-flash/click/src/click/uti"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "f20e6ba0-7787-4ad1-a424-08da0de3fba0",
+   "start_s": 0.1564,
+   "start_wall": 1791598085.34048,
+   "end_s": 5.806,
+   "success": true,
+   "error": null,
+   "response_text": "I've traced the full inheritance chain from the repo source:\n\n1. **Exception class:** required options are checked in `core.py` and raise `MissingParameter` (defined in `src/click/exceptions.py`, line 128).\n2. **Direct parent:** `MissingParameter(BadParameter)` \u2014 it inherits directly from `BadParameter`.\n3. **exit_code:** `MissingParameter` \u2192 `BadParameter` \u2192 `UsageError` \u2192 `ClickException`. `UsageError.exit_code = 2` overrides `ClickException.exit_code = 1`, so the effective exit code is `2`.\n4. **make_default_short_help default max_length:** `def make_default_short_help(help: str, max_length: int = 45)` \u2192 `45`.\n\nANSWER: MissingParameter|BadParameter|2|45",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 30932,
+    "usage_output_tokens": 504,
+    "usage_total_tokens": 31436,
+    "usage_cached_read_tokens": 22528,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 5,
+  "part_delta": 419,
+  "part_end": 5
+ },
+ "claims": [
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 84.0680830006022
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 63.66254200111143
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 52.37679200945422
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 50.11933299829252
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 44.503375014755875
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 36.54516700771637
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 56.61041600978933
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 5.8657
+}

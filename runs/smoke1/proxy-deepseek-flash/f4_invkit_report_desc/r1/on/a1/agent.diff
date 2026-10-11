@@ -1,0 +1,50 @@
+diff --git a/invkit/cli.py b/invkit/cli.py
+index 3db377b..b1e1f7a 100644
+--- a/invkit/cli.py
++++ b/invkit/cli.py
+@@ -1,4 +1,4 @@
+-"""Command line entry point: python -m invkit.cli FILE.csv [--sort KEY] [--low N]"""
++"""Command line entry point: python -m invkit.cli FILE.csv [--sort KEY] [--desc] [--low N]"""
+ import argparse
+ import sys
+ from pathlib import Path
+@@ -12,6 +12,7 @@ def build_parser() -> argparse.ArgumentParser:
+     p = argparse.ArgumentParser(prog="invkit")
+     p.add_argument("csv_file")
+     p.add_argument("--sort", default="sku", choices=sorted(SORT_KEYS))
++    p.add_argument("--desc", action="store_true", help="sort in descending order of --sort")
+     p.add_argument("--low", type=int, default=None, help="only items with stock below N")
+     return p
+ 
+@@ -20,7 +21,7 @@ def main(argv=None) -> int:
+     args = build_parser().parse_args(argv)
+     inv = Inventory(parse_csv(Path(args.csv_file).read_text()))
+     items = inv.low_stock(args.low) if args.low is not None else list(inv)
+-    print(format_report(items, sort_by=args.sort))
++    print(format_report(items, sort_by=args.sort, descending=args.desc))
+     return 0
+ 
+ 
+diff --git a/invkit/report.py b/invkit/report.py
+index df8ba6f..0fcc177 100644
+--- a/invkit/report.py
++++ b/invkit/report.py
+@@ -16,11 +16,15 @@ def _row(item: Item) -> List[str]:
+     return [item.sku, item.name, item.category, str(item.quantity), f"{item.price:.2f}"]
+ 
+ 
+-def format_report(items: Iterable[Item], sort_by: str = "sku") -> str:
+-    """Render items as a fixed-width text table sorted by `sort_by`."""
++def format_report(items: Iterable[Item], sort_by: str = "sku", descending: bool = False) -> str:
++    """Render items as a fixed-width text table sorted by `sort_by`.
++
++    Pass ``descending=True`` to reverse the sort order for any supported
++    ``sort_by`` key.
++    """
+     if sort_by not in SORT_KEYS:
+         raise ValueError(f"cannot sort by {sort_by!r}; choose from {sorted(SORT_KEYS)}")
+-    rows = [_row(i) for i in sorted(items, key=SORT_KEYS[sort_by])]
++    rows = [_row(i) for i in sorted(items, key=SORT_KEYS[sort_by], reverse=descending)]
+     widths = [len(c) for c in COLUMNS]
+     for r in rows:
+         widths = [max(w, len(v)) for w, v in zip(widths, r)]

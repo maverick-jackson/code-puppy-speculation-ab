@@ -1,0 +1,179 @@
+{
+ "pid": 3640,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791612301.847421,
+ "spec_events": {},
+ "spec_final": {
+  "hits": 0,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 0.0,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "shell",
+   "start_s": 1.2407,
+   "initial_arg_chars": 0,
+   "arg_deltas": 26,
+   "arg_delta_chars": 64,
+   "subagent_session": null,
+   "end_s": 1.2678
+  },
+  {
+   "tool": "shell",
+   "start_s": 1.2679,
+   "initial_arg_chars": 0,
+   "arg_deltas": 18,
+   "arg_delta_chars": 41,
+   "subagent_session": null,
+   "end_s": 1.3649
+  },
+  {
+   "tool": "grep",
+   "start_s": 2.2821,
+   "initial_arg_chars": 0,
+   "arg_deltas": 19,
+   "arg_delta_chars": 50,
+   "subagent_session": null,
+   "end_s": 2.3358
+  },
+  {
+   "tool": "grep",
+   "start_s": 2.3361,
+   "initial_arg_chars": 0,
+   "arg_deltas": 19,
+   "arg_delta_chars": 46,
+   "subagent_session": null,
+   "end_s": 2.4411
+  },
+  {
+   "tool": "grep",
+   "start_s": 2.4413,
+   "initial_arg_chars": 0,
+   "arg_deltas": 23,
+   "arg_delta_chars": 55,
+   "subagent_session": null,
+   "end_s": 2.5738
+  },
+  {
+   "tool": "read_file",
+   "start_s": 3.9368,
+   "initial_arg_chars": 0,
+   "arg_deltas": 27,
+   "arg_delta_chars": 68,
+   "subagent_session": null,
+   "end_s": 4.0483
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 1.3681
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 1.3706
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 1.4925,
+   "duration_ms": 123.9,
+   "error_like": false,
+   "result_head": "success=True command='find . -name \"*.py\" -path \"*rich*\" | head -50' error='' stdout='./tests/test_rich_print.py\\n./rich/themes.py\\n./rich/screen.py\\n./rich/log"
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 1.4929,
+   "duration_ms": 122.2,
+   "error_like": false,
+   "result_head": "success=True command='ls rich/ 2>/dev/null || ls' error='' stdout='__init__.py\\n__main__.py\\n_cell_widths.py\\n_emoji_codes.py\\n_emoji_replace.py\\n_export_format"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 2.5758
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 2.5764
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 2.5767
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 2.6428,
+   "duration_ms": 37.1,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/console.py', line_num"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 2.6699,
+   "duration_ms": 66.7,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/diagnose.py', line_nu"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 2.6974,
+   "duration_ms": 94.6,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/console.py', line_num"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 4.0498
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 4.0815,
+   "duration_ms": 1.6,
+   "error_like": false,
+   "result_head": "content='            return False if isatty is None else isatty()\\n        except ValueError:\\n            # in some situation (at the end of a pytest run for e"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "3d72400e-5a86-48e7-81fc-d40a6ea4932d",
+   "start_s": 0.1756,
+   "start_wall": 1791612302.022985,
+   "end_s": 5.6205,
+   "success": true,
+   "error": null,
+   "response_text": "I have everything. Findings:\n\n1. **Dumb terminal width** = 80\n2. **Dumb terminal height** = 25\n3. **TERM values (case-insensitive)** = `dumb`, `unknown`\n4. **Env vars for overrides** = `COLUMNS`, `LINES`\n\nCode confirms it: `is_dumb_terminal` checks `_term.lower() in (\"dumb\", \"unknown\")`, and `size` returns `ConsoleDimensions(80, 25)` for dumb terminals. The overrides read `COLUMNS` and `LINES`.\n\nANSWER: 80|25|dumb,unknown|COLUMNS,LINES",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 25515,
+    "usage_output_tokens": 500,
+    "usage_total_tokens": 26015,
+    "usage_cached_read_tokens": 17664,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 10,
+  "part_delta": 316,
+  "part_end": 10
+ },
+ "speculation_enabled_cfg": false,
+ "dumped_at_s": 5.6937
+}

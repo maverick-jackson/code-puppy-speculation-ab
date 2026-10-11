@@ -1,0 +1,10 @@
+{
+ "answer": "rich/_loop.py|9|18",
+ "expected": "rich/_loop.py|9|18",
+ "fields_ok": [
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

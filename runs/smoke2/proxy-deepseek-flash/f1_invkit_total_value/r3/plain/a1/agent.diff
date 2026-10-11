@@ -1,0 +1,41 @@
+diff --git a/invkit/cli.py b/invkit/cli.py
+index 3db377b..251b841 100644
+--- a/invkit/cli.py
++++ b/invkit/cli.py
+@@ -13,6 +13,7 @@ def build_parser() -> argparse.ArgumentParser:
+     p.add_argument("csv_file")
+     p.add_argument("--sort", default="sku", choices=sorted(SORT_KEYS))
+     p.add_argument("--low", type=int, default=None, help="only items with stock below N")
++    p.add_argument("--total", action="store_true", help="print total stock value after the report")
+     return p
+ 
+ 
+@@ -21,6 +22,8 @@ def main(argv=None) -> int:
+     inv = Inventory(parse_csv(Path(args.csv_file).read_text()))
+     items = inv.low_stock(args.low) if args.low is not None else list(inv)
+     print(format_report(items, sort_by=args.sort))
++    if args.total:
++        print(f"Total value: {inv.total_value():.2f}")
+     return 0
+ 
+ 
+diff --git a/invkit/store.py b/invkit/store.py
+index 988370b..667125c 100644
+--- a/invkit/store.py
++++ b/invkit/store.py
+@@ -47,6 +47,15 @@ class Inventory:
+         want = category.strip().lower()
+         return [i for i in self._items.values() if i.category.lower() == want]
+ 
++    def total_value(self, category: Optional[str] = None) -> float:
++        """Total stock value (price * quantity), rounded to 2 decimals.
++
++        When `category` is given only items in that category count, matched
++        the same way as `by_category`.
++        """
++        items = self.by_category(category) if category is not None else list(self._items.values())
++        return round(sum(i.value for i in items), 2)
++
+     def low_stock(self, threshold: int = 5) -> List[Item]:
+         return sorted((i for i in self._items.values() if i.quantity < threshold),
+                       key=lambda i: (i.quantity, i.sku))

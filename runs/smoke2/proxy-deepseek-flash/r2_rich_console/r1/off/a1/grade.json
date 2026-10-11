@@ -1,0 +1,11 @@
+{
+ "answer": "80|25|dumb,unknown|COLUMNS,LINES",
+ "expected": "80|25|dumb,unknown|COLUMNS,LINES",
+ "fields_ok": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

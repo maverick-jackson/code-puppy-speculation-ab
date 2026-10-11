@@ -1,0 +1,24 @@
+{
+ "id": "g1_click_exceptions",
+ "family": "gather",
+ "repo": "click",
+ "prompt": "You are in a checkout of the Python library click. Using only the files in this repository, answer: (1) when a required option is missing, which exception class does click raise; (2) which class does that exception directly inherit from; (3) what integer exit_code does that exception end up with (follow the inheritance); (4) what is the default value of the max_length parameter of make_default_short_help. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <class>|<parent class>|<exit_code>|<max_length>",
+ "answer": [
+  {
+   "kind": "name",
+   "value": "MissingParameter"
+  },
+  {
+   "kind": "name",
+   "value": "BadParameter"
+  },
+  {
+   "kind": "int",
+   "value": 2
+  },
+  {
+   "kind": "int",
+   "value": 45
+  }
+ ]
+}

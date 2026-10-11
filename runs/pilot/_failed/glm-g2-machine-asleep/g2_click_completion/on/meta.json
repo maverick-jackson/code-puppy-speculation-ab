@@ -1,0 +1,24 @@
+{
+ "arm": "on",
+ "model": "proxy-zai-g47",
+ "cwd": "runs/repos/click",
+ "prompt_file": "tasks/g2_click_completion.txt",
+ "start_utc": "2026-10-10T00:43:22.593564",
+ "end_utc": "2026-10-10T01:14:51.262700",
+ "wall_s": 89.391,
+ "exit_code": -15,
+ "timed_out": false,
+ "cmd": [
+  "/Users/tinyr/rig/tools/bin/code-puppy",
+  "-p",
+  "<prompt>",
+  "-m",
+  "proxy-zai-g47",
+  "--yolo",
+  "true",
+  "--usage-file",
+  "/Users/tinyr/rig/work/cp-spec-ab/runs/pilot/proxy-zai-g47/g2_click_completion/on/usage.json"
+ ],
+ "start_epoch": 1791593002.593693,
+ "cp_version": "0.0.896"
+}

@@ -1,0 +1,144 @@
+2026-10-10T01:55:58 batch smoke2: 20 blocks x 3 arms, 0 records present, seed 20261010, allow_battery=True
+2026-10-10T01:55:58 proxy-deepseek-flash block 1/20 f4_invkit_report_desc r1 order=['off', 'on', 'plain']
+2026-10-10T01:56:58 proxy-deepseek-flash block 2/20 c1_click_intrange_clamp r1 order=['plain', 'off', 'on']
+2026-10-10T01:58:09 proxy-deepseek-flash f4_invkit_report_desc r1 off a1 wall=18.408 correct=True $0.002358 valid=True 
+2026-10-10T01:58:09 proxy-deepseek-flash f4_invkit_report_desc r1 on a1 wall=15.942 correct=True $0.002536 valid=True 
+2026-10-10T01:58:09 proxy-deepseek-flash f4_invkit_report_desc r1 plain a1 wall=25.082 correct=True $0.00363 valid=True 
+2026-10-10T01:58:09 proxy-deepseek-flash block 3/20 f2_invkit_thousands r1 order=['off', 'on', 'plain']
+2026-10-10T01:59:30 proxy-deepseek-flash c1_click_intrange_clamp r1 plain a1 wall=21.919 correct=True $0.002632 valid=True 
+2026-10-10T01:59:30 proxy-deepseek-flash c1_click_intrange_clamp r1 off a1 wall=22.735 correct=True $0.002601 valid=True 
+2026-10-10T01:59:30 proxy-deepseek-flash c1_click_intrange_clamp r1 on a1 wall=25.414 correct=True $0.003609 valid=True 
+2026-10-10T01:59:30 proxy-deepseek-flash block 4/20 f1_invkit_total_value r1 order=['on', 'off', 'plain']
+2026-10-10T02:00:25 proxy-deepseek-flash f2_invkit_thousands r1 off a1 wall=34.218 correct=True $0.004553 valid=True 
+2026-10-10T02:00:25 proxy-deepseek-flash f2_invkit_thousands r1 on a1 wall=21.528 correct=True $0.003119 valid=True 
+2026-10-10T02:00:25 proxy-deepseek-flash block 5/20 g1_click_exceptions r1 order=['on', 'plain', 'off']
+2026-10-10T02:00:57 proxy-deepseek-flash f2_invkit_thousands r1 plain a1 wall=23.885 correct=True $0.003101 valid=True 
+2026-10-10T02:00:57 proxy-deepseek-flash f1_invkit_total_value r1 on a1 wall=18.807 correct=True $0.002418 valid=True 
+2026-10-10T02:00:57 proxy-deepseek-flash block 6/20 g4_click_types r1 order=['plain', 'off', 'on']
+2026-10-10T02:01:55 proxy-deepseek-flash f1_invkit_total_value r1 off a1 wall=15.48 correct=True $0.002332 valid=True 
+2026-10-10T02:01:55 proxy-deepseek-flash f1_invkit_total_value r1 plain a1 wall=19.827 correct=True $0.002733 valid=True 
+2026-10-10T02:01:55 proxy-deepseek-flash g1_click_exceptions r1 on a1 wall=9.364 correct=True $0.001746 valid=True 
+2026-10-10T02:01:55 proxy-deepseek-flash g1_click_exceptions r1 plain a1 wall=9.388 correct=True $0.00156 valid=True 
+2026-10-10T02:01:56 proxy-deepseek-flash block 7/20 f3_invkit_bulk_discount r1 order=['plain', 'on', 'off']
+2026-10-10T02:02:38 proxy-deepseek-flash g1_click_exceptions r1 off a1 wall=13.011 correct=True $0.00152 valid=True 
+2026-10-10T02:02:38 proxy-deepseek-flash g4_click_types r1 plain a1 wall=26.197 correct=True $0.002764 valid=True 
+2026-10-10T02:02:38 proxy-deepseek-flash g4_click_types r1 off a1 wall=13.195 correct=True $0.001464 valid=True 
+2026-10-10T02:02:38 proxy-deepseek-flash block 8/20 c3_click_short_help r1 order=['on', 'plain', 'off']
+2026-10-10T02:04:34 proxy-deepseek-flash g4_click_types r1 on a1 wall=18.184 correct=True $0.002307 valid=True 
+2026-10-10T02:04:34 proxy-deepseek-flash f3_invkit_bulk_discount r1 plain a1 wall=13.542 correct=True $0.002113 valid=True 
+2026-10-10T02:04:35 proxy-deepseek-flash f3_invkit_bulk_discount r1 on a1 wall=13.084 correct=True $0.001874 valid=True 
+2026-10-10T02:04:35 proxy-deepseek-flash f3_invkit_bulk_discount r1 off a1 wall=14.934 correct=True $0.001525 valid=True 
+2026-10-10T02:04:35 proxy-deepseek-flash c3_click_short_help r1 on a1 wall=33.695 correct=True $0.003661 valid=True 
+2026-10-10T02:04:35 proxy-deepseek-flash block 9/20 r2_rich_console r1 order=['plain', 'on', 'off']
+2026-10-10T02:05:08 proxy-deepseek-flash c3_click_short_help r1 plain a1 wall=52.664 correct=True $0.005832 valid=True 
+2026-10-10T02:05:08 proxy-deepseek-flash block 10/20 g3_click_helpwidth r1 order=['off', 'on', 'plain']
+2026-10-10T02:05:37 proxy-deepseek-flash c3_click_short_help r1 off a1 wall=28.771 correct=True $0.00311 valid=True 
+2026-10-10T02:05:37 proxy-deepseek-flash block 11/20 c4_click_bool_case r1 order=['off', 'on', 'plain']
+2026-10-10T02:06:37 proxy-deepseek-flash r2_rich_console r1 plain a1 wall=13.481 correct=True $0.002089 valid=True 
+2026-10-10T02:06:37 proxy-deepseek-flash r2_rich_console r1 on a1 wall=9.051 correct=True $0.001636 valid=True 
+2026-10-10T02:06:37 proxy-deepseek-flash r2_rich_console r1 off a1 wall=9.944 correct=True $0.001531 valid=True 
+2026-10-10T02:06:37 proxy-deepseek-flash g3_click_helpwidth r1 off a1 wall=9.719 correct=True $0.001615 valid=True 
+2026-10-10T02:06:37 proxy-deepseek-flash g3_click_helpwidth r1 on a1 wall=9.121 correct=True $0.001406 valid=True 
+2026-10-10T02:06:37 proxy-deepseek-flash block 12/20 h1_httpx_exceptions r1 order=['off', 'plain', 'on']
+2026-10-10T02:07:23 proxy-deepseek-flash h1_httpx_exceptions on a1 invalid ['agent_error', 'no_usage'], retrying now
+2026-10-10T02:07:23 proxy-deepseek-flash g3_click_helpwidth r1 plain a1 wall=10.045 correct=True $0.001629 valid=True 
+2026-10-10T02:07:23 proxy-deepseek-flash c4_click_bool_case r1 off a1 wall=15.455 correct=True $0.001581 valid=True 
+2026-10-10T02:07:23 proxy-deepseek-flash c4_click_bool_case r1 on a1 wall=19.09 correct=True $0.001958 valid=True 
+2026-10-10T02:07:36 proxy-deepseek-flash c4_click_bool_case r1 plain a1 wall=23.487 correct=True $0.002501 valid=True 
+2026-10-10T02:07:52 proxy-deepseek-flash h1_httpx_exceptions r1 off a1 wall=14.826 correct=True $0.002354 valid=True 
+2026-10-10T02:08:11 proxy-deepseek-flash h1_httpx_exceptions r1 plain a1 wall=19.12 correct=True $0.003093 valid=True 
+2026-10-10T02:23:23 proxy-deepseek-flash h1_httpx_exceptions r1 on a1 wall=11.843 correct=False $0.001885 valid=False ['agent_error', 'no_usage']
+2026-10-10T02:23:23 proxy-deepseek-flash: lid closed, pausing (poll 60 s)
+2026-10-10T02:56:00 proxy-deepseek-flash: lid closed, pausing (poll 60 s)
+2026-10-10T03:11:21 batch smoke2: 20 blocks x 3 arms, 36 records present, seed 20261010, allow_battery=True
+2026-10-10T03:11:21 proxy-deepseek-flash: lid closed, pausing (poll 60 s)
+2026-10-10T03:35:43 proxy-deepseek-flash block 13/20 c2_click_longopt_equals r1 order=['on', 'plain', 'off']
+2026-10-10T03:37:15 proxy-deepseek-flash c2_click_longopt_equals r1 on a1 wall=31.177 correct=True $0.003177 valid=True 
+2026-10-10T03:37:15 proxy-deepseek-flash block 14/20 h2_httpx_redirects r1 order=['off', 'plain', 'on']
+2026-10-10T03:37:52 proxy-deepseek-flash block 15/20 h3_httpx_content r1 order=['on', 'off', 'plain']
+2026-10-10T03:38:34 proxy-deepseek-flash c2_click_longopt_equals r1 plain a1 wall=40.553 correct=True $0.004034 valid=True 
+2026-10-10T03:38:34 proxy-deepseek-flash c2_click_longopt_equals r1 off a1 wall=18.475 correct=True $0.002095 valid=True 
+2026-10-10T03:38:35 proxy-deepseek-flash h2_httpx_redirects r1 off a1 wall=9.197 correct=True $0.001599 valid=True 
+2026-10-10T03:38:35 proxy-deepseek-flash block 16/20 r3_rich_loop r1 order=['off', 'plain', 'on']
+2026-10-10T03:39:11 proxy-deepseek-flash h2_httpx_redirects r1 plain a1 wall=14.011 correct=True $0.002184 valid=True 
+2026-10-10T03:39:11 proxy-deepseek-flash h2_httpx_redirects r1 on a1 wall=13.274 correct=True $0.002354 valid=True 
+2026-10-10T03:39:11 proxy-deepseek-flash h3_httpx_content r1 on a1 wall=14.373 correct=True $0.002254 valid=True 
+2026-10-10T03:39:11 proxy-deepseek-flash block 17/20 r1_rich_box r1 order=['off', 'on', 'plain']
+2026-10-10T03:39:56 proxy-deepseek-flash h3_httpx_content r1 off a1 wall=12.313 correct=True $0.001412 valid=True 
+2026-10-10T03:39:56 proxy-deepseek-flash h3_httpx_content r1 plain a1 wall=15.729 correct=True $0.00268 valid=True 
+2026-10-10T03:39:56 proxy-deepseek-flash r3_rich_loop r1 off a1 wall=9.858 correct=True $0.001543 valid=True 
+2026-10-10T03:39:56 proxy-deepseek-flash r3_rich_loop r1 plain a1 wall=11.119 correct=True $0.001622 valid=True 
+2026-10-10T03:39:57 proxy-deepseek-flash block 18/20 g2_click_completion r1 order=['plain', 'on', 'off']
+2026-10-10T03:43:48 proxy-deepseek-flash g2_click_completion plain a1 invalid ['slept'], retrying now
+2026-10-10T03:43:48 proxy-deepseek-flash r3_rich_loop r1 on a1 wall=14.715 correct=True $0.002246 valid=True 
+2026-10-10T03:43:48 proxy-deepseek-flash r1_rich_box r1 off a1 wall=14.677 correct=False $0.002031 valid=True 
+2026-10-10T03:43:48 proxy-deepseek-flash r1_rich_box r1 on a1 wall=12.183 correct=False $0.001903 valid=True 
+2026-10-10T03:43:48 proxy-deepseek-flash r1_rich_box r1 plain a1 wall=17.734 correct=True $0.002671 valid=True 
+2026-10-10T03:44:48 proxy-deepseek-flash g2_click_completion r1 plain a1 wall=28.736 correct=True $0.003324 valid=False ['slept']
+2026-10-10T03:45:29 proxy-deepseek-flash block 19/20 h4_httpx_defaults r1 order=['off', 'on', 'plain']
+2026-10-10T03:46:03 proxy-deepseek-flash g2_click_completion r1 plain a2 wall=12.544 correct=True $0.002311 valid=True 
+2026-10-10T03:46:04 proxy-deepseek-flash block 20/20 r4_rich_progress r1 order=['off', 'plain', 'on']
+2026-10-10T03:46:43 proxy-deepseek-flash g2_click_completion r1 on a1 wall=13.057 correct=True $0.002536 valid=True 
+2026-10-10T03:46:43 proxy-deepseek-flash g2_click_completion r1 off a1 wall=15.307 correct=True $0.002747 valid=True 
+2026-10-10T03:46:43 proxy-deepseek-flash h4_httpx_defaults r1 off a1 wall=8.804 correct=True $0.001288 valid=True 
+2026-10-10T03:46:53 proxy-deepseek-flash h4_httpx_defaults r1 on a1 wall=14.191 correct=True $0.00192 valid=True 
+2026-10-10T03:47:03 proxy-deepseek-flash h4_httpx_defaults r1 plain a1 wall=10.697 correct=True $0.001602 valid=True 
+2026-10-10T03:47:16 proxy-deepseek-flash r4_rich_progress r1 off a1 wall=11.866 correct=True $0.001898 valid=True 
+2026-10-10T03:47:29 proxy-deepseek-flash r4_rich_progress r1 plain a1 wall=13.485 correct=True $0.002413 valid=True 
+2026-10-10T03:47:43 proxy-deepseek-flash r4_rich_progress r1 on a1 wall=13.579 correct=True $0.002514 valid=True 
+2026-10-10T03:47:43 proxy-deepseek-flash: worker finished (complete)
+2026-10-10T03:47:43 batch done
+2026-10-10T03:47:50 batch smoke2: 18 blocks x 3 arms, 61 records present, seed 20261010, allow_battery=True
+2026-10-10T03:47:50 proxy-deepseek-flash block 1/18 g1_click_exceptions r3 order=['plain', 'on', 'off']
+2026-10-10T04:03:21 proxy-deepseek-flash g1_click_exceptions off a1 invalid ['slept', 'timeout_infra'], retrying now
+2026-10-10T04:03:21 proxy-deepseek-flash g1_click_exceptions r3 plain a1 wall=9.43 correct=True $0.001976 valid=True 
+2026-10-10T04:03:21 proxy-deepseek-flash g1_click_exceptions r3 on a1 wall=12.527 correct=True $0.0021 valid=True 
+2026-10-10T04:48:20 proxy-deepseek-flash g1_click_exceptions r3 off a1 wall=8.238 correct=False $0.001477 valid=False ['slept', 'timeout_infra']
+2026-10-10T04:48:20 proxy-deepseek-flash: lid closed, pausing (poll 60 s)
+2026-10-10T05:12:23 proxy-deepseek-flash block 3/18 f3_invkit_bulk_discount r2 order=['plain', 'on', 'off']
+2026-10-10T05:13:21 proxy-deepseek-flash block 5/18 c2_click_longopt_equals r2 order=['plain', 'on', 'off']
+2026-10-10T05:14:20 proxy-deepseek-flash g1_click_exceptions r3 off a2 wall=9.722 correct=True $0.001439 valid=True 
+2026-10-10T05:14:20 proxy-deepseek-flash f3_invkit_bulk_discount r2 plain a1 wall=34.0 correct=True $0.004034 valid=True 
+2026-10-10T05:14:20 proxy-deepseek-flash f3_invkit_bulk_discount r2 on a1 wall=11.786 correct=True $0.001828 valid=True 
+2026-10-10T05:14:20 proxy-deepseek-flash block 7/18 r1_rich_box r3 order=['on', 'plain', 'off']
+2026-10-10T05:15:21 proxy-deepseek-flash f3_invkit_bulk_discount r2 off a1 wall=11.986 correct=True $0.001575 valid=True 
+2026-10-10T05:15:21 proxy-deepseek-flash c2_click_longopt_equals r2 plain a1 wall=18.054 correct=True $0.002328 valid=True 
+2026-10-10T05:15:21 proxy-deepseek-flash c2_click_longopt_equals r2 on a1 wall=22.986 correct=True $0.002606 valid=True 
+2026-10-10T05:15:21 proxy-deepseek-flash c2_click_longopt_equals r2 off a1 wall=16.184 correct=True $0.002744 valid=True 
+2026-10-10T05:15:21 proxy-deepseek-flash block 10/18 f1_invkit_total_value r3 order=['off', 'plain', 'on']
+2026-10-10T05:16:27 proxy-deepseek-flash r1_rich_box r3 on a1 wall=25.291 correct=True $0.00321 valid=True 
+2026-10-10T05:16:27 proxy-deepseek-flash r1_rich_box r3 plain a1 wall=17.101 correct=True $0.002838 valid=True 
+2026-10-10T05:16:27 proxy-deepseek-flash r1_rich_box r3 off a1 wall=17.667 correct=True $0.002097 valid=True 
+2026-10-10T05:16:27 proxy-deepseek-flash block 12/18 h2_httpx_redirects r3 order=['off', 'plain', 'on']
+2026-10-10T05:17:14 proxy-deepseek-flash f1_invkit_total_value r3 off a1 wall=18.731 correct=True $0.002739 valid=True 
+2026-10-10T05:17:15 proxy-deepseek-flash f1_invkit_total_value r3 plain a1 wall=20.709 correct=True $0.003324 valid=True 
+2026-10-10T05:17:15 proxy-deepseek-flash block 13/18 h2_httpx_redirects r2 order=['on', 'plain', 'off']
+2026-10-10T05:18:00 proxy-deepseek-flash f1_invkit_total_value r3 on a1 wall=25.632 correct=True $0.003585 valid=True 
+2026-10-10T05:18:00 proxy-deepseek-flash h2_httpx_redirects r3 off a1 wall=13.097 correct=True $0.002458 valid=True 
+2026-10-10T05:18:01 proxy-deepseek-flash h2_httpx_redirects r3 plain a1 wall=19.358 correct=True $0.002975 valid=True 
+2026-10-10T05:18:01 proxy-deepseek-flash block 14/18 f1_invkit_total_value r2 order=['on', 'plain', 'off']
+2026-10-10T05:19:01 proxy-deepseek-flash h2_httpx_redirects r3 on a1 wall=14.522 correct=True $0.002678 valid=True 
+2026-10-10T05:19:01 proxy-deepseek-flash h2_httpx_redirects r2 on a1 wall=16.1 correct=True $0.002522 valid=True 
+2026-10-10T05:19:01 proxy-deepseek-flash h2_httpx_redirects r2 plain a1 wall=18.03 correct=True $0.002724 valid=True 
+2026-10-10T05:19:01 proxy-deepseek-flash h2_httpx_redirects r2 off a1 wall=11.388 correct=True $0.00169 valid=True 
+2026-10-10T05:19:01 proxy-deepseek-flash block 15/18 f3_invkit_bulk_discount r3 order=['plain', 'on', 'off']
+2026-10-10T05:19:45 proxy-deepseek-flash f1_invkit_total_value r2 on a1 wall=19.25 correct=True $0.002866 valid=True 
+2026-10-10T05:19:45 proxy-deepseek-flash f1_invkit_total_value r2 plain a1 wall=20.466 correct=True $0.00305 valid=True 
+2026-10-10T05:19:45 proxy-deepseek-flash block 16/18 g1_click_exceptions r2 order=['on', 'plain', 'off']
+2026-10-10T05:20:14 proxy-deepseek-flash f1_invkit_total_value r2 off a1 wall=19.534 correct=True $0.002674 valid=True 
+2026-10-10T05:20:14 proxy-deepseek-flash block 17/18 r1_rich_box r2 order=['plain', 'on', 'off']
+2026-10-10T05:21:43 proxy-deepseek-flash f3_invkit_bulk_discount r3 plain a1 wall=13.496 correct=True $0.00192 valid=True 
+2026-10-10T05:21:43 proxy-deepseek-flash f3_invkit_bulk_discount r3 on a1 wall=14.651 correct=True $0.001857 valid=True 
+2026-10-10T05:21:43 proxy-deepseek-flash f3_invkit_bulk_discount r3 off a1 wall=15.253 correct=True $0.00204 valid=True 
+2026-10-10T05:21:43 proxy-deepseek-flash g1_click_exceptions r2 on a1 wall=10.562 correct=True $0.00194 valid=True 
+2026-10-10T05:21:43 proxy-deepseek-flash g1_click_exceptions r2 plain a1 wall=9.159 correct=True $0.001787 valid=True 
+2026-10-10T05:21:43 proxy-deepseek-flash g1_click_exceptions r2 off a1 wall=8.478 correct=True $0.001349 valid=True 
+2026-10-10T05:21:43 proxy-deepseek-flash r1_rich_box r2 plain a1 wall=17.819 correct=True $0.002682 valid=True 
+2026-10-10T05:21:43 proxy-deepseek-flash block 18/18 c2_click_longopt_equals r3 order=['off', 'plain', 'on']
+2026-10-10T05:23:12 proxy-deepseek-flash r1_rich_box r2 on a1 wall=27.589 correct=True $0.003654 valid=True 
+2026-10-10T05:23:12 proxy-deepseek-flash r1_rich_box r2 off a1 wall=43.068 correct=True $0.002659 valid=True 
+2026-10-10T05:23:12 proxy-deepseek-flash c2_click_longopt_equals r3 off a1 wall=24.035 correct=True $0.002882 valid=True 
+2026-10-10T05:23:38 proxy-deepseek-flash c2_click_longopt_equals r3 plain a1 wall=29.538 correct=True $0.003356 valid=True 
+2026-10-10T05:24:11 proxy-deepseek-flash c2_click_longopt_equals r3 on a1 wall=33.365 correct=True $0.003863 valid=True 
+2026-10-10T05:24:11 proxy-deepseek-flash: worker finished (complete)
+2026-10-10T05:24:11 batch done

@@ -1,0 +1,10 @@
+{
+ "id": "c2_click_longopt_equals",
+ "family": "code",
+ "base": "click",
+ "pythonpath": "src",
+ "prompt": "You are in a checkout of the Python library click (the package source is in src/click). Bug report: when a long option is given in the --name=value form and the value itself contains an equals sign, part of the value is lost. With an option --name, the command line --name=a=b=c delivers the value a instead of a=b=c. Find the cause and fix it so everything after the first equals sign is the value. Change only library source files; do not add, edit or delete any test files. When you are finished, end your reply with one final line exactly: DONE",
+ "bug_patch": "bug.patch",
+ "hidden": "hidden/test_hidden.py",
+ "reference": "reference.patch"
+}

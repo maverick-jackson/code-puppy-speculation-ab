@@ -1,0 +1,11 @@
+{
+ "answer": "18|6|HEAVY_HEAD|ROUNDED",
+ "expected": "19|6|HEAVY_HEAD|ROUNDED",
+ "fields_ok": [
+  false,
+  true,
+  true,
+  true
+ ],
+ "correct": false
+}

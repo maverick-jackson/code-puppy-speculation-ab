@@ -1,0 +1,680 @@
+{
+ "pid": 8513,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0009,
+ "t0_epoch": 1791624162.006762,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 1365,
+   "first_s": 1.379,
+   "last_s": 26.3494
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 8,
+   "first_s": 1.3843,
+   "last_s": 7.3169
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 8,
+   "first_s": 1.4359,
+   "last_s": 7.354
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 8,
+   "first_s": 1.4538,
+   "last_s": 7.37
+  },
+  "EagerExecutionCompletedEvent": {
+   "n": 5,
+   "first_s": 9.5746,
+   "last_s": 27.1027
+  }
+ },
+ "spec_final": {
+  "hits": 8,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 223.1,
+  "eager_saved_ms": 145.2
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.3757,
+   "initial_arg_chars": 0,
+   "arg_deltas": 58,
+   "arg_delta_chars": 208,
+   "subagent_session": null,
+   "end_s": 1.5718
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.6289,
+   "initial_arg_chars": 0,
+   "arg_deltas": 104,
+   "arg_delta_chars": 388,
+   "subagent_session": null,
+   "end_s": 2.9775
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.5165,
+   "initial_arg_chars": 0,
+   "arg_deltas": 47,
+   "arg_delta_chars": 171,
+   "subagent_session": null,
+   "end_s": 4.5668
+  },
+  {
+   "tool": "run_code",
+   "start_s": 5.7215,
+   "initial_arg_chars": 0,
+   "arg_deltas": 94,
+   "arg_delta_chars": 353,
+   "subagent_session": null,
+   "end_s": 6.1166
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.2467,
+   "initial_arg_chars": 0,
+   "arg_deltas": 28,
+   "arg_delta_chars": 91,
+   "subagent_session": null,
+   "end_s": 7.381
+  },
+  {
+   "tool": "run_code",
+   "start_s": 8.2905,
+   "initial_arg_chars": 0,
+   "arg_deltas": 22,
+   "arg_delta_chars": 69,
+   "subagent_session": null,
+   "end_s": 8.4078
+  },
+  {
+   "tool": "run_code",
+   "start_s": 9.4369,
+   "initial_arg_chars": 0,
+   "arg_deltas": 81,
+   "arg_delta_chars": 165,
+   "subagent_session": null,
+   "end_s": 9.5707
+  },
+  {
+   "tool": "run_code",
+   "start_s": 10.882,
+   "initial_arg_chars": 0,
+   "arg_deltas": 61,
+   "arg_delta_chars": 198,
+   "subagent_session": null,
+   "end_s": 11.1559
+  },
+  {
+   "tool": "run_code",
+   "start_s": 12.0886,
+   "initial_arg_chars": 0,
+   "arg_deltas": 108,
+   "arg_delta_chars": 292,
+   "subagent_session": null,
+   "end_s": 12.4265
+  },
+  {
+   "tool": "run_code",
+   "start_s": 13.492,
+   "initial_arg_chars": 0,
+   "arg_deltas": 69,
+   "arg_delta_chars": 223,
+   "subagent_session": null,
+   "end_s": 13.7315
+  },
+  {
+   "tool": "run_code",
+   "start_s": 15.1858,
+   "initial_arg_chars": 0,
+   "arg_deltas": 33,
+   "arg_delta_chars": 92,
+   "subagent_session": null,
+   "end_s": 15.2009
+  },
+  {
+   "tool": "run_code",
+   "start_s": 16.3684,
+   "initial_arg_chars": 0,
+   "arg_deltas": 58,
+   "arg_delta_chars": 197,
+   "subagent_session": null,
+   "end_s": 16.4011
+  },
+  {
+   "tool": "replace_in_file",
+   "start_s": 17.6204,
+   "initial_arg_chars": 0,
+   "arg_deltas": 117,
+   "arg_delta_chars": 312,
+   "subagent_session": null,
+   "end_s": 17.8434
+  },
+  {
+   "tool": "run_code",
+   "start_s": 18.7842,
+   "initial_arg_chars": 0,
+   "arg_deltas": 105,
+   "arg_delta_chars": 281,
+   "subagent_session": null,
+   "end_s": 19.046
+  },
+  {
+   "tool": "run_code",
+   "start_s": 20.2526,
+   "initial_arg_chars": 0,
+   "arg_deltas": 213,
+   "arg_delta_chars": 629,
+   "subagent_session": null,
+   "end_s": 20.8325
+  },
+  {
+   "tool": "run_code",
+   "start_s": 22.0124,
+   "initial_arg_chars": 0,
+   "arg_deltas": 118,
+   "arg_delta_chars": 338,
+   "subagent_session": null,
+   "end_s": 22.3915
+  },
+  {
+   "tool": "run_code",
+   "start_s": 23.7168,
+   "initial_arg_chars": 0,
+   "arg_deltas": 124,
+   "arg_delta_chars": 353,
+   "subagent_session": null,
+   "end_s": 24.3006
+  },
+  {
+   "tool": "run_code",
+   "start_s": 26.0205,
+   "initial_arg_chars": 0,
+   "arg_deltas": 110,
+   "arg_delta_chars": 290,
+   "subagent_session": null,
+   "end_s": 26.3492
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.3837
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.434,
+   "duration_ms": 23.5,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click (recursive=True)\\"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.4833
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.5357,
+   "duration_ms": 26.4,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/core.py', line_"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.5737
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.5747,
+   "duration_ms": 0.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 2.7093
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 2.7747,
+   "duration_ms": 38.2,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/decorators.py',"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 2.957
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 2.9607,
+   "duration_ms": 3.6,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/parser.py' is not a"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 2.9797
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 2.9809,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'decorators.py 482 package_name = package_name.partition(\".\")[0]\\nshell_completion.py 36 shell, _, instruction = instruction."
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.5345
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.5365,
+   "duration_ms": 1.9,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/parser.py' is not a"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.5686
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.5696,
+   "duration_ms": 0.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={}, metadata={'code_mode': True, 'tool_calls': {'call_00_qjVAGhKlbRbH7bORQUJ14040__1': ToolCallPart(tool_name='grep', args={'search_stri"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 5.7933
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 5.7955,
+   "duration_ms": 2.0,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/parser.py' is not a"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 5.9147
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 5.9179,
+   "duration_ms": 3.0,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/parser.py' is not a"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.119
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.1203,
+   "duration_ms": 1.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '=== split ===\\n'}, metadata={'code_mode': True, 'tool_calls': {'call_00_rGMeNQ4a1KuJwSfggTi11756__1': ToolCallPart(tool_name"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 7.3158
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 7.352,
+   "duration_ms": 6.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (19,776 chars); stored to handle \\'01a1251f-2b8b-703a-85d3-66bed47220a6/call_00_FniSCzrMTcDvVBhMZnaw8763__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 7.3833
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 7.3846,
+   "duration_ms": 1.1,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-17>\", line 1, in <module>\\n    print(r[\"content\"])\\n          ~~~~~~~~~~~~\\"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 8.4108
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 8.4123,
+   "duration_ms": 1.3,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '1342\\n[Tool output too large (19,776 chars); stored to handle \\'01a1251f-2b8b-703a-85d3-66bed47220a6/call_00_FniSCzrMTcDvVBh"
+  },
+  {
+   "tool": "read_tool_result",
+   "phase": "pre",
+   "t_s": 9.5503
+  },
+  {
+   "tool": "read_tool_result",
+   "phase": "post",
+   "t_s": 9.5513,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "[handle '01a1251f-2b8b-703a-85d3-66bed47220a6/call_00_FniSCzrMTcDvVBhMZnaw8763__spec_1.0': 1 matching line(s); showing 1]\n{\"content\":\"\\\"\\\"\\\"\\nThis module starte"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 9.5725
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 9.5745,
+   "duration_ms": 1.5,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (20,719 chars); stored to handle \\'01a1251f-2b8b-703a-85d3-66bed47220a6/call_00_6ZX802W8HwiSCRRmywLq4734.0\\'. Re"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 11.1576
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 11.1583,
+   "duration_ms": 0.6,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-25>\", line 1, in <module>\\n    data = p.read_text()\\n           ~~~~~~~~~~~"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 12.4278
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 12.4285,
+   "duration_ms": 0.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '13841\\ndef _match_long_opt(\\n        self, opt: str, explicit_value: t.Optional[str], state: ParsingState\\n    ) -> None:\\n "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 13.733
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 13.735,
+   "duration_ms": 1.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '392 self, opt: str, explicit_value: t.Optional[str], state: ParsingState\\n406 if explicit_value is not None:\\n407 state.rarg"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 15.2023
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 15.2031,
+   "duration_ms": 0.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '493         else:\\n494             value = tuple(state.rargs[:nargs])\\n495             del state.rargs[:nargs]\\n496 \\n497   "
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 16.4027
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 16.4036,
+   "duration_ms": 0.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'True\\n1\\n'}, metadata={'code_mode': True, 'tool_calls': {}, 'tool_returns': {}})"
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "pre",
+   "t_s": 17.8461
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "post",
+   "t_s": 17.8806,
+   "duration_ms": 4.9,
+   "error_like": false,
+   "result_head": "{'success': True, 'path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/parser.py', 'messa"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 19.0484
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 19.0499,
+   "duration_ms": 1.3,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '499     def _process_opts(self, arg: str, state: ParsingState) -> None:\\n500         explicit_value = None\\n501         # Lo"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 20.8066
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 20.835
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 20.9216,
+   "duration_ms": 114.9,
+   "error_like": false,
+   "result_head": "success=True command='cd \\'/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click\\' && python -c \"import sys; "
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 20.9231,
+   "duration_ms": 87.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"'a=b=c'\\n'a'\\n'a='\\n\\n\"}, metadata={'code_mode': True, 'tool_calls': {'call_00_U0lULERNfnJE095GQhbP7665__1': ToolCallPart(to"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 22.3732
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 22.3941
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 22.5933,
+   "duration_ms": 219.9,
+   "error_like": false,
+   "result_head": "success=True command=\"cd '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click' && python -m pytest tests/te"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 22.5951,
+   "duration_ms": 200.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"ImportError while loading conftest '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 24.2881
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 24.3031
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 24.7152,
+   "duration_ms": 426.9,
+   "error_like": false,
+   "result_head": "success=True command=\"cd '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click' && PYTHONPATH=src python -m "
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 24.7174,
+   "duration_ms": 414.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '........................................................................ [ 41%]\\n..........................................."
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 26.2581
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 26.3514
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 27.1008,
+   "duration_ms": 842.5,
+   "error_like": false,
+   "result_head": "success=True command=\"cd '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click' && PYTHONPATH=src python -m "
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 27.1025,
+   "duration_ms": 751.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '........................................................................ [ 11%]\\n...................................x......."
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "7fab4fc4-2556-417a-931d-5f6af298fdb4",
+   "start_s": 0.1795,
+   "start_wall": 1791624162.1862159,
+   "end_s": 29.001,
+   "success": true,
+   "error": null,
+   "response_text": "Found it and squashed it. \ud83d\udc36\n\n**The bug** was in `src/click/parser.py`, in `OptionParser._process_opts` (line 505):\n\n```python\nlong_opt, explicit_value = arg.split(\"=\")[:2]\n```\n\n`arg.split(\"=\")` on `--name=a=b=c` gives `['--name', 'a', 'b', 'c']`, and `[:2]` keeps only `['--name', 'a']` \u2014 silently throwing away `=b=c`. So the option name parsed fine but the value got truncated at the second `=`.\n\n**The fix** \u2014 split only on the *first* equals, exactly what `.partition()` is for:\n\n```python\nlong_opt, _, explicit_value = arg.partition(\"=\")\n```\n\nNow everything after the first `=` becomes the value. Verified:\n- `--name=a=b=c` \u2192 `'a=b=c'` \u2705\n- `--name=a` \u2192 `'a'` \u2705\n- `--name=a=` \u2192 `'a='` \u2705\n\nFull test suite: **588 passed, 22 skipped, 1 xfailed** \u2014 no regressions. Only the one library source file was touched; no tests were added, edited, or deleted.\n\nDONE",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 176823,
+    "usage_output_tokens": 2625,
+    "usage_total_tokens": 179448,
+    "usage_cached_read_tokens": 164864,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 32,
+  "part_delta": 2107,
+  "part_end": 32
+ },
+ "claims": [
+  {
+   "tool": "list_files",
+   "ready": true,
+   "elapsed_ms": 50.88212501141243
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 53.32587499287911
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 66.22687500203028
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 4.553291975753382
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 2.824875002261251
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 3.00829199841246
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 4.094792006071657
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 38.14162500202656
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 29.0562
+}

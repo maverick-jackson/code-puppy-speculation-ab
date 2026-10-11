@@ -1,0 +1,84 @@
+{
+ "arm": "off",
+ "model": "proxy-zai-g47",
+ "cwd": "runs/repos/click",
+ "prompt_file": "tasks/g1_click_exceptions.txt",
+ "start_utc": "2026-10-10T00:41:27.694530",
+ "end_utc": "2026-10-10T00:42:03.488978",
+ "wall_s": 35.794,
+ "exit_code": 0,
+ "timed_out": false,
+ "cmd": [
+  "/Users/tinyr/rig/tools/bin/code-puppy",
+  "-p",
+  "<prompt>",
+  "-m",
+  "proxy-zai-g47",
+  "--yolo",
+  "true",
+  "--usage-file",
+  "/Users/tinyr/rig/work/cp-spec-ab/runs/pilot/proxy-zai-g47/g1_click_exceptions/off/usage.json"
+ ],
+ "start_epoch": 1791592887.694665,
+ "cp_version": "0.0.896",
+ "proxy_requests": [
+  {
+   "request_id": "202610100841313616064e4fe24445",
+   "model": "zai/glm-4.7",
+   "prompt_tokens": "3781",
+   "completion_tokens": "96",
+   "spend": "0.00078636",
+   "status": "success",
+   "start": "2026-10-10T00:41:31.280",
+   "first_token": "2026-10-10T00:41:38.166",
+   "end": "2026-10-10T00:41:38.611",
+   "duration_ms": "7331",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "2026101008413853d4eeef14894965",
+   "model": "zai/glm-4.7",
+   "prompt_tokens": "4071",
+   "completion_tokens": "27",
+   "spend": "0.00068312",
+   "status": "success",
+   "start": "2026-10-10T00:41:38.670",
+   "first_token": "2026-10-10T00:41:44.860",
+   "end": "2026-10-10T00:41:44.876",
+   "duration_ms": "6206",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "20261010084145cc902617ff4c4c1f",
+   "model": "zai/glm-4.7",
+   "prompt_tokens": "4337",
+   "completion_tokens": "59",
+   "spend": "0.00078768",
+   "status": "success",
+   "start": "2026-10-10T00:41:44.951",
+   "first_token": "2026-10-10T00:41:51.420",
+   "end": "2026-10-10T00:41:51.432",
+   "duration_ms": "6481",
+   "cache_hit": "False"
+  },
+  {
+   "request_id": "20261010084151384d14c7f9414691",
+   "model": "zai/glm-4.7",
+   "prompt_tokens": "7035",
+   "completion_tokens": "342",
+   "spend": "0.00290364",
+   "status": "success",
+   "start": "2026-10-10T00:41:51.515",
+   "first_token": "2026-10-10T00:41:56.205",
+   "end": "2026-10-10T00:42:02.734",
+   "duration_ms": "11218",
+   "cache_hit": "False"
+  }
+ ],
+ "proxy_spend_usd": 0.005161,
+ "proxy_prompt_tokens": 19224,
+ "proxy_completion_tokens": 524,
+ "proxy_models": [
+  "zai/glm-4.7"
+ ]
+}

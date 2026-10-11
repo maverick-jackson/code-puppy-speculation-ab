@@ -1,0 +1,24 @@
+{
+ "id": "h1_httpx_exceptions",
+ "family": "gather",
+ "repo": "httpx",
+ "prompt": "You are in a checkout of the Python library httpx. Using only the files in this repository, answer: (1) how many entries the dictionary that maps httpcore exceptions to httpx exceptions contains; (2) the name of the context manager function that uses that dictionary to re-raise exceptions; (3) how many classes defined in httpx/_exceptions.py inherit, directly or indirectly, from TransportError (do not count TransportError itself); (4) the default maximum number of redirects a Client follows. Do not modify any files. End your reply with one final line exactly in the form ANSWER: <entries>|<function name>|<count>|<max redirects>",
+ "answer": [
+  {
+   "kind": "int",
+   "value": 14
+  },
+  {
+   "kind": "name",
+   "value": "map_httpcore_exceptions"
+  },
+  {
+   "kind": "int",
+   "value": 15
+  },
+  {
+   "kind": "int",
+   "value": 20
+  }
+ ]
+}

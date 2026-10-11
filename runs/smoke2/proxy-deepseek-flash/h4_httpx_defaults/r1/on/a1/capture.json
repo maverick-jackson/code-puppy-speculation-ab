@@ -1,0 +1,256 @@
+{
+ "pid": 5785,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0006,
+ "t0_epoch": 1791618342.2906802,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 408,
+   "first_s": 1.278,
+   "last_s": 8.1801
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 3,
+   "first_s": 1.337,
+   "last_s": 4.0111
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 3,
+   "first_s": 1.3718,
+   "last_s": 4.0455
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 3,
+   "first_s": 1.3913,
+   "last_s": 4.0486
+  }
+ },
+ "spec_final": {
+  "hits": 3,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 105.9,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.2658,
+   "initial_arg_chars": 0,
+   "arg_deltas": 31,
+   "arg_delta_chars": 99,
+   "subagent_session": null,
+   "end_s": 1.4077
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.4556,
+   "initial_arg_chars": 0,
+   "arg_deltas": 33,
+   "arg_delta_chars": 103,
+   "subagent_session": null,
+   "end_s": 2.7315
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.8696,
+   "initial_arg_chars": 0,
+   "arg_deltas": 30,
+   "arg_delta_chars": 90,
+   "subagent_session": null,
+   "end_s": 4.0448
+  },
+  {
+   "tool": "run_code",
+   "start_s": 5.0285,
+   "initial_arg_chars": 0,
+   "arg_deltas": 15,
+   "arg_delta_chars": 31,
+   "subagent_session": null,
+   "end_s": 5.1084
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.0984,
+   "initial_arg_chars": 0,
+   "arg_deltas": 164,
+   "arg_delta_chars": 485,
+   "subagent_session": null,
+   "end_s": 6.694
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.7012,
+   "initial_arg_chars": 0,
+   "arg_deltas": 159,
+   "arg_delta_chars": 457,
+   "subagent_session": null,
+   "end_s": 8.1796
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.3356
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.3702,
+   "duration_ms": 4.3,
+   "error_like": false,
+   "result_head": "content='from .__version__ import __description__, __title__, __version__\\nfrom ._api import delete, get, head, options, patch, post, put, request, stream\\nfrom"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.4095
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.4107,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'from .__version__ import __description__, __title__, __version__\\nfrom ._api import delete, get, head, options, patch, post,"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.5204
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.5558,
+   "duration_ms": 5.1,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (12,761 chars); stored to handle \\'01a124c6-5e37-769d-bbf1-d2179c41aa7e/call_00_DdcfLcopHL9Y4qUehj5R4881__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 2.7349
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 2.7367,
+   "duration_ms": 1.6,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-3>\", line 1, in <module>\\n    print(cfg.get(\"content\")[:3000])\\nAttributeEr"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 4.0101
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 4.0429,
+   "duration_ms": 4.3,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value='[Tool output too large (12,761 chars); stored to handle \\'01a124c6-5e37-769d-bbf1-d2179c41aa7e/call_00_ucgqMWbHpCj9bbxTbUNe0875__spec_1"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.0472
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.0485,
+   "duration_ms": 1.2,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-4>\", line 1, in <module>\\n    print((await read_file(file_path=\"httpx/_conf"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 5.1132
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 5.1151,
+   "duration_ms": 1.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '[Tool output too large (12,761 chars); stored to handle \\'01a124c6-5e37-769d-bbf1-d2179c41aa7e/call_00_DdcfLcopHL9Y4qUehj5R4"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.697
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.6982,
+   "duration_ms": 1.0,
+   "error_like": true,
+   "result_head": "{'error': 'Runtime error:\\nTraceback (most recent call last):\\n  File \"<python-input-8>\", line 1, in <module>\\n    m = re.search(r\"__all__\\\\s*=\\\\s*\\\\[(.*?)\\\\]\","
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 8.1824
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 8.1844,
+   "duration_ms": 1.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': \"count: 69\\ntimeout: 5.0\\nconns/ka: ('100', '20')\\n\"}, metadata={'code_mode': True, 'tool_calls': {}, 'tool_returns': {}})"
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "0961574f-0b7c-4c3b-8f37-2a05b69680c8",
+   "start_s": 0.1646,
+   "start_wall": 1791618342.455264,
+   "end_s": 10.0618,
+   "success": true,
+   "error": null,
+   "response_text": "All four answers pulled straight from the source, no files touched:\n\n1. **`__all__` count**: 69 names in `httpx/__init__.py`\n2. **Default timeout**: `DEFAULT_TIMEOUT_CONFIG = Timeout(timeout=5.0)` \u2192 5.0 seconds\n3. **Default `max_connections`**: 100 (`DEFAULT_LIMITS = Limits(max_connections=100, max_keepalive_connections=20)`)\n4. **Default `max_keepalive_connections`**: 20\n\nFun fact: the `__all__` list is alphabetically-ish organized with a cheeky `USE_CLIENT_DEFAULT` riding along, and that trailing loop tags every public name's `__module__` as `\"httpx\"` \u2014 DRY as a bone. \ud83d\udc36\n\nANSWER: 69|5.0|100|20",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 55676,
+    "usage_output_tokens": 885,
+    "usage_total_tokens": 56561,
+    "usage_cached_read_tokens": 47360,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 12,
+  "part_delta": 714,
+  "part_end": 12
+ },
+ "claims": [
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 35.43225000612438
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 36.213708022842184
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 34.246333001647145
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 10.1321
+}

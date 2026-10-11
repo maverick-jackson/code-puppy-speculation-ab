@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+runs/tmp/
+runs/homes/
+runs/repos/
+runs/*/_homes/
+runs/*/_work/
+runs/tmp/*/_homes/
+runs/tmp/*/_work/
+*.bak
+.venv-analysis/
+runs/main1/proxy-*/

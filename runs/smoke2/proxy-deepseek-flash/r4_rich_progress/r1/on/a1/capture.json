@@ -1,0 +1,346 @@
+{
+ "pid": 5927,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791618393.291071,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 296,
+   "first_s": 1.4985,
+   "last_s": 7.4896
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 8,
+   "first_s": 1.5615,
+   "last_s": 7.438
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 8,
+   "first_s": 1.5981,
+   "last_s": 7.4717
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 8,
+   "first_s": 1.6182,
+   "last_s": 7.4761
+  }
+ },
+ "spec_final": {
+  "hits": 8,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 217.7,
+  "eager_saved_ms": 0.0
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.4939,
+   "initial_arg_chars": 0,
+   "arg_deltas": 54,
+   "arg_delta_chars": 197,
+   "subagent_session": null,
+   "end_s": 1.661
+  },
+  {
+   "tool": "run_code",
+   "start_s": 2.7184,
+   "initial_arg_chars": 0,
+   "arg_deltas": 37,
+   "arg_delta_chars": 119,
+   "subagent_session": null,
+   "end_s": 3.0546
+  },
+  {
+   "tool": "run_code",
+   "start_s": 4.0139,
+   "initial_arg_chars": 0,
+   "arg_deltas": 95,
+   "arg_delta_chars": 371,
+   "subagent_session": null,
+   "end_s": 4.3679
+  },
+  {
+   "tool": "run_code",
+   "start_s": 5.1451,
+   "initial_arg_chars": 0,
+   "arg_deltas": 47,
+   "arg_delta_chars": 176,
+   "subagent_session": null,
+   "end_s": 5.3096
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.211,
+   "initial_arg_chars": 0,
+   "arg_deltas": 49,
+   "arg_delta_chars": 182,
+   "subagent_session": null,
+   "end_s": 6.3662
+  },
+  {
+   "tool": "run_code",
+   "start_s": 7.3315,
+   "initial_arg_chars": 0,
+   "arg_deltas": 38,
+   "arg_delta_chars": 123,
+   "subagent_session": null,
+   "end_s": 7.4894
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.5602
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.5973,
+   "duration_ms": 4.5,
+   "error_like": false,
+   "result_head": "content='from types import TracebackType\\nfrom typing import Optional, Type\\n\\nfrom .console import Console, RenderableType\\nfrom .jupyter import JupyterMixin\\n"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 1.623
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 1.6505,
+   "duration_ms": 2.7,
+   "error_like": false,
+   "result_head": "content='# coding: utf-8\\n\"\"\"Functions for reporting filesizes. Borrowed from https://github.com/PyFilesystem/pyfilesystem2\\n\\nThe functions declared in this mo"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 1.6626
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 1.6636,
+   "duration_ms": 0.7,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'from types import TracebackType\\nfrom typing import Optional, Type\\n\\nfrom .console import Console, RenderableType\\nfrom .ju"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 2.8305
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 2.8628,
+   "duration_ms": 3.3,
+   "error_like": false,
+   "result_head": "content='import io\\nimport sys\\nimport typing\\nimport warnings\\nfrom abc import ABC, abstractmethod\\nfrom collections import deque\\nfrom dataclasses import data"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.0582
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.0601,
+   "duration_ms": 1.6,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': 'import io\\nimport sys\\nimport typing\\nimport warnings\\nfrom abc import ABC, abstractmethod\\nfrom collections import deque\\nf"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.1607
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.1637,
+   "duration_ms": 2.8,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/progress.py' is not a dir"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 4.2721
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 4.2765,
+   "duration_ms": 4.3,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/progress.py' is not a dir"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 4.3709
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 4.3726,
+   "duration_ms": 1.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '---init---\\n'}, metadata={'code_mode': True, 'tool_calls': {'call_00_t5TEgBzhWBIaSRta9Bzf9128__1': ToolCallPart(tool_name='g"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 5.2131
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 5.2156,
+   "duration_ms": 2.4,
+   "error_like": true,
+   "result_head": "matches=[] error=\"Error: '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/progress.py' is not a dir"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 5.3127
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 5.3144,
+   "duration_ms": 1.4,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={}, metadata={'code_mode': True, 'tool_calls': {'call_00_NukiOdsl3lqyhaBxUPmi6672__1': ToolCallPart(tool_name='grep', args={'search_stri"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 6.2614
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 6.3296,
+   "duration_ms": 42.1,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/status.py', line_numb"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.3683
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.3696,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/rich/rich/status.py 20 re"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 7.4369
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 7.4699,
+   "duration_ms": 2.8,
+   "error_like": false,
+   "result_head": "content='        return estimate\\n\\n    def _reset(self) -> None:\\n        \"\"\"Reset progress.\"\"\"\\n        self._progress.clear()\\n        self.finished_time = N"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 7.4915
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 7.4926,
+   "duration_ms": 0.9,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'output': '        return estimate\\n\\n    def _reset(self) -> None:\\n        \"\"\"Reset progress.\"\"\"\\n        self._progress.clear()\\n   "
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "2335a850-b99b-40b5-abf3-d4eba9cea4bb",
+   "start_s": 0.1651,
+   "start_wall": 1791618393.456175,
+   "end_s": 9.4964,
+   "success": true,
+   "error": null,
+   "response_text": "Good, all confirmed. Let me note: the `Progress.__init__` parameter is annotated `float = 10`, but the docstring says \"None to use default (10)\" \u2014 the actual signature default is `10`.\n\nFindings from the repo:\n\n1. **`rich.status.Status` default `refresh_per_second`**: `12.5` (defined in `__init__`, `rich/status.py:31`).\n2. **`rich.status.Status` default spinner name**: `\"dots\"` (`spinner: str = \"dots\"`, `rich/status.py:30`).\n3. **`rich.progress.Progress` default `refresh_per_second`**: `10` (`rich/progress.py:1070`, and `refresh_per_second or 10` at line 1091).\n4. **`rich.filesize.decimal` unit suffixes**: it passes the tuple `(\"kB\", \"MB\", \"GB\", \"TB\", \"PB\", \"EB\", \"ZB\", \"YB\")` \u2192 **8** suffixes.\n\nSnooped, verified, and zero files harmed. \ud83d\udc36\n\nANSWER: 12.5|dots|10|8",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 68591,
+    "usage_output_tokens": 840,
+    "usage_total_tokens": 69431,
+    "usage_cached_read_tokens": 56320,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 12,
+  "part_delta": 669,
+  "part_end": 12
+ },
+ "claims": [
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 38.87666598893702
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 28.92558299936354
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 33.75108301406726
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 4.040166997583583
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 5.293875001370907
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 3.265750012360513
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 68.9190000121016
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 34.64029199676588
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 9.5572
+}

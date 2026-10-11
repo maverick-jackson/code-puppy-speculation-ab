@@ -1,0 +1,34 @@
+diff --git a/invkit/parsing.py b/invkit/parsing.py
+index 84cb2b5..5178cad 100644
+--- a/invkit/parsing.py
++++ b/invkit/parsing.py
+@@ -13,12 +13,27 @@ class ParseError(ValueError):
+         self.line_no = line_no
+ 
+ 
++def _clean_number(raw: str) -> str:
++    """Drop thousands separators from a numeric string.
++
++    ``1,200`` -> ``1200`` and ``1,299.50`` -> ``1299.50``. Non-numeric values
++    are left untouched so the underlying int()/float() call still rejects them
++    (and the caller can report the offending line).
++    """
++    cleaned = raw.strip().replace(",", "")
++    try:
++        float(cleaned)
++    except ValueError:
++        return raw.strip()
++    return cleaned
++
++
+ def _to_int(raw: str) -> int:
+-    return int(raw.strip() or 0)
++    return int(_clean_number(raw) or 0)
+ 
+ 
+ def _to_float(raw: str) -> float:
+-    return float(raw.strip())
++    return float(_clean_number(raw))
+ 
+ 
+ def _tags(raw: str) -> List[str]:

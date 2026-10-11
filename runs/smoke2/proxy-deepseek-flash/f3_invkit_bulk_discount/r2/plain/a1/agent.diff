@@ -1,0 +1,13 @@
+diff --git a/invkit/pricing.py b/invkit/pricing.py
+index d3b47c3..f4c6066 100644
+--- a/invkit/pricing.py
++++ b/invkit/pricing.py
+@@ -9,7 +9,7 @@ TAX_RATE = 0.07
+ 
+ def bulk_discount(quantity: int, unit_price: float) -> float:
+     """Discount (a positive amount) for a single order line."""
+-    if quantity > BULK_THRESHOLD:
++    if quantity >= BULK_THRESHOLD:
+         return round(quantity * unit_price * BULK_RATE, 2)
+     return 0.0
+ 

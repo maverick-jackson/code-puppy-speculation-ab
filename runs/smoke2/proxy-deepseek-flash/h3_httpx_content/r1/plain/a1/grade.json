@@ -1,0 +1,11 @@
+{
+ "answer": "65536|identity,gzip,deflate,br|182|MAX_URL_LENGTH",
+ "expected": "65536|br,deflate,gzip,identity|182|MAX_URL_LENGTH",
+ "fields_ok": [
+  true,
+  true,
+  true,
+  true
+ ],
+ "correct": true
+}

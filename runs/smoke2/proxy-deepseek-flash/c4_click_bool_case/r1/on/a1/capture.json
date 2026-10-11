@@ -1,0 +1,353 @@
+{
+ "pid": 3822,
+ "arm_override": null,
+ "plugin_loaded_s": 0.0007,
+ "t0_epoch": 1791612357.528026,
+ "spec_events": {
+  "SpeculativeCodeUpdateEvent": {
+   "n": 304,
+   "first_s": 1.8174,
+   "last_s": 11.6391
+  },
+  "SpeculativeCallLaunchedEvent": {
+   "n": 4,
+   "first_s": 1.86,
+   "last_s": 3.2517
+  },
+  "SpeculativeCallSettledEvent": {
+   "n": 3,
+   "first_s": 1.9177,
+   "last_s": 3.2866
+  },
+  "SpeculativeCallClaimedEvent": {
+   "n": 4,
+   "first_s": 1.9383,
+   "last_s": 3.289
+  },
+  "EagerExecutionCompletedEvent": {
+   "n": 4,
+   "first_s": 6.5943,
+   "last_s": 12.501
+  }
+ },
+ "spec_final": {
+  "hits": 4,
+  "misses": 0,
+  "wasted": 0,
+  "saved_ms": 156.0,
+  "eager_saved_ms": 295.1
+ },
+ "tool_parts": [
+  {
+   "tool": "run_code",
+   "start_s": 1.7875,
+   "initial_arg_chars": 0,
+   "arg_deltas": 46,
+   "arg_delta_chars": 166,
+   "subagent_session": null,
+   "end_s": 2.016
+  },
+  {
+   "tool": "run_code",
+   "start_s": 3.2172,
+   "initial_arg_chars": 0,
+   "arg_deltas": 34,
+   "arg_delta_chars": 102,
+   "subagent_session": null,
+   "end_s": 3.2984
+  },
+  {
+   "tool": "replace_in_file",
+   "start_s": 4.7936,
+   "initial_arg_chars": 0,
+   "arg_deltas": 102,
+   "arg_delta_chars": 293,
+   "subagent_session": null,
+   "end_s": 5.0236
+  },
+  {
+   "tool": "run_code",
+   "start_s": 6.0546,
+   "initial_arg_chars": 0,
+   "arg_deltas": 123,
+   "arg_delta_chars": 391,
+   "subagent_session": null,
+   "end_s": 6.5449
+  },
+  {
+   "tool": "run_code",
+   "start_s": 8.0982,
+   "initial_arg_chars": 0,
+   "arg_deltas": 39,
+   "arg_delta_chars": 112,
+   "subagent_session": null,
+   "end_s": 8.2815
+  },
+  {
+   "tool": "run_code",
+   "start_s": 9.7023,
+   "initial_arg_chars": 0,
+   "arg_deltas": 45,
+   "arg_delta_chars": 127,
+   "subagent_session": null,
+   "end_s": 10.0469
+  },
+  {
+   "tool": "run_code",
+   "start_s": 11.613,
+   "initial_arg_chars": 0,
+   "arg_deltas": 41,
+   "arg_delta_chars": 107,
+   "subagent_session": null,
+   "end_s": 11.6384
+  }
+ ],
+ "tool_calls": [
+  {
+   "tool": "list_files",
+   "phase": "pre",
+   "t_s": 1.8591
+  },
+  {
+   "tool": "list_files",
+   "phase": "post",
+   "t_s": 1.9162,
+   "duration_ms": 29.0,
+   "error_like": false,
+   "result_head": "content='DIRECTORY LISTING: /private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click (recursive=True)\\"
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.9195
+  },
+  {
+   "tool": "grep",
+   "phase": "pre",
+   "t_s": 1.9461
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 1.9811,
+   "duration_ms": 35.6,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/types.py', line"
+  },
+  {
+   "tool": "grep",
+   "phase": "post",
+   "t_s": 2.0084,
+   "duration_ms": 35.6,
+   "error_like": false,
+   "result_head": "matches=[MatchInfo(file_path='/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/CHANGES.rst', line_number"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 2.018
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 2.0198,
+   "duration_ms": 1.5,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'matches': [{'file_path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src"
+  },
+  {
+   "tool": "read_file",
+   "phase": "pre",
+   "t_s": 3.251
+  },
+  {
+   "tool": "read_file",
+   "phase": "post",
+   "t_s": 3.284,
+   "duration_ms": 2.3,
+   "error_like": false,
+   "result_head": "content='    boundary is marked ``open``.\\n\\n    .. versionchanged:: 8.0\\n        Added the ``min_open`` and ``max_open`` parameters.\\n    \"\"\"\\n\\n    name = \"fl"
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 3.3005
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 3.3017,
+   "duration_ms": 1.0,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'content': '    boundary is marked ``open``.\\n\\n    .. versionchanged:: 8.0\\n        Added the ``min_open`` and ``max_open`` parameters"
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "pre",
+   "t_s": 5.0257
+  },
+  {
+   "tool": "replace_in_file",
+   "phase": "post",
+   "t_s": 5.0583,
+   "duration_ms": 5.0,
+   "error_like": false,
+   "result_head": "{'success': True, 'path': '/private/var/folders/g9/9ks853wj0p3gsrlj5xcw9c7r0000gn/T/pupbench/smoke2/proxy-deepseek-flash/work/click/src/click/types.py', 'messag"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 6.4766
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 6.547
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 6.5931,
+   "duration_ms": 116.3,
+   "error_like": false,
+   "result_head": "success=True command='python -c \"\\nimport sys; sys.path.insert(0,\\'src\\')\\nimport click\\nfrom click.types import BoolParamType\\nbt = BoolParamType()\\nfor v in ["
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 6.5942,
+   "duration_ms": 46.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'success': True, 'command': 'python -c \"\\nimport sys; sys.path.insert(0,\\'src\\')\\nimport click\\nfrom click.types import BoolParamType\\n"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 8.2487
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 8.2834
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 8.4937,
+   "duration_ms": 217.8,
+   "error_like": false,
+   "result_head": "success=True command='python -m pytest tests/test_types.py -q 2>&1 | tail -20' error='' stdout=\"ImportError while loading conftest '/private/var/folders/g9/9ks8"
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 8.4949,
+   "duration_ms": 211.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'success': True, 'command': 'python -m pytest tests/test_types.py -q 2>&1 | tail -20', 'error': '', 'stdout': \"ImportError while loadin"
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 9.8578
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 10.0488
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 10.2093,
+   "duration_ms": 324.4,
+   "error_like": false,
+   "result_head": "success=True command='PYTHONPATH=src python -m pytest tests/test_types.py -q 2>&1 | tail -25' error='' stdout='..................................s...           "
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 10.2108,
+   "duration_ms": 161.8,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'success': True, 'command': 'PYTHONPATH=src python -m pytest tests/test_types.py -q 2>&1 | tail -25', 'error': '', 'stdout': '........."
+  },
+  {
+   "tool": "shell",
+   "phase": "pre",
+   "t_s": 11.6298
+  },
+  {
+   "tool": "run_code",
+   "phase": "pre",
+   "t_s": 11.6423
+  },
+  {
+   "tool": "shell",
+   "phase": "post",
+   "t_s": 12.4993,
+   "duration_ms": 842.4,
+   "error_like": false,
+   "result_head": "success=True command='PYTHONPATH=src python -m pytest -q 2>&1 | tail -15' error='' stdout='....................................................................."
+  },
+  {
+   "tool": "run_code",
+   "phase": "post",
+   "t_s": 12.5008,
+   "duration_ms": 858.2,
+   "error_like": false,
+   "result_head": "ToolReturn(return_value={'success': True, 'command': 'PYTHONPATH=src python -m pytest -q 2>&1 | tail -15', 'error': '', 'stdout': '............................."
+  }
+ ],
+ "runs": [
+  {
+   "agent": "code-puppy",
+   "model": "proxy-deepseek-flash",
+   "session": "1904e57b-3049-45d7-b2e0-8ff9f04f4059",
+   "start_s": 0.1826,
+   "start_wall": 1791612357.7106361,
+   "end_s": 14.5987,
+   "success": true,
+   "error": null,
+   "response_text": "Fixed! \ud83d\udc36\n\n**Cause:** In `src/click/types.py`, `BoolParamType.convert()` did `norm = value.strip()` \u2014 it trimmed surrounding whitespace but never normalized case. The subsequent membership tests compared against all-lowercase literal sets (`{\"true\",\"t\",\"yes\",\"y\",\"on\",...}`), so anything with uppercase letters (`TRUE`, `Yes`, `Off`) fell straight through to the `fail(...)` call.\n\n**Fix:** one-character-level change \u2014 lowercase after stripping:\n\n```python\nnorm = value.strip().lower()\n```\n\nThat makes the spellings case-insensitive while `strip()` already handles the whitespace-ignoring part.\n\n**Verification:**\n- `--debug TRUE` / `Yes` / `Off` / ` on ` / ` 1 ` / `N` all convert correctly now.\n- Genuinely invalid input (`maybe`) still fails with `is not a valid boolean.`\n- Full test suite: `588 passed, 22 skipped, 1 xfailed` (no test files touched, only the library source).\n\nDONE",
+   "metadata": {
+    "model": "proxy-deepseek-flash",
+    "usage_input_tokens": 62248,
+    "usage_output_tokens": 998,
+    "usage_total_tokens": 63246,
+    "usage_cached_read_tokens": 54272,
+    "usage_cached_write_tokens": null,
+    "usage_thought_tokens": null
+   }
+  }
+ ],
+ "stream_event_counts": {
+  "part_start": 14,
+  "part_delta": 788,
+  "part_end": 14
+ },
+ "claims": [
+  {
+   "tool": "list_files",
+   "ready": true,
+   "elapsed_ms": 57.820624992018566
+  },
+  {
+   "tool": "grep",
+   "ready": false,
+   "elapsed_ms": 62.18754197470844
+  },
+  {
+   "tool": "grep",
+   "ready": true,
+   "elapsed_ms": 64.05620797886513
+  },
+  {
+   "tool": "read_file",
+   "ready": true,
+   "elapsed_ms": 34.14512501331046
+  }
+ ],
+ "speculation_enabled_cfg": true,
+ "dumped_at_s": 14.6639
+}
