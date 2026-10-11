@@ -30,7 +30,7 @@ Nothing in this repo is published or posted until the owner approves the exact p
 - RQ4 (mechanism): speculation hits / misses / wasted and `saved ≥` per run, and how much of the
   measured wall-clock delta that lower bound explains.
 - RQ5 (by workload): gathering-heavy (read/search/answer) vs code-change tasks, testing the
-  maintainer's own hypothesis.
+  creator's own hypothesis.
 - RQ6 (reliability): malformed tool calls, tool errors, retries, timeouts, aborted runs per arm.
 
 ## Design (to be finalised after the feasibility phase, then frozen before the main run)

@@ -356,7 +356,7 @@ Restarts, reconstructed from `runs/main1/batch.json` (16 launches) and `matrix.l
 - Update the plugin docstring (hooks do fire for wrapped tools) and name the pydantic-ai-harness
   version in RESULTS.md, since the creator will ask which CodeMode this was.
 - A follow-up with one deliberately slow tool (a 5 to 10 s shell call per task) would test the
-  maintainer's actual claim at a cost of a few dollars; say it is planned or invite him to
+  creator's actual claim at a cost of a few dollars; say it is planned or invite him to
   suggest tasks rather than letting the conversation become "wrong workload".
 - Rename the `slept` flag in `run_one.py`/`summarize.py` to `clock_stall` for the next batch.
 
