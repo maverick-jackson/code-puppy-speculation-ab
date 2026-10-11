@@ -10,7 +10,7 @@ change), three arms, three reps: 540 runs, all valid. Analysis follows the froze
 `docs/PLAN.md`, including its rule that a run ending in `run_code` max-retry exhaustion is a task
 failure (see RQ2). Every number below comes from `scripts/analyze_main1.py`; the full tables are
 in `docs/results/main1_tables.md` and the machine-readable output in
-`docs/results/main1_summary.json`. An independent audit of an earlier draft is in
+`docs/results/main1_summary.json`. An adversarial audit of an earlier draft, by a separate Claude model, is in
 `docs/audit/AUDIT_main1.md`; this version applies its required changes.
 
 Arms:

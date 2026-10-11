@@ -57,6 +57,7 @@ These might be cheap wins, either supporting them or telling the model up front 
 - Only 3 models, all through LiteLLM, all on one machine (a Windows desktop running WSL2).
 - GLM-4.7 thinks before every response (6 to 7 seconds before its first token), so any extra request costs it a lot. That's why its number is the biggest.
 - Runs were headless with yolo mode on and MCP off.
+- Tested on 0.0.896. The code mode and speculation source files had not changed as of 0.0.912 (2026-10-11), so the result should still apply.
 - The machine got restarted a couple of times during the run (including two hard power-offs). The runner resumed each time, and leaving out the affected blocks doesn't change the result. Details are in the full write-up.
 
 ## How this was run
@@ -78,6 +79,6 @@ Everything is in the repo, so you don't have to take Claude's or my word for any
 
 - `docs/RESULTS.md`: the full write-up, with every table
 - `docs/results/main1_tables.md`: all the numbers
-- `docs/audit/AUDIT_main1.md`: a second-pass check of the analysis, done before I posted
+- `docs/audit/AUDIT_main1.md`: a separate Claude model trying to break the analysis, done before I posted
 - `runs/main1/records.jsonl`: one line per run, the raw data
 - To rebuild every number: `python scripts/analyze_main1.py` (needs numpy and matplotlib)

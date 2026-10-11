@@ -1,6 +1,6 @@
 # Adversarial audit of batch main1 (before anything is shown to the maintainer)
 
-Auditor: independent agent, 2026-10-11. Scope: try to break the conclusion in `docs/RESULTS.md`.
+Auditor: a separate Claude model (Claude Code subagent) told to break the result, 2026-10-11. Scope: try to break the conclusion in `docs/RESULTS.md`.
 Inputs: everything under `docs/`, `scripts/`, `plugin/spec_capture/`, `runs/main1/` (records,
 per-run dirs, matrix.log, batch.json) and the installed code-puppy 0.0.896 source on this Mac.
 No new benchmark runs were made. All numbers below were recomputed from `runs/main1` with
