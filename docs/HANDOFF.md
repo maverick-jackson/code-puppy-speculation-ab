@@ -42,7 +42,7 @@
   sensitivity row; proxy-computed $ label; Data note on where run dirs live; Limitations
   additions. Script fix in the same commit: relative records path now resolves (the Reproduce
   command crashed in `relative_to`), and wall min/max plus arg-streaming counts are tabulated.
-- New in the regraded data, worth knowing before the maintainer reads it: on vs plain success
+- New in the regraded data, worth knowing before the creator reads it: on vs plain success
   McNemar (not pre-registered) is 0 vs 6, p = 0.031. RESULTS reports it as a hint, not a finding.
 - Audit correction: off-arm tool errors are mostly `grep` given a file path where it expects a
   directory (103 of 167), not "grep calls with no match"; RESULTS says so. The torn attempt dir

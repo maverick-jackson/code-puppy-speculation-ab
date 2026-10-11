@@ -1,4 +1,4 @@
-# Adversarial audit of batch main1 (before anything is shown to the maintainer)
+# Adversarial audit of batch main1 (before anything is shown to the creator)
 
 Auditor: a separate Claude model (Claude Code subagent) told to break the result, 2026-10-11. Scope: try to break the conclusion in `docs/RESULTS.md`.
 Inputs: everything under `docs/`, `scripts/`, `plugin/spec_capture/`, `runs/main1/` (records,
@@ -48,7 +48,7 @@ Must be softened, corrected, or disclosed before publishing (details in the chec
    `import subprocess/ast` missing, indexing tool results as dicts) plus the model calling
    native `grep`/`read_file` in code mode. These are Monty sandbox limits and model habits,
    not harness crashes. "Tool errors" in the off arm are mostly grep-no-match results counted
-   by the same heuristic. Report it as what it is or the maintainer will (rightly) object.
+   by the same heuristic. Report it as what it is or the creator will (rightly) object.
 6. The "-3% speculation saving" must not be presented as a finding. For GLM no argument
    streaming happens at all (0 of 1,173 tool-call parts streamed), so its -3.9% on vs plain
    cannot be a speculation effect; it is the noise floor of this design (about plus or minus
@@ -133,13 +133,13 @@ GLM-4.7 does not honour "disabled" anyway, so this is also what a normal user ge
 turns at 8.6 s is 35 s, which is the observed mean on-minus-off (+35.2 s). The post should
 say this: the code-mode cost is a per-turn tax, so it scales with the model's per-turn latency.
 
-The mechanism, in one number the maintainer will care about: across all on and plain
+The mechanism, in one number the creator will care about: across all on and plain
 `run_code` snippets, 24% wrap zero tool calls, 62% wrap exactly one, 8% two, 4% three, 3% four
 or more. Wrapped calls per snippet average 1.0 to 1.1 for every model. The guidance text tells
 the model to "go BIG in one run_code call" with "ten, twenty, thirty tool calls in a single
 snippet"; the three models did not do that. Speculation therefore had almost no runway, which
 is exactly why `saved_ms` is 0.18% of wall. This is a finding about model behaviour under the
-0.0.896 guidance, and it is the most useful thing in the data set for the maintainer.
+0.0.896 guidance, and it is the most useful thing in the data set for the creator.
 
 Caching: `cache_read` tokens are 80% to 90% of prompt tokens in every arm (flash off 34k of
 42k, on 66k of 76k). The proxy spend reflects provider cache pricing: DeepSeek first request
@@ -263,7 +263,7 @@ Restarts, reconstructed from `runs/main1/batch.json` (16 launches) and `matrix.l
 ## Check 7: generalization limits the post must state
 
 - Short tasks: 8 to 293 s wall, tool calls median 18 ms, p90 125 ms, max 2.3 s. No build,
-  test-suite, or network call anywhere. The maintainer's "5% to 50%" claim was explicitly about
+  test-suite, or network call anywhere. The creator's "5% to 50%" claim was explicitly about
   hiding tool latency, which this suite does not have. The result says nothing about that
   regime except that the interface tax exists before any gain can start.
 - Three models, all through one local LiteLLM proxy on one host, one code-puppy version
@@ -282,7 +282,7 @@ Restarts, reconstructed from `runs/main1/batch.json` (16 launches) and `matrix.l
 - Pooled estimates weight the three models equally; the GLM effect pulls the pool up.
 - The experiment was run by someone outside the project and the run was interrupted twice by
   hardware failures; the data survived because of resume logic, and the sensitivity checks
-  show no effect, but the post should say it rather than let the maintainer find it in the
+  show no effect, but the post should say it rather than let the creator find it in the
   logs.
 
 ## Check 8: things that would embarrass the author
@@ -291,17 +291,17 @@ Restarts, reconstructed from `runs/main1/batch.json` (16 launches) and `matrix.l
 - The mislabelled sensitivity row (check 5). Trivial, but "pre-registered analysis, every
   number reproducible" invites a reader to run the script and read the code.
 - Describing the reliability result as "code mode doubles tool errors" without the content.
-  The maintainer knows what Monty does not support; if the post does not, it looks like the
+  The creator knows what Monty does not support; if the post does not, it looks like the
   author did not read the transcripts.
 - Framing "-3% speculation" as a saving at all. GLM's -3.9% with zero streamed arguments
   proves the number is noise-sized.
 - Publishing "all 540 valid, 4 invalid attempts" when the run dirs show 550 attempts and the
   logs show two power-offs and a crash loop. All handled correctly, but it reads as hidden if
-  the maintainer looks.
+  the creator looks.
 - Claiming reproducibility while `runs/main1` is untracked.
 - "slept" on a desktop.
 - Stale comment in the plugin about hooks being bypassed in code mode (they fire). Harmless,
-  but it is the file the maintainer will read first.
+  but it is the file the creator will read first.
 - The plugin's `plain` arm keeps `CodeModeGuidance` telling the model "Speculation is on".
   Fine as a control, but say it.
 
@@ -354,7 +354,7 @@ Restarts, reconstructed from `runs/main1/batch.json` (16 launches) and `matrix.l
 - Report on vs off in seconds per model as well as percent (flash +3.7 s, V4 Pro +7.3 s,
   GLM +35.2 s) so the per-turn-tax reading is obvious.
 - Update the plugin docstring (hooks do fire for wrapped tools) and name the pydantic-ai-harness
-  version in RESULTS.md, since the maintainer will ask which CodeMode this was.
+  version in RESULTS.md, since the creator will ask which CodeMode this was.
 - A follow-up with one deliberately slow tool (a 5 to 10 s shell call per task) would test the
   maintainer's actual claim at a cost of a few dollars; say it is planned or invite him to
   suggest tasks rather than letting the conversation become "wrong workload".

@@ -5,7 +5,7 @@ Nothing in this repo is published or posted until the owner approves the exact p
 
 ## Why this, why now
 
-- In late September 2026 the code-puppy maintainer shipped `enable_speculative_code_mode`
+- In late September 2026 code-puppy's creator shipped `enable_speculative_code_mode`
   (Ctrl+X Ctrl+S) as experimental, said he had seen speed gains that varied a lot by workflow,
   expected the biggest gains on gathering and on long blocking tool calls, and asked the
   community to test it before possibly making it the default.
@@ -91,4 +91,4 @@ provider would drop below $0.50 remaining.
 - Sensitivity checks (reported, not used to pick headlines): correct-only runs; excluding the
   first block per worker (warm-up); medians instead of means.
 - Known limitation stated up front: workloads are short tasks (about 10 to 90 s); long blocking
-  tool calls, where the maintainer expects the biggest gains, are under-represented.
+  tool calls, where the creator expects the biggest gains, are under-represented.

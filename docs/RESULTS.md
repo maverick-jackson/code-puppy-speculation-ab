@@ -175,7 +175,7 @@ other way and is driven by the interface.
 | on vs plain | gathering | -2.3% [-13.5, +9.1] | -1.0% [-9.0, +7.4] | -2.8% [-13.0, +8.4] | -2.0% [-6.1, +2.2] |
 | on vs plain | code | +3.4% [-2.3, +10.1] | -10.6% [-21.4, +3.5] | -5.5% [-15.4, +4.2] | -4.4% [-9.9, +0.8] |
 
-The maintainer expected gathering to benefit most. In this data gathering is where turning
+The creator expected gathering to benefit most. In this data gathering is where turning
 speculation on hurt most (pooled +38%), because the code-mode cost is largest there. The
 speculation-only effect is within noise in both families.
 
@@ -317,7 +317,7 @@ section of the tables file. Times are local (UTC-4).
 ## Limitations
 
 - **Short tasks.** Runs last 8 to 293 s and their tool calls are fast local reads, greps and
-  small shell commands; there are no builds, test suites or network calls. The maintainer's
+  small shell commands; there are no builds, test suites or network calls. The creator's
   hypothesis is that the biggest gains come from hiding long blocking tool calls; this suite does
   not test that. It shows only that the interface cost exists before any such gain can start.
   The code-mode cost on that kind of workload may shrink or grow and is not measured here.

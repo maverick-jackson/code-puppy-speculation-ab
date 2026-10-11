@@ -201,7 +201,7 @@ Recommendation: (b) a local suite, Harbor/Terminal-Bench optional later as an ex
   forwarding to host loopback; NOT verified. Docker/colima are not installed and I did not
   install them.
 - Terminal-Bench tasks are mostly shell/code-change work in task containers with image builds
-  per trial; the maintainer's own hypothesis is that speculation helps GATHERING, and container
+  per trial; the creator's own hypothesis is that speculation helps GATHERING, and container
   build and test time would add large, arm-independent noise to the wall-clock signal we are
   trying to detect (a few seconds per task).
 - The local suite is already working: pinned clone (`runs/repos/click`, pallets/click tag 8.1.7,
