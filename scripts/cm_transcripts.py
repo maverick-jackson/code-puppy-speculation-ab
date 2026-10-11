@@ -16,7 +16,8 @@ def _messages(path: Path) -> list[dict]:
 
 def transcript_metrics(path: Path) -> dict:
     m = dict(requests=0, top_calls=0, run_code=0, native=0, nested=[], rc_errors=0, in_tok=0, out_tok=0,
-             cache_read=0, nested_by_tool={}, invoke_per_rc=[], invoke_top=0, invoke_per_response=[])
+             cache_read=0, nested_by_tool={}, top_by_tool={}, invoke_per_rc=[], invoke_top=0,
+             invoke_per_response=[])
     for msg in _messages(path):
         if msg.get("kind") == "response":
             m["requests"] += 1
@@ -32,6 +33,7 @@ def transcript_metrics(path: Path) -> dict:
             kind, name = p.get("part_kind"), p.get("tool_name")
             if kind == "tool-call":
                 m["top_calls"] += 1
+                m["top_by_tool"][name] = m["top_by_tool"].get(name, 0) + 1
                 if name == "run_code":
                     m["run_code"] += 1
                 else:

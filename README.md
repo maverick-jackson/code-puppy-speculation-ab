@@ -9,7 +9,8 @@ _Glitch asked for people to test `enable_speculative_code_mode` before it become
 The finding above (one tool call per snippet, sandbox gaps) was fixed in Code Puppy
 ([#1013](https://github.com/mpfaffenberger/code_puppy/pull/1013), [#1014](https://github.com/mpfaffenberger/code_puppy/pull/1014))
 and re-measured on the same 20 tasks plus 10 new long-horizon and sub-agent tasks: snippets now carry 2.7 to 3.2
-tool calls instead of 1.6 to 2.0, and delegating to sub-agents is 2.4x faster with code mode than without it.
+tool calls instead of 1.6 to 2.0, and delegating to sub-agents is 2.4x faster with code mode than without it. Across all 30 tasks it is a
+clear win for gpt-6.1-sol and mixed for gpt-6-luna (fewer requests, but slower on short tasks).
 Write-up: `docs/CODEMODE_FOLLOWUP.md`; charts: `docs/results/codemode_followup.html`.
 
 ## What I ran

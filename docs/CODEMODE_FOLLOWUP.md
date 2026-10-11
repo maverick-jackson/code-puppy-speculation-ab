@@ -8,10 +8,15 @@ sandbox gaps (`sys.path`, `Path.glob`, `subprocess`). It also asked for a worklo
 win. This follow-up does both: it fixes what the A/B pointed at, re-measures on the same 20 tasks, and adds
 10 long-horizon tasks, including ones that delegate to sub-agents.
 
-The report with charts is `docs/results/codemode_followup.html` (a single self-contained file).
+The report with charts, `docs/results/codemode_followup.html` (a single self-contained file), compares code mode off vs on across every workload, metric and task.
 
 ## Short answer
 
+- **Code mode on vs off across all 30 tasks** (task-balanced: median of per-task changes). gpt-6.1-sol:
+  40% fewer model requests (better on 29 of 30 tasks), 6% less wall time, success 90% → 92%. gpt-6-luna:
+  12% fewer model requests, but 16% more wall time and 34% more input tokens (better on only 9 and 8 of 30
+  tasks), success 77% → 72%. A clear win for sol, mixed for luna: its extra wall time and tokens
+  come mostly from the 20 short tasks, and its success drop from the delegated tasks (4 to 6 runs per cell).
 - **Snippets now carry real work.** Tool calls per `run_code` went 1.60 → 3.19 (gpt-6-luna) and
   2.03 → 2.74 (gpt-6.1-sol). Sandbox errors per task fell 0.42 → 0.04 (sol) and 0.44 → 0.17 (luna).
 - **Short tasks are still roughly a wash on wall time** against plain tool calling. sol makes 37% fewer
@@ -78,6 +83,37 @@ Reproduce every table below with `python3 scripts/codemode_tables.py`, and the H
 Short-task rows pool `base1` + `conf` (base) and `new5` + `conf` (new); `off` is its own batch (`off1`),
 so that comparison is not controlled for time of day. In `long1` the off / base / new variants were
 shuffled together; `fix1` is a separate batch.
+
+### Code mode off vs on (current main)
+
+Across all 30 tasks, task-balanced (each task counts once; median of per-task changes):
+
+| model | model requests | wall time | input tokens | success off → on |
+|---|---|---|---|---|
+| gpt-6.1-sol | -40% (better on 29/30) | -6% (better on 18/30) | -3% (better on 15/30) | 90% → 92% |
+| gpt-6-luna | -12% (better on 23/30) | +16% (better on 9/30) | +34% (better on 8/30) | 77% → 72% |
+
+#### gpt-6.1-sol, per workload
+
+| workload | runs off / on | success | parts right | wall mean s | model requests | tool calls | tool calls / request | input tok k | output tok k |
+|---|---|---|---|---|---|---|---|---|---|
+| Short: read and answer | 24 / 48 | 96% → 92% | 99% → 98% | 22.5 → 20.6 (-8%) | 5.83 → 3.04 (-48%) | 5.8 → 5.3 (-9%) | 0.99 → 1.75 (+77%) | 29.1 → 22.5 (-23%) | 0.34 → 0.46 (+35%) |
+| Short: bug fix | 16 / 32 | 100% → 100% | 100% → 100% | 42.2 → 46.8 (+11%) | 8.56 → 6.38 (-25%) | 9.8 → 12.7 (+30%) | 1.15 → 1.99 (+73%) | 42.9 → 57.3 (+34%) | 0.92 → 1.36 (+48%) |
+| Long: read and answer | 6 / 6 | 67% → 67% | 98% → 98% | 57.4 → 47.0 (-18%) | 10.67 → 5 (-53%) | 15.3 → 11.2 (-27%) | 1.44 → 2.23 (+55%) | 82.2 → 43.8 (-47%) | 1.38 → 1.55 (+12%) |
+| Long: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 84.4 → 96.0 (+14%) | 12.5 → 11.25 (-10%) | 15.2 → 23.2 (+53%) | 1.22 → 2.07 (+70%) | 100.9 → 132.6 (+31%) | 2.25 → 3.12 (+39%) |
+| Delegated: read and answer | 6 / 6 | 67% → 83% | 98% → 99% | 193.1 → 82.9 (-57%) | 40.5 → 18 (-56%) | 44.5 → 34 (-24%) | 1.1 → 1.89 (+72%) | 219.4 → 139.2 (-37%) | 5.12 → 5.53 (+8%) |
+| Delegated: multi-fix | 4 / 4 | 75% → 100% | 81% → 100% | 423.2 → 120.7 (-71%) | 48.33 → 26.75 (-45%) | 51.3 → 55.5 (+8%) | 1.06 → 2.07 (+95%) | 252.5 → 242.4 (-4%) | 6.51 → 7.29 (+12%) |
+
+#### gpt-6-luna, per workload
+
+| workload | runs off / on | success | parts right | wall mean s | model requests | tool calls | tool calls / request | input tok k | output tok k |
+|---|---|---|---|---|---|---|---|---|---|
+| Short: read and answer | 24 / 48 | 75% → 75% | 93% → 94% | 17.8 → 20.8 (+17%) | 4.54 → 4.21 (-7%) | 5.3 → 11.5 (+117%) | 1.17 → 2.74 (+134%) | 25.5 → 32.8 (+29%) | 0.25 → 0.53 (+112%) |
+| Short: bug fix | 16 / 32 | 100% → 100% | 100% → 100% | 28.8 → 29.7 (+3%) | 7.38 → 6.38 (-14%) | 7.6 → 11.1 (+46%) | 1.03 → 1.75 (+70%) | 36.6 → 53.5 (+46%) | 0.63 → 0.81 (+29%) |
+| Long: read and answer | 6 / 6 | 17% → 17% | 92% → 90% | 41.5 → 41.2 (-1%) | 8.33 → 5.5 (-34%) | 15.7 → 26.2 (+67%) | 1.88 → 4.76 (+153%) | 108.1 → 52.3 (-52%) | 0.95 → 1.43 (+51%) |
+| Long: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 50.5 → 49.3 (-2%) | 11.25 → 9.25 (-18%) | 15 → 22.5 (+50%) | 1.33 → 2.43 (+83%) | 89.5 → 98.2 (+10%) | 1.32 → 1.31 (-1%) |
+| Delegated: read and answer | 6 / 6 | 50% → 17% | 96% → 90% | 78.3 → 81.1 (+4%) | 29.17 → 25 (-14%) | 34.7 → 68 (+96%) | 1.19 → 2.72 (+129%) | 207.5 → 194.4 (-6%) | 2.6 → 4.42 (+70%) |
+| Delegated: multi-fix | 4 / 4 | 100% → 75% | 100% → 94% | 100.5 → 81.3 (-19%) | 34.25 → 28.75 (-16%) | 39.5 → 65.5 (+66%) | 1.15 → 2.28 (+98%) | 176.4 → 244.8 (+39%) | 3.34 → 4.23 (+27%) |
 
 ### Short tasks (pooled)
 
