@@ -18,6 +18,9 @@ GENAI_PRICES_PIN = "0.1.10"
 
 
 COST_PARTS = ("uncached", "cache_read", "cache_write", "output")
+# Self-hosted models priced at the maker's API list price for the same model (served name -> (model, provider)).
+# Qwen 3.8 27B has no list price in genai-prices, so its runs stay unpriced.
+PRICE_ALIASES = {"glm53": ("glm-5.3", "zhipuai")}
 
 
 def request_cost(model_name: str, usage: dict) -> dict[str, float] | None:
@@ -30,7 +33,8 @@ def request_cost(model_name: str, usage: dict) -> dict[str, float] | None:
     """
     if _calc_price is None or not model_name:
         return None
-    provider = "anthropic" if model_name.startswith("claude") else "openai" if model_name.startswith("gpt") else None
+    model_name, provider = PRICE_ALIASES.get(model_name, (model_name, None))
+    provider = provider or ("anthropic" if model_name.startswith("claude") else "openai" if model_name.startswith("gpt") else None)
     total = int(usage.get("input_tokens") or 0)
     cr, cw = int(usage.get("cache_read_tokens") or 0), int(usage.get("cache_write_tokens") or 0)
     cw1h, out = int(usage.get("cache_write_1h_tokens") or 0), int(usage.get("output_tokens") or 0)

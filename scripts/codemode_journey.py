@@ -85,8 +85,7 @@ COLORS = {"codex-gpt-6.1-sol": "#2563eb", "codex-gpt-6-luna": "#9333ea", "codex-
           "claude-code-claude-haiku-5-5": "#0891b2"}
 
 
-def name(m: str) -> str:
-    return m.replace("codex-", "").replace("claude-code-", "").replace("-5-5", "-5.5")
+name = T.display_name
 
 
 DATA = {"stages": [{"key": k, "label": lbl, "kind": kind} for k, lbl, kind in STAGES], "models": []}
@@ -235,7 +234,8 @@ below the line, code mode wins.</p>
 <p class="foot">Each point compares code mode with code mode off on the same build (today's build for "#1015 today"), averaged
 over all 30 tasks with each task counted once, from 60 to 120 runs per point. Cost is API list price. Changes inside the grey
 band are noise. Lines start where a model was first measured: sol and luna at first ship; the others at #1013 + #1014; Haiku and
-Astra skipped the v1 to v3 hill climb (dotted where a model skipped steps). Hover a point for the raw numbers.
+Astra skipped the v1 to v3 hill climb (dotted where a model skipped steps). The self-hosted glm53 and qwen3.8-27b
+were only measured today, so they appear on the final scoreboard, not here. Hover a point for the raw numbers.
 Per-model tables: <a href="codemode_summary.html">summary</a>; everything else: <a href="codemode_followup.html">full report</a>.</p>
 </div><div id="tip"></div>
 <script type="application/json" id="data">{json.dumps(CHART)}</script><script>{JS}</script></body></html>"""

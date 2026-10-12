@@ -1,0 +1,918 @@
+[
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_httpx_gather",
+  "family": "gather",
+  "variant": "on",
+  "rep": 1,
+  "wall_s": 900.0,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "6 fields, expected 16",
+  "fields_ok": [],
+  "no_transcript": true
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_httpx_gather",
+  "family": "gather",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.0,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "no ANSWER line",
+  "fields_ok": [],
+  "no_transcript": true
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_click_gather",
+  "family": "gather",
+  "variant": "off",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "no ANSWER line",
+  "fields_ok": [],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 4,
+   "requests": 20,
+   "top_calls": 30,
+   "run_code": 0,
+   "native": 30,
+   "rc_errors": 0,
+   "in_tok": 141265,
+   "out_tok": 8838,
+   "cache_read": 85248,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.119447,
+   "cost_in": 0.085315,
+   "cost_out": 0.034132,
+   "cost_uncached": 0.061787,
+   "cost_cache_read": 0.023528,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.034132,
+   "nested": [],
+   "per_session": [
+    {
+     "requests": 7,
+     "in_tok": 49605,
+     "max_return_chars": 3830
+    },
+    {
+     "requests": 5,
+     "in_tok": 27893,
+     "max_return_chars": 4306
+    },
+    {
+     "requests": 4,
+     "in_tok": 40934,
+     "max_return_chars": 40159
+    },
+    {
+     "requests": 4,
+     "in_tok": 22833,
+     "max_return_chars": 1815
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_rich_gather",
+  "family": "gather",
+  "variant": "on",
+  "rep": 1,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "1 fields, expected 15",
+  "fields_ok": [],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 2,
+   "requests": 8,
+   "top_calls": 6,
+   "run_code": 6,
+   "native": 0,
+   "rc_errors": 0,
+   "in_tok": 67830,
+   "out_tok": 3499,
+   "cache_read": 48384,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.048316,
+   "cost_in": 0.034803,
+   "cost_out": 0.013513,
+   "cost_uncached": 0.021449,
+   "cost_cache_read": 0.013354,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.013513,
+   "nested": [
+    3,
+    2,
+    2,
+    5,
+    5,
+    0
+   ],
+   "per_session": [
+    {
+     "requests": 4,
+     "in_tok": 35113,
+     "max_return_chars": 8654
+    },
+    {
+     "requests": 4,
+     "in_tok": 32717,
+     "max_return_chars": 5377
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_click_code",
+  "family": "code",
+  "variant": "off",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "4 passed in 0.02s / 3 passed in 0.01s / 4 passed in 0.01s / 12 failed, 5 passed in 0.13s",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   false
+  ],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 2,
+   "requests": 18,
+   "top_calls": 17,
+   "run_code": 0,
+   "native": 17,
+   "rc_errors": 0,
+   "in_tok": 112065,
+   "out_tok": 4232,
+   "cache_read": 80640,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.073263,
+   "cost_in": 0.056919,
+   "cost_out": 0.016344,
+   "cost_uncached": 0.034662,
+   "cost_cache_read": 0.022257,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.016344,
+   "nested": [],
+   "per_session": [
+    {
+     "requests": 8,
+     "in_tok": 48241,
+     "max_return_chars": 1983
+    },
+    {
+     "requests": 10,
+     "in_tok": 63824,
+     "max_return_chars": 2627
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_click_code",
+  "family": "code",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "4 passed in 0.01s / 3 passed in 0.01s / 4 passed in 0.01s / 12 failed, 5 passed in 0.13s",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   false
+  ],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 2,
+   "requests": 6,
+   "top_calls": 5,
+   "run_code": 3,
+   "native": 2,
+   "rc_errors": 0,
+   "in_tok": 50437,
+   "out_tok": 2432,
+   "cache_read": 36864,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.034538,
+   "cost_in": 0.025146,
+   "cost_out": 0.009392,
+   "cost_uncached": 0.014971,
+   "cost_cache_read": 0.010175,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.009392,
+   "nested": [
+    1,
+    3,
+    3
+   ],
+   "per_session": [
+    {
+     "requests": 2,
+     "in_tok": 13098,
+     "max_return_chars": 1761
+    },
+    {
+     "requests": 4,
+     "in_tok": 37339,
+     "max_return_chars": 8474
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_click_gather",
+  "family": "gather",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.0,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "no ANSWER line",
+  "fields_ok": [],
+  "no_transcript": true
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "L_click_code",
+  "family": "code",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.0,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "2 failed, 2 passed in 0.08s / 1 failed, 2 passed in 0.06s / 2 failed, 2 passed in 0.05s / 12 failed, 5 passed in 0.18s",
+  "fields_ok": [
+   false,
+   false,
+   false,
+   false
+  ],
+  "no_transcript": true
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_rich_gather",
+  "family": "gather",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.0,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "1 fields, expected 15",
+  "fields_ok": [],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 4,
+   "requests": 19,
+   "top_calls": 18,
+   "run_code": 18,
+   "native": 0,
+   "rc_errors": 1,
+   "in_tok": 150457,
+   "out_tok": 5802,
+   "cache_read": 112896,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.094997,
+   "cost_in": 0.07259,
+   "cost_out": 0.022407,
+   "cost_uncached": 0.041431,
+   "cost_cache_read": 0.031159,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.022407,
+   "nested": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    3,
+    3,
+    2,
+    2,
+    1,
+    1,
+    1,
+    1,
+    3
+   ],
+   "per_session": [
+    {
+     "requests": 3,
+     "in_tok": 20616,
+     "max_return_chars": 4013
+    },
+    {
+     "requests": 4,
+     "in_tok": 32398,
+     "max_return_chars": 7054
+    },
+    {
+     "requests": 3,
+     "in_tok": 21058,
+     "max_return_chars": 1872
+    },
+    {
+     "requests": 9,
+     "in_tok": 76385,
+     "max_return_chars": 7342
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "boodleton-qwen3.8-27b",
+  "task": "D_click_gather",
+  "family": "gather",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "no ANSWER line",
+  "fields_ok": [],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 3,
+   "requests": 23,
+   "top_calls": 20,
+   "run_code": 20,
+   "native": 0,
+   "rc_errors": 0,
+   "in_tok": 220053,
+   "out_tok": 12579,
+   "cache_read": 168064,
+   "cache_write": 0,
+   "unpriced": 23,
+   "cost_usd": 0.0,
+   "cost_in": 0.0,
+   "cost_out": 0.0,
+   "cost_uncached": 0.0,
+   "cost_cache_read": 0.0,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.0,
+   "nested": [
+    2,
+    2,
+    2,
+    3,
+    2,
+    2,
+    1,
+    2,
+    1,
+    6,
+    3,
+    2,
+    1,
+    6,
+    1,
+    1,
+    2,
+    2,
+    1,
+    1
+   ],
+   "per_session": [
+    {
+     "requests": 8,
+     "in_tok": 82447,
+     "max_return_chars": 6882
+    },
+    {
+     "requests": 4,
+     "in_tok": 34998,
+     "max_return_chars": 8149
+    },
+    {
+     "requests": 11,
+     "in_tok": 102608,
+     "max_return_chars": 1619
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_click_gather",
+  "family": "gather",
+  "variant": "on",
+  "rep": 1,
+  "wall_s": 900.0,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "no ANSWER line",
+  "fields_ok": [],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 4,
+   "requests": 25,
+   "top_calls": 22,
+   "run_code": 22,
+   "native": 0,
+   "rc_errors": 1,
+   "in_tok": 223759,
+   "out_tok": 15069,
+   "cache_read": 170496,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.164002,
+   "cost_in": 0.105805,
+   "cost_out": 0.058197,
+   "cost_uncached": 0.058749,
+   "cost_cache_read": 0.047056,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.058197,
+   "nested": [
+    2,
+    2,
+    3,
+    1,
+    1,
+    5,
+    3,
+    3,
+    2,
+    3,
+    1,
+    1,
+    2,
+    1,
+    1,
+    1,
+    3,
+    2,
+    2,
+    1,
+    1
+   ],
+   "per_session": [
+    {
+     "requests": 3,
+     "in_tok": 21846,
+     "max_return_chars": 3575
+    },
+    {
+     "requests": 6,
+     "in_tok": 57576,
+     "max_return_chars": 6783
+    },
+    {
+     "requests": 4,
+     "in_tok": 32083,
+     "max_return_chars": 2020
+    },
+    {
+     "requests": 12,
+     "in_tok": 112254,
+     "max_return_chars": 2865
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_click_code",
+  "family": "code",
+  "variant": "on",
+  "rep": 1,
+  "wall_s": 900.0,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "4 passed in 0.02s / 3 passed in 0.01s / 4 passed in 0.01s / 12 failed, 5 passed in 0.14s",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   false
+  ],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 2,
+   "requests": 15,
+   "top_calls": 13,
+   "run_code": 11,
+   "native": 2,
+   "rc_errors": 1,
+   "in_tok": 127417,
+   "out_tok": 5835,
+   "cache_read": 99072,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.081143,
+   "cost_in": 0.058609,
+   "cost_out": 0.022534,
+   "cost_uncached": 0.031265,
+   "cost_cache_read": 0.027344,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.022534,
+   "nested": [
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    2,
+    3,
+    3,
+    4
+   ],
+   "per_session": [
+    {
+     "requests": 7,
+     "in_tok": 60973,
+     "max_return_chars": 4611
+    },
+    {
+     "requests": 8,
+     "in_tok": 66444,
+     "max_return_chars": 1714
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_invkit_code",
+  "family": "code",
+  "variant": "off",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": true,
+  "grade_reason": "6 passed in 0.03s / 3 passed in 0.02s / 4 passed in 0.03s / 4 passed in 0.02s",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 4,
+   "requests": 21,
+   "top_calls": 21,
+   "run_code": 0,
+   "native": 21,
+   "rc_errors": 0,
+   "in_tok": 134577,
+   "out_tok": 10207,
+   "cache_read": 94464,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.109735,
+   "cost_in": 0.070316,
+   "cost_out": 0.039419,
+   "cost_uncached": 0.044245,
+   "cost_cache_read": 0.026071,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.039419,
+   "nested": [],
+   "per_session": [
+    {
+     "requests": 4,
+     "in_tok": 21262,
+     "max_return_chars": 1684
+    },
+    {
+     "requests": 7,
+     "in_tok": 61879,
+     "max_return_chars": 3564
+    },
+    {
+     "requests": 4,
+     "in_tok": 19057,
+     "max_return_chars": 1426
+    },
+    {
+     "requests": 6,
+     "in_tok": 32379,
+     "max_return_chars": 1525
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_invkit_code",
+  "family": "code",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "6 passed in 0.32s / 3 passed in 0.72s / 4 passed in 0.20s / 2 failed, 2 passed in 1.93s",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   false
+  ],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 3,
+   "requests": 15,
+   "top_calls": 14,
+   "run_code": 10,
+   "native": 4,
+   "rc_errors": 1,
+   "in_tok": 126844,
+   "out_tok": 8971,
+   "cache_read": 94464,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.096434,
+   "cost_in": 0.061788,
+   "cost_out": 0.034646,
+   "cost_uncached": 0.035716,
+   "cost_cache_read": 0.026072,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.034646,
+   "nested": [
+    5,
+    6,
+    1,
+    1,
+    1,
+    1,
+    1,
+    3,
+    1
+   ],
+   "per_session": [
+    {
+     "requests": 4,
+     "in_tok": 35972,
+     "max_return_chars": 4602
+    },
+    {
+     "requests": 7,
+     "in_tok": 52334,
+     "max_return_chars": 1562
+    },
+    {
+     "requests": 4,
+     "in_tok": 38538,
+     "max_return_chars": 2566
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_httpx_gather",
+  "family": "gather",
+  "variant": "off",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "no ANSWER line",
+  "fields_ok": [],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 1,
+   "requests": 4,
+   "top_calls": 6,
+   "run_code": 0,
+   "native": 6,
+   "rc_errors": 0,
+   "in_tok": 23335,
+   "out_tok": 1816,
+   "cache_read": 13824,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.021319,
+   "cost_in": 0.014306,
+   "cost_out": 0.007013,
+   "cost_uncached": 0.010491,
+   "cost_cache_read": 0.003815,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.007013,
+   "nested": [],
+   "per_session": [
+    {
+     "requests": 4,
+     "in_tok": 23335,
+     "max_return_chars": 3548
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "D_invkit_code",
+  "family": "code",
+  "variant": "on",
+  "rep": 1,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "6 passed in 0.06s / 1 failed, 2 passed in 0.25s / 4 passed in 0.40s / 2 failed, 2 passed in 0.97s",
+  "fields_ok": [
+   true,
+   false,
+   true,
+   false
+  ],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 2,
+   "requests": 12,
+   "top_calls": 11,
+   "run_code": 8,
+   "native": 3,
+   "rc_errors": 1,
+   "in_tok": 120262,
+   "out_tok": 8333,
+   "cache_read": 96768,
+   "cache_write": 0,
+   "unpriced": 0,
+   "cost_usd": 0.084804,
+   "cost_in": 0.052622,
+   "cost_out": 0.032182,
+   "cost_uncached": 0.025914,
+   "cost_cache_read": 0.026708,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.032182,
+   "nested": [
+    5,
+    8,
+    7,
+    2,
+    1,
+    2,
+    2
+   ],
+   "per_session": [
+    {
+     "requests": 7,
+     "in_tok": 83960,
+     "max_return_chars": 5970
+    },
+    {
+     "requests": 5,
+     "in_tok": 36302,
+     "max_return_chars": 1379
+    }
+   ]
+  }
+ },
+ {
+  "batch": "vllm1",
+  "model": "vllm-glm53",
+  "task": "c3_click_short_help",
+  "family": "code",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": false,
+  "grade_reason": "2 failed, 2 passed in 0.68s",
+  "fields_ok": [
+   false
+  ],
+  "no_transcript": true
+ },
+ {
+  "batch": "vllm1",
+  "model": "boodleton-qwen3.8-27b",
+  "task": "D_invkit_code",
+  "family": "code",
+  "variant": "on",
+  "rep": 0,
+  "wall_s": 900.1,
+  "exit": -9,
+  "timed_out": true,
+  "correct": true,
+  "grade_reason": "6 passed in 0.48s / 3 passed in 0.05s / 4 passed in 0.06s / 4 passed in 0.13s",
+  "fields_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "no_transcript": true,
+  "sub": {
+   "sessions": 4,
+   "requests": 27,
+   "top_calls": 25,
+   "run_code": 19,
+   "native": 6,
+   "rc_errors": 1,
+   "in_tok": 327011,
+   "out_tok": 25879,
+   "cache_read": 252096,
+   "cache_write": 0,
+   "unpriced": 27,
+   "cost_usd": 0.0,
+   "cost_in": 0.0,
+   "cost_out": 0.0,
+   "cost_uncached": 0.0,
+   "cost_cache_read": 0.0,
+   "cost_cache_write": 0.0,
+   "cost_output": 0.0,
+   "nested": [
+    4,
+    4,
+    1,
+    2,
+    7,
+    1,
+    3,
+    1,
+    1,
+    3,
+    6,
+    3,
+    3,
+    1,
+    4,
+    1,
+    2,
+    2
+   ],
+   "per_session": [
+    {
+     "requests": 5,
+     "in_tok": 47144,
+     "max_return_chars": 3567
+    },
+    {
+     "requests": 5,
+     "in_tok": 44857,
+     "max_return_chars": 4989
+    },
+    {
+     "requests": 13,
+     "in_tok": 192595,
+     "max_return_chars": 4424
+    },
+    {
+     "requests": 4,
+     "in_tok": 42415,
+     "max_return_chars": 2383
+    }
+   ]
+  }
+ }
+]

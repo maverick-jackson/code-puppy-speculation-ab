@@ -3,7 +3,7 @@
 
 One row per model, three diverging-bar panels (cost, speed, accuracy). Each bar runs from code mode
 off (centre line) to code mode on, both on today's build; green is better, red worse, grey within
-noise. Same numbers as the "#1015 today" point of the journey chart (codemode_journey.CHART).
+noise. Same numbers as the summary page (codemode_tables.today()).
 Static SVG, no JavaScript.
 Usage: python3 scripts/codemode_final.py [OUT.html]
 """
@@ -15,7 +15,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from codemode_journey import CHART  # noqa: E402
+import codemode_tables  # noqa: E402
 
 NOISE = {"cost": 5, "time": 5, "acc": 3}
 PANELS = [  # key, title, unit, lower is better, better word, worse word
@@ -23,7 +23,19 @@ PANELS = [  # key, title, unit, lower is better, better word, worse word
     ("time", "Speed (time per task)", "%", True, "faster", "slower"),
     ("acc", "Accuracy", " pts", False, "more accurate", "less accurate"),
 ]
-ROWS = sorted(([m["name"], m["values"]["pr"]] for m in CHART["models"]), key=lambda r: r[1]["cost"])
+def _row(d: dict) -> dict:
+    """Code mode on vs off for one model; cost is None for models without an API list price."""
+    o = d["overall"]
+    c, w, s = o["cost"], o["wall"], o["success"]
+    return {"cost": round(100 * (c["on_mean"] / c["off_mean"] - 1), 1) if d["priced"] else None,
+            "time": round(100 * (w["on_mean"] / w["off_mean"] - 1), 1),
+            "acc": round(s["on"] - s["off"], 1),
+            "abs": {"cost": c["on_mean"], "off_cost": c["off_mean"], "time": w["on_mean"], "off_time": w["off_mean"],
+                    "acc": s["on"], "off_acc": s["off"], "runs": d["runs"]["on"]}}
+
+
+ROWS = sorted(((codemode_tables.display_name(m), _row(d)) for m, d in codemode_tables.today().items()),
+              key=lambda r: (r[1]["cost"] is None, r[1]["cost"] or 0))
 
 
 def money(v: float) -> str:
@@ -54,7 +66,7 @@ def panel(i: int, key: str, title: str, unit: str, lower_better: bool, better: s
     """One metric panel, drawn into the shared SVG at column i."""
     x_left = NAME_W + i * PANEL_W
     cx = x_left + PANEL_W / 2
-    span = max(20.0, *(abs(r[1][key]) for r in ROWS))
+    span = max(20.0, *(abs(r[1][key]) for r in ROWS if r[1][key] is not None))
     x = lambda v: cx + v / span * (PANEL_W / 2 - PAD)  # noqa: E731  (PAD leaves room for the value label)
     left, right = (better, worse) if lower_better else (worse, better)
     lt, rt = ("good", "bad") if lower_better else ("bad", "good")
@@ -65,6 +77,9 @@ def panel(i: int, key: str, title: str, unit: str, lower_better: bool, better: s
            f'<line x1="{cx}" x2="{cx}" y1="{TOP - 6}" y2="{SVG_H}" class="zero"/>']
     for r, (_, vals) in enumerate(ROWS):
         v, y = vals[key], TOP + r * ROW_H + 6
+        if v is None:
+            out.append(f'<text x="{cx}" y="{y + 16}" class="raw" text-anchor="middle">n/a: no API list price</text>')
+            continue
         t = tone(key, v, lower_better)
         x0, x1 = sorted((cx, x(v)))
         out.append(f'<rect x="{x0:.1f}" y="{y}" width="{max(x1 - x0, 2):.1f}" height="22" rx="4" class="bar {t}"/>')
@@ -84,14 +99,15 @@ def chart() -> str:
 
 
 def count(key: str, lower_better: bool, want: str) -> int:
-    return sum(tone(key, r[1][key], lower_better) == want for r in ROWS)
+    return sum(r[1][key] is not None and tone(key, r[1][key], lower_better) == want for r in ROWS)
 
 
 n = len(ROWS)
+n_priced = sum(r[1]["cost"] is not None for r in ROWS)
 cheaper, pricier = count("cost", True, "good"), count("cost", True, "bad")
 faster, slower = count("time", True, "good"), count("time", True, "bad")
 acc_moves = n - count("acc", False, "flat")
-headline = (f"With code mode on, {cheaper} of {n} models are cheaper and {faster} of {n} are faster; "
+headline = (f"With code mode on, {cheaper} of {n_priced} priced models are cheaper and {faster} of {n} are faster; "
             + (f"{pricier} cost more" if pricier else "none costs more")
             + (f", {slower} {'is' if slower == 1 else 'are'} slower" if slower else "")
             + ". Accuracy " + ("stays within noise on every model." if acc_moves == 0 else f"moves beyond noise on {acc_moves}."))
@@ -116,7 +132,8 @@ and ends where code mode on lands.</p>
 <p class="headline">{html.escape(headline)}</p>
 <div class="card">{chart()}</div>
 <p class="foot">Both sides measured on the same build, shuffled together, averaged over all 30 tasks with each task counted once
-(60 to 120 runs per side). Cost is API list price. Bars inside the grey band (within 5%, or 3 accuracy points) are noise.
+(60 to 120 runs per side). Cost is API list price; glm53 and qwen3.8-27b are self-hosted (vLLM), glm53 priced at
+Zhipu's list price for GLM-5.3, qwen3.8-27b has none. Bars inside the grey band (within 5%, or 3 accuracy points) are noise.
 How we got here: <a href="codemode_journey.html">journey</a>; per-task tables: <a href="codemode_summary.html">summary</a>;
 everything else: <a href="codemode_followup.html">full report</a>.</p>
 </div></body></html>"""
@@ -127,4 +144,5 @@ if __name__ == "__main__":
     print(out)
     print(headline)
     for name, v in ROWS:
-        print(f"{name:18} cost {v['cost']:+6.1f}%  time {v['time']:+6.1f}%  acc {v['acc']:+5.1f}  runs {v['abs']['runs']}")
+        cost = "  n/a " if v["cost"] is None else f"{v['cost']:+6.1f}"
+        print(f"{name:18} cost {cost}%  time {v['time']:+6.1f}%  acc {v['acc']:+5.1f}  runs {v['abs']['runs']}")

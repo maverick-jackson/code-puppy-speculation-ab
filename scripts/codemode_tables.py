@@ -340,6 +340,9 @@ TODAY = {  # model -> (off sources, on sources, measured on the current build?);
     "codex-gpt-6.1-sol": ([("sg1", "off")], [("sg1", "on")], True),
     "codex-gpt-6-luna": ([("sg1", "off")], [("lean4", "on"), ("sg1", "on")], True),
     "codex-gpt-6-astra": ([("astra1", "pr_off")], [("astra1", "pr_on")], True),
+    # Self-hosted vLLM models, added later (vllm1): code mode off vs #1015 only. Qwen has no list price.
+    "vllm-glm53": ([("vllm1", "off")], [("vllm1", "on")], True),
+    "boodleton-qwen3.8-27b": ([("vllm1", "off")], [("vllm1", "on")], True),
 }
 
 
@@ -350,6 +353,8 @@ def today() -> dict:
         a = [r for batch, v in off for r in records(batch) if r["model"] == m and r["variant"] == v]
         b = [r for batch, v in on for r in records(batch) if r["model"] == m and r["variant"] == v]
         ta, tb = _per_task(a), _per_task(b)
+        if len(ta) < 30 or len(tb) < 30:
+            continue  # batch not run, or not finished: only complete off-vs-on comparisons count
         o = overall({t: {"off": ta[t], "on": tb[t]} for t in ta if t in tb})
         deleg = {"off": onoff_cell([r for r in a if r["task"].startswith("D_")]),
                  "on": onoff_cell([r for r in b if r["task"].startswith("D_")])}
@@ -361,7 +366,9 @@ def today() -> dict:
                   # sides even when a side has more runs).
                   "suite_cost": {side: round(sum((ta if side == "off" else tb)[t]["cost"] for t in shared), 4)
                                  for side in ("off", "on")},
-                  "runs": {"off": len(a), "on": len(b)}}
+                  "runs": {"off": len(a), "on": len(b)},
+                  # False when any response had no list price (self-hosted models without one).
+                  "priced": not any(r.get("unpriced") or (r.get("sub") or {}).get("unpriced") for r in a + b)}
     return out
 
 
@@ -372,6 +379,13 @@ def benchmark_spend() -> dict:
         rs = records(path.parent.name)
         out[path.parent.name] = round(sum(r.get("cost_usd", 0) + (r.get("sub") or {}).get("cost_usd", 0) for r in rs), 2)
     return out
+
+
+def display_name(m: str) -> str:
+    """Short model name for pages: codex-gpt-6-luna -> gpt-6-luna, vllm-glm53 -> glm53."""
+    for prefix in ("codex-", "claude-code-", "vllm-", "boodleton-"):
+        m = m.removeprefix(prefix)
+    return m.replace("-5-5", "-5.5")
 
 
 def md(headers: list[str], rows: list[list[object]]) -> str:

@@ -46,7 +46,8 @@ from longtasks import grade as grade_task  # noqa: E402
 
 OUT = ROOT / "runs" / "codemode"
 REAL_DATA = Path.home() / ".code_puppy"
-SHARED_DATA = ("chatgpt_oauth.json", "chatgpt_models.json")
+# extra_models.json defines custom endpoints (e.g. the self-hosted vLLM models); read-only here.
+SHARED_DATA = ("chatgpt_oauth.json", "chatgpt_models.json", "extra_models.json")
 # Claude Code OAuth saves tokens by atomic rename, which would replace a symlink, so Claude runs get
 # a COPY of the token file with the refresh token removed: a run can use the access token but can
 # never rotate the real refresh token. The real token is kept fresh by refresh_claude_token().
@@ -74,6 +75,25 @@ openai_verbosity = low
 lock_builtin_plugins = true
 """
 LOCK = threading.Lock()
+
+
+def resolve_secret(python: Path, *names: str) -> str:
+    """First of *names* set in the environment or code-puppy's own key store (config / keychain)."""
+    for name in names:
+        if value := os.environ.get(name):
+            return value
+    code = ("import sys; from code_puppy.config import get_api_key as g; "
+            "print(next((v for v in map(g, sys.argv[1:]) if v), ''))")
+    got = subprocess.run([str(python), "-c", code, *names], capture_output=True, text=True, timeout=120)
+    return got.stdout.strip()
+
+
+def model_key_vars(models: list[str]) -> list[str]:
+    """Environment variables that custom-endpoint models reference as their key ("api_key": "$VAR")."""
+    path = REAL_DATA / "extra_models.json"
+    extra = json.loads(path.read_text()) if path.exists() else {}
+    keys = [(extra.get(m) or {}).get("custom_endpoint", {}).get("api_key", "") for m in models]
+    return sorted({k[1:] for k in keys if k.startswith("$")})
 
 
 def claude_minutes_left() -> float:
@@ -130,8 +150,7 @@ def run_one(task: dict, model: str, variant: str, rep: int, a: argparse.Namespac
     env = {k: v for k, v in os.environ.items() if not k.startswith(("XDG_", "VIRTUAL_ENV", "CODE_PUPPY"))}
     env.update({k: str(v) for k, v in xdg.items()})
     env.update(HOME=str(home), SPEC_CAPTURE_OUT=str(rd / "capture.json"))
-    if a.jev_key:  # only consulted when the variant sets smart_grep = on
-        env["JEV_API_KEY"] = a.jev_key
+    env.update(a.secrets)
     env.update(NO_VERSION_UPDATE="1", NO_COLOR="1",
                PATH=str(ROOT / ".venv" / "bin") + os.pathsep + os.environ.get("PATH", ""))
     cmd = [a.bins[variant], "-p", task["prompt"], "-m", model, "--yolo", "true",
@@ -204,17 +223,16 @@ def main() -> None:
         variant, kv = item.split(":", 1)
         key, value = kv.split("=", 1)
         a.cfg.setdefault(variant, {})[key.strip()] = value.strip()
-    a.jev_key = ""
-    if any(v.get("smart_grep") == "on" for v in a.cfg.values()):
-        # Read once through code-puppy's own credential lookup (config / secret store); never printed.
-        any_bin = Path(dict(b.split("=", 1) for b in a.bin)[next(iter(a.cfg))]).parent / "python"
-        got = subprocess.run([str(any_bin), "-c", "from code_puppy.config import get_api_key as g; "
-                              "print(g('TYPESAFE_API_KEY') or g('JEV_API_KEY') or '')"],
-                             capture_output=True, text=True, timeout=120)
-        a.jev_key = got.stdout.strip()
-        if not a.jev_key:
-            raise SystemExit("smart_grep requested but no TypeSafe / Jev key is configured")
     a.bins = dict(b.split("=", 1) for b in a.bin)
+    # Secrets passed to runs as environment variables (never written into a run dir or printed).
+    python = Path(next(iter(a.bins.values()))).parent / "python"
+    a.secrets = {}
+    if any(v.get("smart_grep") == "on" for v in a.cfg.values()):
+        a.secrets["JEV_API_KEY"] = resolve_secret(python, "TYPESAFE_API_KEY", "JEV_API_KEY")
+    for var in model_key_vars(a.models.split(",")):
+        a.secrets[var] = resolve_secret(python, var)
+    if missing := [k for k, v in a.secrets.items() if not v]:
+        raise SystemExit(f"no value configured for: {', '.join(missing)}")
     a.off = set(filter(None, a.off.split(",")))
     tasks = tasklib.load_tasks([t for t in a.tasks.split(",") if t] or None)
     (OUT / a.batch).mkdir(parents=True, exist_ok=True)

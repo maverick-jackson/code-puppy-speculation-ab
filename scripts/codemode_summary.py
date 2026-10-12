@@ -25,8 +25,7 @@ WORKLOAD = {"g": "Short read+answer", "h": "Short read+answer", "r": "Short read
             "f": "Short bug fix", "L": "Long", "D": "Delegated"}
 
 
-def name(m: str) -> str:
-    return m.replace("codex-", "").replace("claude-code-", "").replace("-5-5", "-5.5")
+name = codemode_tables.display_name
 
 
 def slug(m: str) -> str:
@@ -85,30 +84,33 @@ def verdict(cost_tone: str, speed_tone: str, acc_tone: str) -> tuple[str, str]:
 models = []
 for m, d in T.items():
     o = d["overall"]
-    x = dict(m=m, d=d, current=d["current"],
+    x = dict(m=m, d=d, current=d["current"], priced=d["priced"],
              cost=(o["cost"]["off_mean"], o["cost"]["on_mean"]), total=(d["suite_cost"]["off"], d["suite_cost"]["on"]),
              speed=(o["wall"]["off_mean"], o["wall"]["on_mean"]), acc=(o["success"]["off"], o["success"]["on"]))
-    x["cost_c"] = change(x["cost"][1], x["cost"][0], "cheaper", "more expensive")
+    x["cost_c"] = change(x["cost"][1], x["cost"][0], "cheaper", "more expensive") if x["priced"] else ("n/a", "flat")
     x["speed_c"] = change(x["speed"][1], x["speed"][0], "faster", "slower")
     x["acc_c"] = acc_change(*x["acc"])
     x["verdict"] = verdict(x["cost_c"][1], x["speed_c"][1], x["acc_c"][1])
     models.append(x)
 rank = {"good": 0, "mixed": 1, "flat": 2, "bad": 3}
-models.sort(key=lambda x: (rank[x["verdict"][1]], x["cost"][1] / x["cost"][0]))
+models.sort(key=lambda x: (rank[x["verdict"][1]], x["cost"][1] / x["cost"][0] if x["priced"] else 1.0))
 
 
 def block(x: dict) -> str:
     """One model: off / on / change rows."""
-    label = esc(name(x["m"])) + ("" if x["current"] else '<span class="note">measured before PR #1015</span>')
+    label = esc(name(x["m"])) + ("" if x["current"] else '<span class="note">measured before PR #1015</span>') + (
+        "" if x["priced"] else '<span class="note">self-hosted, no API list price</span>')
+    cost = money if x["priced"] else (lambda _v: "n/a")
     v, vt = x["verdict"]
     rows = f'<tbody class="model"><tr><td rowspan="3" class="name">{label}<div class="verdict {vt}">{esc(v)}</div></td>'
     for i, setting in ((0, "Code mode off"), (1, "Code mode on")):
         rows += ("" if i == 0 else "<tr>") + (
-            f'<td class="setting">{setting}</td><td>{money(x["cost"][i])}</td><td>{money(x["total"][i])}</td>'
+            f'<td class="setting">{setting}</td><td>{cost(x["cost"][i])}</td><td>{cost(x["total"][i])}</td>'
             f'<td>{x["acc"][i]}%</td><td>{x["speed"][i]:.0f} s</td></tr>')
-    tc = short_change(x["total"][1], x["total"][0])
+    tc = short_change(x["total"][1], x["total"][0]) if x["priced"] else ("", "flat")
+    total_delta = f'{signed_money(x["total"][1] - x["total"][0])} ({tc[0]})' if x["priced"] else "n/a"
     rows += (f'<tr class="delta"><td class="setting">With code mode</td><td class="{x["cost_c"][1]}">{esc(x["cost_c"][0])}</td>'
-             f'<td class="{tc[1]}">{esc(signed_money(x["total"][1] - x["total"][0]))} ({tc[0]})</td>'
+             f'<td class="{tc[1]}">{esc(total_delta)}</td>'
              f'<td class="{x["acc_c"][1]}">{esc(x["acc_c"][0])}</td><td class="{x["speed_c"][1]}">{esc(x["speed_c"][0])}</td></tr></tbody>')
     return rows
 
@@ -126,6 +128,9 @@ def task_table(x: dict) -> str:
         cells = (f'<td class="task">{esc(t)}</td><td class="muted">{WORKLOAD.get(t[0], "")}</td>'
                  f'<td>{a["correct"]}/{a["n"]}</td><td class="{scls} b">{b["correct"]}/{b["n"]}</td>')
         for key, fmt in (("cost", money), ("wall", lambda s: f"{s:.1f} s"), ("requests", lambda s: f"{s:.1f}")):
+            if key == "cost" and not x["priced"]:
+                cells += '<td class="muted">n/a</td><td class="muted">n/a</td><td class="muted">n/a</td>'
+                continue
             txt, cls = short_change(b[key], a[key])
             cells += f'<td>{fmt(a[key])}</td><td>{fmt(b[key])}</td><td class="{cls} b">{txt}</td>'
         rows += f"<tr>{cells}</tr>"
@@ -183,7 +188,8 @@ sub-agents). Pick a model for its per-task numbers.</p>
 "Total, all 30 tasks" is one pass through the whole suite. Accuracy is the share of tasks fully right. Speed is the average
 time to finish a task. Changes within 5% (or 3 accuracy points) are shown as "about the same": each task ran twice per
 setting, so smaller differences are noise. Code mode is measured as it is on main today (after PR #1015) unless marked
-otherwise; speculation was on in every code-mode run. The whole benchmark ({sum(1 for _ in SPEND)} batches) cost
+otherwise; speculation was on in every code-mode run. glm53 and qwen3.8-27b are self-hosted (vLLM): glm53 is priced at
+Zhipu's API list price for GLM-5.3, qwen3.8-27b has no list price, so its cost is n/a and its verdict uses speed and accuracy. The whole benchmark ({sum(1 for _ in SPEND)} batches) cost
 {money(total_spend)} at API prices. Full report: <a href="codemode_followup.html">charts, method and every metric</a>.</p>
 </div><script>{JS}</script></body></html>"""
 

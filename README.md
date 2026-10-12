@@ -17,6 +17,7 @@ more for astra, luna, Opus and Sonnet (Opus and Sonnet about even on time, luna 
 workspace path were busting Anthropic's prompt cache). On the merged build, code mode is cheaper for 4 of 6 models
 (Haiku -16%, sol -14%, Opus -13%, Sonnet -5%) and faster for 5 of 6; luna (+6%) and astra (+8%) still cost a little more;
 accuracy is within noise everywhere. Smart grep (semantic search) was also tried and did not help on these tasks.
+On self-hosted vLLM models code mode is slower (glm53 +42%, qwen3.8-27b +14%) and glm53 loses accuracy (98% -> 90%).
 
 Pages (`docs/results/`): `codemode_final.html` (today, off vs on, per model), `codemode_journey.html` (how each change
 moved code mode's cost / speed / accuracy), `codemode_summary.html` (per-model tabs with every task),

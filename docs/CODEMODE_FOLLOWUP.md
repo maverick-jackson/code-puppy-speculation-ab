@@ -55,6 +55,23 @@ for astra); task-balanced means over all 30 tasks. Chart: `docs/results/codemode
 
 How each change moved these numbers, milestone by milestone: `docs/results/codemode_journey.html`.
 
+### Self-hosted models (`vllm1`, 240 runs)
+
+`vllm-glm53` and `boodleton-qwen3.8-27b` on a self-hosted vLLM server, code mode off vs the merged #1015 build
+(interleaved). glm53 is priced at Zhipu's API list price for GLM-5.3; qwen3.8-27b has no list price in genai-prices,
+so its cost is n/a. 18 runs (16 of them delegated tasks) hit the 900 s limit on the first pass because the one server
+was slow under load; they were rerun with a 2,400 s limit on both sides (originals listed in
+`runs/codemode/vllm1/timed_out_900s.json`); one glm53 code-mode run still timed out and counts as a failure.
+
+| model | cost | speed (time per task) | accuracy |
+|---|---|---|---|
+| glm53 | +6% | +42% (slower) | 98% -> 90% |
+| qwen3.8-27b | n/a | +14% (slower) | 93% -> 93% |
+
+On one self-hosted server, code mode's parallel sub-agents compete for the same GPU instead of running side by side,
+so delegation gets slower, not faster (glm53 delegated tasks: 1,013 s -> 1,733 s); glm53 also lost accuracy on the long
+and delegated tasks (20 of 20 -> 15 of 20 runs).
+
 ### Smart grep (`sg1`, 1,200 runs)
 
 Four arms on the merged build (code mode off / on, each with and without `smart_grep = on`), 5 models (no astra).
@@ -155,7 +172,7 @@ smart grep's target; behaviour-style lookups in a large unfamiliar repo would be
   private HOME, so the owner's personal Code Puppy plugins do not load (earlier batches loaded them on both sides).
   Speculation was on in every code-mode run; from `sg1` on, the `spec_capture` plugin records its hits, misses and
   time saved per run (0.1 to 0.5 s per run: every tool here is a fast local read).
-- **Size:** 3,800 runs (incl. the hill-climb batches `lean1` to `lean4`, `astra1` and the smart grep batch `sg1`), records in `runs/codemode/<batch>/records.jsonl`. Claude models: 360 in `claude1`
+- **Size:** 4,040 runs (incl. the hill-climb batches `lean1` to `lean4`, `astra1`, the smart grep batch `sg1` and the self-hosted `vllm1`), records in `runs/codemode/<batch>/records.jsonl`. Claude models: 360 in `claude1`
   (30 tasks x off/on x 2 reps x 3 models, off and on from the same current-main build). Short tasks: 80 runs per
   iteration batch, 160 in the interleaved `conf` batch, 80 in `off1`. Long tasks: 120 in `long1`, 20 in
   `fix1`. Full transcripts (212 MB) are not committed; `scripts/cm_transcripts.py` is the code that
