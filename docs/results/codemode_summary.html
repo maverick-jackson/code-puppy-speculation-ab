@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Code mode: off vs on</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f7f8fb;color:#1c2330;font:17px/1.55 -apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:48px 28px 64px}
+h1{font-size:34px;margin:0 0 8px;letter-spacing:-.01em}.sub{color:#5b6576;margin:0 0 28px}
+table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid #e3e7ef;border-radius:14px;overflow:hidden}
+th{background:#eef1f6;color:#3d4757;font-size:14px;text-align:left;padding:12px 16px;font-weight:600}
+td{padding:11px 16px;border-top:1px solid #edf0f5;font-variant-numeric:tabular-nums;font-size:17px}
+tbody.model tr:first-child td{border-top:2px solid #dfe4ec}
+td.name{font-weight:700;font-size:18px;vertical-align:top;width:250px;padding-top:14px}
+td.setting{color:#5b6576;width:170px}
+tr.delta td{font-weight:600;font-size:15px;background:#fafbfd}
+.good{color:#0f7a4f}.bad{color:#b4322c}.flat{color:#5b6576}.mixed{color:#9a6400}
+.verdict{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#eef1f6}
+.verdict.good{background:#e3f6ec}.verdict.bad{background:#fbe6e4}.verdict.mixed{background:#fdf1dc}.verdict.flat{background:#eef1f6}
+.note{display:block;font-size:12px;font-weight:500;color:#8a93a3;margin-top:2px}
+.foot{color:#5b6576;font-size:14px;margin-top:22px}.foot a{color:#2556c9}
+</style></head><body><div class="wrap">
+<h1>Code mode: off vs on</h1>
+<p class="sub">Code Puppy on 30 coding tasks (short questions and bug fixes, long multi-part tasks, and tasks split across
+sub-agents). Each number is the average per task.</p>
+<table><thead><tr><th>Model</th><th>Setting</th><th>Cost per task</th><th>Accuracy</th><th>Speed (time per task)</th></tr></thead>
+<tbody class="model"><tr><td rowspan="3" class="name">gpt-6.1-sol<span class="note">measured before PR #1015</span><div class="verdict good">Turn it on</div></td><td class="setting">Code mode off</td><td>$0.13</td><td>90%</td><td>79 s</td></tr><tr><td class="setting">Code mode on</td><td>$0.11</td><td>92%</td><td>48 s</td></tr><tr class="delta"><td class="setting">With code mode</td><td class="good">15% cheaper</td><td class="flat">same</td><td class="good">39% faster</td></tr></tbody><tbody class="model"><tr><td rowspan="3" class="name">claude-opus-5.5<div class="verdict good">Turn it on</div></td><td class="setting">Code mode off</td><td>$0.17</td><td>100%</td><td>34 s</td></tr><tr><td class="setting">Code mode on</td><td>$0.15</td><td>97%</td><td>34 s</td></tr><tr class="delta"><td class="setting">With code mode</td><td class="good">7% cheaper</td><td class="flat">same</td><td class="flat">about the same</td></tr></tbody><tbody class="model"><tr><td rowspan="3" class="name">claude-haiku-5.5<span class="note">measured before PR #1015</span><div class="verdict good">Turn it on</div></td><td class="setting">Code mode off</td><td>$0.0070</td><td>98%</td><td>26 s</td></tr><tr><td class="setting">Code mode on</td><td>$0.0067</td><td>95%</td><td>24 s</td></tr><tr class="delta"><td class="setting">With code mode</td><td class="flat">about the same</td><td class="flat">same</td><td class="good">8% faster</td></tr></tbody><tbody class="model"><tr><td rowspan="3" class="name">claude-sonnet-5.5<div class="verdict good">Turn it on</div></td><td class="setting">Code mode off</td><td>$0.079</td><td>100%</td><td>27 s</td></tr><tr><td class="setting">Code mode on</td><td>$0.078</td><td>100%</td><td>25 s</td></tr><tr class="delta"><td class="setting">With code mode</td><td class="flat">about the same</td><td class="flat">same</td><td class="good">6% faster</td></tr></tbody><tbody class="model"><tr><td rowspan="3" class="name">gpt-6-astra<div class="verdict mixed">Your call: faster, but costs more</div></td><td class="setting">Code mode off</td><td>$0.45</td><td>93%</td><td>55 s</td></tr><tr><td class="setting">Code mode on</td><td>$0.48</td><td>90%</td><td>51 s</td></tr><tr class="delta"><td class="setting">With code mode</td><td class="bad">8% more expensive</td><td class="flat">same</td><td class="good">8% faster</td></tr></tbody><tbody class="model"><tr><td rowspan="3" class="name">gpt-6-luna<div class="verdict bad">Leave it off: costs more</div></td><td class="setting">Code mode off</td><td>$0.0047</td><td>77%</td><td>42 s</td></tr><tr><td class="setting">Code mode on</td><td>$0.0054</td><td>80%</td><td>44 s</td></tr><tr class="delta"><td class="setting">With code mode</td><td class="bad">15% more expensive</td><td class="flat">same</td><td class="flat">about the same</td></tr></tbody></table>
+<p class="foot"><b>How to read it.</b> Cost is what the tokens would cost at API list prices (the runs used subscriptions).
+Accuracy is the share of tasks fully right. Speed is the average time to finish a task. Changes within 5% (or 3 accuracy
+points) are shown as "about the same": each task ran twice per setting, so smaller differences are noise.
+Code mode is measured as it is on main today (after PR #1015) unless marked otherwise.
+Full details, per-task numbers and method: <a href="codemode_followup.html">full report</a>.</p>
+</div></body></html>

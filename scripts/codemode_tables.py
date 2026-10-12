@@ -329,6 +329,37 @@ def _per_task(rs: list[dict]) -> dict:
             for t, v in by.items()}
 
 
+# --- "today": each model's most current off-vs-on comparison ---------------------------------
+
+TODAY = {  # model -> ((off batch, variant), (on batch, variant), measured on current build?)
+    "claude-code-claude-opus-5-5": (("lean3", "off"), ("lean3", "on"), True),
+    "claude-code-claude-sonnet-5-5": (("lean3", "off"), ("lean3", "on"), True),
+    "codex-gpt-6-astra": (("astra1", "pr_off"), ("astra1", "pr_on"), True),
+    "codex-gpt-6-luna": (("lean3", "off"), ("lean4", "on"), True),
+    "codex-gpt-6.1-sol": (None, None, False),  # before #1015 only
+    "claude-code-claude-haiku-5-5": (("claude1", "off"), ("claude1", "on"), False),
+}
+
+
+def today() -> dict:
+    """Per model: task-balanced off-vs-on comparison on the most current build measured."""
+    out: dict = {}
+    src = onoff_sources()
+    for m, (off, on, current) in TODAY.items():
+        if off is None:
+            a, b = src[m]["off"], src[m]["on"]
+        else:
+            a = [r for r in records(off[0]) if r["model"] == m and r["variant"] == off[1]]
+            b = [r for r in records(on[0]) if r["model"] == m and r["variant"] == on[1]]
+        ta, tb = _per_task(a), _per_task(b)
+        o = overall({t: {"off": ta[t], "on": tb[t]} for t in ta if t in tb})
+        deleg = {"off": onoff_cell([r for r in a if r["task"].startswith("D_")]),
+                 "on": onoff_cell([r for r in b if r["task"].startswith("D_")])}
+        out[m] = {"overall": o, "current": current, "deleg": deleg,
+                  "calls_per_request": {"off": onoff_cell(a)["calls_per_request"], "on": onoff_cell(b)["calls_per_request"]}}
+    return out
+
+
 def md(headers: list[str], rows: list[list[object]]) -> str:
     return "\n".join(["| " + " | ".join(headers) + " |", "|" + "---|" * len(headers)]
                      + ["| " + " | ".join(str(c) for c in r) + " |" for r in rows])

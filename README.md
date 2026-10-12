@@ -14,7 +14,8 @@ tool calls instead of 1.6 to 2.0, and delegating to sub-agents is 2.4x faster wi
 At API list prices it is cheaper and faster for gpt-6.1-sol (-12% cost) and claude-haiku-5.5 (-3%), and costs 6 to 22%
 more for astra, luna, Opus and Sonnet (Opus and Sonnet about even on time, luna slower). code_puppy#1015 then removed the
 premium on Opus and Sonnet (cost parity) by keeping the prompt cache-stable.
-Write-up: `docs/CODEMODE_FOLLOWUP.md`; charts: `docs/results/codemode_followup.html`.
+Short answer per model (cost, accuracy, speed, off vs on): `docs/results/codemode_summary.html`;
+write-up: `docs/CODEMODE_FOLLOWUP.md`; full report: `docs/results/codemode_followup.html`.
 
 ## What I ran
 
