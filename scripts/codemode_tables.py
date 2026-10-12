@@ -355,8 +355,24 @@ def today() -> dict:
         o = overall({t: {"off": ta[t], "on": tb[t]} for t in ta if t in tb})
         deleg = {"off": onoff_cell([r for r in a if r["task"].startswith("D_")]),
                  "on": onoff_cell([r for r in b if r["task"].startswith("D_")])}
+        shared = sorted(t for t in ta if t in tb)
         out[m] = {"overall": o, "current": current, "deleg": deleg,
-                  "calls_per_request": {"off": onoff_cell(a)["calls_per_request"], "on": onoff_cell(b)["calls_per_request"]}}
+                  "calls_per_request": {"off": onoff_cell(a)["calls_per_request"], "on": onoff_cell(b)["calls_per_request"]},
+                  "tasks": {t: {"off": ta[t], "on": tb[t]} for t in shared},
+                  # One pass through the suite: the sum of each task's average cost (comparable across
+                  # sides even when a side has more runs).
+                  "suite_cost": {side: round(sum((ta if side == "off" else tb)[t]["cost"] for t in shared), 4)
+                                 for side in ("off", "on")},
+                  "runs": {"off": len(a), "on": len(b)}}
+    return out
+
+
+def benchmark_spend() -> dict:
+    """API list-price cost of every recorded run (parent + sub-agents), by batch."""
+    out = {}
+    for path in sorted(RUNS.glob("*/records.jsonl")):
+        rs = records(path.parent.name)
+        out[path.parent.name] = round(sum(r.get("cost_usd", 0) + (r.get("sub") or {}).get("cost_usd", 0) for r in rs), 2)
     return out
 
 

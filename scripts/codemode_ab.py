@@ -4,8 +4,9 @@
 Each variant is a code-puppy binary (--bin VARIANT=PATH, e.g. a venv per git checkout). Variants
 listed in --off run with enable_speculative_code_mode = false; all others run with it on.
 
-Isolation per run: fresh working copy (tasklib.prepare_work) and private XDG config / cache /
-state / data dirs with a minimal puppy.cfg. From ~/.code_puppy only OAuth credentials and model
+Isolation per run: fresh working copy (tasklib.prepare_work), a private HOME (user plugins load
+from ~/.code_puppy/plugins; the only one installed is spec_capture, which records speculation
+statistics) and private XDG config / cache / state / data dirs with a minimal puppy.cfg. From ~/.code_puppy only OAuth credentials and model
 lists are shared. ChatGPT: symlinks (its token file is rewritten in place, so a refresh updates the
 real file instead of forking the refresh token). Claude Code: a copy of the token file without the
 refresh token (its store saves by atomic rename), with the real token refreshed by the runner
@@ -112,6 +113,11 @@ def run_one(task: dict, model: str, variant: str, rep: int, a: argparse.Namespac
     (cfgdir / "puppy.cfg").write_text(CFG.format(model=model, code_mode=str(variant not in a.off).lower()))
     for name in SHARED_DATA:
         (datadir / name).symlink_to(REAL_DATA / name)
+    # Private HOME: user plugins load from ~/.code_puppy/plugins, so without this the owner's
+    # personal plugins would run in every benchmark process. The only plugin installed is
+    # spec_capture, which records speculation / eager statistics for the run.
+    home = tmp / "home"
+    shutil.copytree(ROOT / "plugin" / "spec_capture", home / ".code_puppy" / "plugins" / "spec_capture")
     if model.startswith("claude-code-"):
         install_claude_credentials(datadir)
     work = tasklib.prepare_work(task, tmp / "work")
@@ -119,6 +125,7 @@ def run_one(task: dict, model: str, variant: str, rep: int, a: argparse.Namespac
     rd.mkdir(parents=True, exist_ok=True)
     env = {k: v for k, v in os.environ.items() if not k.startswith(("XDG_", "VIRTUAL_ENV", "CODE_PUPPY"))}
     env.update({k: str(v) for k, v in xdg.items()})
+    env.update(HOME=str(home), SPEC_CAPTURE_OUT=str(rd / "capture.json"))
     env.update(NO_VERSION_UPDATE="1", NO_COLOR="1",
                PATH=str(ROOT / ".venv" / "bin") + os.pathsep + os.environ.get("PATH", ""))
     cmd = [a.bins[variant], "-p", task["prompt"], "-m", model, "--yolo", "true",
@@ -144,6 +151,12 @@ def run_one(task: dict, model: str, variant: str, rep: int, a: argparse.Namespac
                # gather: per answer field; long code: per hidden test file; short code: its one test file
                fields_ok=detail.get("fields_ok") or detail.get("parts_ok") or
                ([bool(correct)] if task["family"] == "code" else []))
+    capture = rd / "capture.json"
+    if capture.exists():
+        try:
+            rec["speculation"] = json.loads(capture.read_text()).get("spec_final")
+        except (OSError, ValueError):
+            rec["speculation"] = None
     if autos:
         shutil.copy2(autos[-1], rd / "transcript.json")
         rec.update(transcript_metrics(autos[-1]))
