@@ -1,0 +1,27 @@
+{
+ "id": "L_invkit_code",
+ "family": "code",
+ "base": "fixture:invkit",
+ "pythonpath": ".",
+ "prompt": "You are in a checkout of invkit, a small Python inventory toolkit (package source in invkit/). There are four open issues; resolve all of them. Part A: Feature request: add a method total_value(category=None) to the Inventory class that returns the total stock value (price times quantity, summed over items), rounded to 2 decimal places. When a category is given, only items in that category count, matched the same way by_category matches categories. Also add a --total flag to the command line tool in invkit/cli.py: when given, after the report it prints one final line of the form Total value: 212.50 (always 2 decimals). Part B: Bug report: parse_csv rejects numbers written with thousands separators. A row whose (quoted) quantity is \"1,200\" or whose price is \"1,299.50\" raises a ParseError, but these should parse as 1200 and 1299.5. Values that are not numbers must still raise ParseError with the correct line number, and negative values must still be rejected. Fix it. Part C: Bug report: the bulk discount policy is 5 percent off an order line when 10 or more units of one SKU are ordered, but an order line of exactly 10 units currently gets no discount (11 or more does). Find the cause and fix it. Part D: Feature request: format_report should accept a new keyword argument descending (default False) that reverses the sort order, for every supported sort key. Also add a --desc flag to the command line tool in invkit/cli.py that sorts the report in descending order of the --sort key. Default behaviour must not change. Change only library source files; do not add, edit or delete any test files. When you are finished, end your reply with one final line exactly: DONE",
+ "bug_patch": null,
+ "hidden": "hidden/test_hidden_0.py",
+ "hidden_files": [
+  "hidden/test_hidden_0.py",
+  "hidden/test_hidden_1.py",
+  "hidden/test_hidden_2.py",
+  "hidden/test_hidden_3.py"
+ ],
+ "sources": [
+  "f1_invkit_total_value",
+  "f2_invkit_thousands",
+  "f3_invkit_bulk_discount",
+  "f4_invkit_report_desc"
+ ],
+ "reference_parts": [
+  "tasks/code/f1_invkit_total_value/reference.patch",
+  "tasks/code/f2_invkit_thousands/reference.patch",
+  "tasks/code/f3_invkit_bulk_discount/reference.patch",
+  "tasks/code/f4_invkit_report_desc/reference.patch"
+ ]
+}

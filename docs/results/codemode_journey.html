@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The code mode journey</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f7f8fb;color:#1c2330;font:16px/1.5 -apple-system,"Segoe UI",Inter,Roboto,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 28px 56px}h1{font-size:32px;margin:0 0 6px}.sub{color:#5b6576;margin:0 0 18px}
+.seg-ctl{display:inline-flex;background:#e8ecf3;border-radius:999px;padding:3px;margin:0 0 12px}
+.seg-ctl button{font:inherit;font-size:14px;font-weight:600;border:0;background:none;color:#4b5565;padding:6px 16px;border-radius:999px;cursor:pointer}
+.seg-ctl button.on{background:#1c2330;color:#fff}
+.card{background:#fff;border:1px solid #e3e7ef;border-radius:14px;padding:10px}svg{width:100%;height:auto;display:block}
+.grid{stroke:#eef1f6}.zero{stroke:#1c2330;stroke-width:1.5}.goodzone{fill:#e9f7ef}.badzone{fill:#fcecea}.noise{fill:#f1f3f7;opacity:.85}
+.zone{font-size:13px;font-weight:700}.zone.good{fill:#0f7a4f}.zone.bad{fill:#b4322c}.noiselbl{font-size:11px;fill:#8a93a3}
+.tick{font-size:12px;fill:#6b7484}.ms{font-size:14px;font-weight:700;fill:#1c2330}.note{font-size:11.5px;fill:#6b7484}
+.line{fill:none;stroke-width:3;stroke-linecap:round;opacity:.9}.line.skipped{stroke-dasharray:2 7;stroke-width:2.5;opacity:.6}.pt{cursor:pointer;stroke:#fff;stroke-width:2}
+.end{font-size:13.5px;font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:4px}
+svg:has(g.model:hover) g.model:not(:hover){opacity:.15}g.model{transition:opacity .15s}
+#tip{position:fixed;display:none;background:#1c2330;color:#fff;font-size:13px;padding:8px 11px;border-radius:8px;pointer-events:none;
+line-height:1.45;box-shadow:0 6px 20px rgba(0,0,0,.2);max-width:340px}#tip span{color:#aab3c2}
+.foot{color:#6b7484;font-size:13px;margin-top:14px}.foot a{color:#2556c9}
+</style></head><body><div class="wrap">
+<h1>The code mode journey</h1>
+<p class="sub">How much more (or less) code mode costs than leaving it off, after each change we made. Zero is break-even;
+below the line, code mode wins.</p>
+<div class="seg-ctl"><button data-metric="cost" class="on">Cost</button><button data-metric="time">Speed</button><button data-metric="acc">Accuracy</button></div>
+<div class="card"><svg id="chart" viewBox="0 0 1000 560" role="img" aria-label="Code mode vs off, per milestone"></svg></div>
+<p class="foot">Each point compares code mode with code mode off on the same build (today's build for "#1015 today"), averaged
+over all 30 tasks with each task counted once, from 60 to 120 runs per point. Cost is API list price. Changes inside the grey
+band are noise. Lines start where a model was first measured: sol and luna at first ship; the others at #1013 + #1014; Haiku and
+Astra skipped the v1 to v3 hill climb (dotted where a model skipped steps). The self-hosted glm53 and qwen3.8-27b
+were only measured today, so they appear on the final scoreboard, not here. Hover a point for the raw numbers.
+Per-model tables: <a href="codemode_summary.html">summary</a>; everything else: <a href="codemode_followup.html">full report</a>.</p>
+</div><div id="tip"></div>
+<script type="application/json" id="data">{"milestones": [{"key": "pre", "label": "First ship", "note": "code mode as first shipped (sol, luna)"}, {"key": "main", "label": "#1013 + #1014", "note": "batching guidance; sub-agents from code mode"}, {"key": "v1", "label": "v1", "note": "guidance cut from 6.0k to 2.7k chars"}, {"key": "v2", "label": "v2", "note": "agent ID + workspace path out of the cached prompt"}, {"key": "v3", "label": "v3", "note": "guidance fixes (walrus example, import asyncio)"}, {"key": "pr", "label": "#1015 today", "note": "merged: v3 + grep results typed never-empty"}], "models": [{"name": "gpt-6.1-sol", "color": "#2563eb", "values": {"pre": {"cost": -0.1, "time": -18.1, "acc": 0.0, "abs": {"cost": 0.13036, "time": 64.9, "acc": 90.0, "off_cost": 0.1305, "off_time": 79.2, "off_acc": 90.0, "runs": 100}}, "main": {"cost": -15.5, "time": -39.3, "acc": 1.7, "abs": {"cost": 0.11027, "time": 48.1, "acc": 91.7, "off_cost": 0.1305, "off_time": 79.2, "off_acc": 90.0, "runs": 100}}, "pr": {"cost": -13.7, "time": -26.5, "acc": -1.7, "abs": {"cost": 0.11401, "time": 56.5, "acc": 90.0, "off_cost": 0.13214, "off_time": 76.9, "off_acc": 91.7, "runs": 60}}}}, {"name": "gpt-6-luna", "color": "#9333ea", "values": {"pre": {"cost": 14.2, "time": 25.0, "acc": -4.2, "abs": {"cost": 0.0061, "time": 46.0, "acc": 72.5, "off_cost": 0.00534, "off_time": 36.8, "off_acc": 76.7, "runs": 100}}, "main": {"cost": -0.6, "time": 1.1, "acc": -5.0, "abs": {"cost": 0.00531, "time": 37.2, "acc": 71.7, "off_cost": 0.00534, "off_time": 36.8, "off_acc": 76.7, "runs": 100}}, "v1": {"cost": 9.0, "time": 66.8, "acc": -13.4, "abs": {"cost": 0.00582, "time": 61.4, "acc": 63.3, "off_cost": 0.00534, "off_time": 36.8, "off_acc": 76.7, "runs": 60}}, "v2": {"cost": 14.4, "time": 20.9, "acc": -18.3, "abs": {"cost": 0.00548, "time": 45.2, "acc": 60.0, "off_cost": 0.00479, "off_time": 37.4, "off_acc": 78.3, "runs": 60}}, "v3": {"cost": 16.8, "time": 13.9, "acc": 0.0, "abs": {"cost": 0.0055, "time": 48.2, "acc": 76.7, "off_cost": 0.00471, "off_time": 42.3, "off_acc": 76.7, "runs": 60}}, "pr": {"cost": 5.9, "time": 10.6, "acc": 1.6, "abs": {"cost": 0.00519, "time": 43.7, "acc": 78.3, "off_cost": 0.0049, "off_time": 39.5, "off_acc": 76.7, "runs": 120}}}}, {"name": "gpt-6-astra", "color": "#db2777", "values": {"main": {"cost": 18.8, "time": 7.7, "acc": -1.7, "abs": {"cost": 0.54598, "time": 54.7, "acc": 90.0, "off_cost": 0.45949, "off_time": 50.8, "off_acc": 91.7, "runs": 60}}, "pr": {"cost": 7.6, "time": -8.1, "acc": -3.3, "abs": {"cost": 0.48361, "time": 50.8, "acc": 90.0, "off_cost": 0.44925, "off_time": 55.3, "off_acc": 93.3, "runs": 60}}}}, {"name": "claude-opus-5.5", "color": "#ea580c", "values": {"main": {"cost": 1.3, "time": -8.3, "acc": -3.3, "abs": {"cost": 0.18451, "time": 29.8, "acc": 96.7, "off_cost": 0.1821, "off_time": 32.5, "off_acc": 100.0, "runs": 60}}, "v1": {"cost": -5.6, "time": 1.8, "acc": 0.0, "abs": {"cost": 0.17197, "time": 33.1, "acc": 100.0, "off_cost": 0.1821, "off_time": 32.5, "off_acc": 100.0, "runs": 60}}, "v2": {"cost": -9.3, "time": -3.9, "acc": 0.0, "abs": {"cost": 0.15089, "time": 32.1, "acc": 100.0, "off_cost": 0.16641, "off_time": 33.4, "off_acc": 100.0, "runs": 60}}, "v3": {"cost": -7.3, "time": -0.9, "acc": -3.3, "abs": {"cost": 0.15303, "time": 33.7, "acc": 96.7, "off_cost": 0.16515, "off_time": 34.0, "off_acc": 100.0, "runs": 60}}, "pr": {"cost": -13.0, "time": -12.8, "acc": 1.7, "abs": {"cost": 0.14632, "time": 30.1, "acc": 100.0, "off_cost": 0.16819, "off_time": 34.5, "off_acc": 98.3, "runs": 60}}}}, {"name": "claude-sonnet-5.5", "color": "#16a34a", "values": {"main": {"cost": 20.3, "time": -4.1, "acc": 0.0, "abs": {"cost": 0.09808, "time": 23.3, "acc": 100.0, "off_cost": 0.08152, "off_time": 24.3, "off_acc": 100.0, "runs": 60}}, "v1": {"cost": 4.3, "time": 0.8, "acc": -1.7, "abs": {"cost": 0.08504, "time": 24.5, "acc": 98.3, "off_cost": 0.08152, "off_time": 24.3, "off_acc": 100.0, "runs": 60}}, "v2": {"cost": 7.1, "time": 4.9, "acc": 0.0, "abs": {"cost": 0.07859, "time": 25.7, "acc": 100.0, "off_cost": 0.07336, "off_time": 24.5, "off_acc": 100.0, "runs": 60}}, "v3": {"cost": -1.8, "time": -6.4, "acc": 0.0, "abs": {"cost": 0.07785, "time": 24.9, "acc": 100.0, "off_cost": 0.07929, "off_time": 26.6, "off_acc": 100.0, "runs": 60}}, "pr": {"cost": -5.4, "time": -6.3, "acc": 0.0, "abs": {"cost": 0.07555, "time": 23.8, "acc": 100.0, "off_cost": 0.07986, "off_time": 25.4, "off_acc": 100.0, "runs": 60}}}}, {"name": "claude-haiku-5.5", "color": "#0891b2", "values": {"main": {"cost": -3.3, "time": -8.1, "acc": -3.3, "abs": {"cost": 0.00674, "time": 23.7, "acc": 95.0, "off_cost": 0.00697, "off_time": 25.8, "off_acc": 98.3, "runs": 60}}, "pr": {"cost": -16.1, "time": -5.9, "acc": -3.3, "abs": {"cost": 0.00562, "time": 25.4, "acc": 96.7, "off_cost": 0.0067, "off_time": 27.0, "off_acc": 100.0, "runs": 60}}}}]}</script><script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const S = {metric: 'cost'};
+const W = 1000, H = 560, PL = 64, PR = 170, PT = 24, PB = 92;
+const NS = 'http://www.w3.org/2000/svg', svg = document.getElementById('chart'), tip = document.getElementById('tip');
+const META = {
+  cost: {unit: '%', up: 'code mode costs more', down: 'code mode is cheaper', lowerBetter: true, noise: 5},
+  time: {unit: '%', up: 'code mode is slower', down: 'code mode is faster', lowerBetter: true, noise: 5},
+  acc: {unit: ' pts', up: 'code mode is more accurate', down: 'code mode is less accurate', lowerBetter: false, noise: 3},
+};
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  (parent || svg).appendChild(e); return e;
+}
+const fmt = (v, u) => (v > 0 ? '+' : '') + Math.round(v) + u;
+const money = v => v >= 0.1 ? '$' + v.toFixed(2) : v >= 0.01 ? '$' + v.toFixed(3) : '$' + v.toFixed(4);
+function render() {
+  svg.innerHTML = '';
+  const meta = META[S.metric], ms = D.milestones;
+  const vals = D.models.flatMap(m => Object.values(m.values).map(v => v[S.metric]));
+  const span = Math.max(15, ...vals.map(Math.abs)) * 1.15;
+  const y0 = -Math.ceil(span / 5) * 5, y1 = Math.ceil(span / 5) * 5;
+  const X = i => PL + 30 + i * (W - PL - PR - 60) / (ms.length - 1);
+  const Y = v => PT + (y1 - v) / (y1 - y0) * (H - PT - PB);
+  // good / bad halves
+  const goodTop = meta.lowerBetter ? Y(0) : PT, goodH = meta.lowerBetter ? Y(y0) - Y(0) : Y(0) - PT;
+  el('rect', {x: PL, y: goodTop, width: W - PL - PR, height: goodH, class: 'goodzone'});
+  el('rect', {x: PL, y: meta.lowerBetter ? PT : Y(0), width: W - PL - PR, height: meta.lowerBetter ? Y(0) - PT : Y(y0) - Y(0), class: 'badzone'});
+  el('rect', {x: PL, y: Y(meta.noise), width: W - PL - PR, height: Y(-meta.noise) - Y(meta.noise), class: 'noise'});
+  el('text', {x: PL + 8, y: PT + 16, class: 'zone ' + (meta.lowerBetter ? 'bad' : 'good')}).textContent = '↑ ' + meta.up;
+  el('text', {x: PL + 8, y: Y(y0) - 8, class: 'zone ' + (meta.lowerBetter ? 'good' : 'bad')}).textContent = '↓ ' + meta.down;
+  for (let t = y0; t <= y1; t += (y1 - y0 > 60 ? 10 : 5)) {
+    el('line', {x1: PL, x2: W - PR, y1: Y(t), y2: Y(t), class: t === 0 ? 'zero' : 'grid'});
+    el('text', {x: PL - 8, y: Y(t) + 4, class: 'tick', 'text-anchor': 'end'}).textContent = t === 0 ? 'even' : fmt(t, meta.unit);
+  }
+  el('text', {x: PL + 8, y: Y(meta.noise) + 13, class: 'noiselbl'}).textContent = 'grey band: within noise';
+  ms.forEach((m, i) => {
+    el('line', {x1: X(i), x2: X(i), y1: PT, y2: H - PB, class: 'grid'});
+    el('text', {x: X(i), y: H - PB + 20, class: 'ms', 'text-anchor': 'middle'}).textContent = m.label;
+    const words = m.note.split(' '), lines = [''];
+    for (const w of words) (lines[lines.length - 1] + ' ' + w).trim().length > 22 ? lines.push(w) : lines[lines.length - 1] = (lines[lines.length - 1] + ' ' + w).trim();
+    lines.slice(0, 3).forEach((ln, j) => { el('text', {x: X(i), y: H - PB + 38 + j * 14, class: 'note', 'text-anchor': 'middle'}).textContent = ln; });
+  });
+  const ends = [];
+  for (const m of D.models) {
+    const g = el('g', {class: 'model'});
+    const pts = ms.map((s, i) => [i, s.key, m.values[s.key]]).filter(x => x[2]);
+    for (let j = 1; j < pts.length; j++) {  // dashed where milestones were skipped (not measured)
+      const [ia, , va] = pts[j - 1], [ib, , vb] = pts[j];
+      el('line', {x1: X(ia), y1: Y(va[S.metric]), x2: X(ib), y2: Y(vb[S.metric]), stroke: m.color,
+                  class: ib - ia > 1 ? 'line skipped' : 'line'}, g);
+    }
+    for (const [i, k, v] of pts) {
+      const last = k === pts[pts.length - 1][1];
+      const c = el('circle', {cx: X(i), cy: Y(v[S.metric]), r: last ? 7 : 5, fill: m.color, class: 'pt'}, g);
+      c.addEventListener('mousemove', e => {
+        const a = v.abs, ms_ = ms[i];
+        tip.style.display = 'block'; tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+        tip.innerHTML = `<b style="color:${m.color}">${m.name}</b> at <b>${ms_.label}</b><br><span>${ms_.note}</span><br>` +
+          `cost ${money(a.off_cost)} off → ${money(a.cost)} on (${fmt(v.cost, '%')})<br>` +
+          `time ${a.off_time.toFixed(0)} s → ${a.time.toFixed(0)} s (${fmt(v.time, '%')})<br>` +
+          `accuracy ${a.off_acc.toFixed(0)}% → ${a.acc.toFixed(0)}% (${fmt(v.acc, ' pts')})<br><span>${a.runs} code-mode runs</span>`;
+      });
+      c.addEventListener('mouseleave', () => tip.style.display = 'none');
+    }
+    const [li, , lv] = pts[pts.length - 1];
+    ends.push({g, x: X(li) + 14, y: Y(lv[S.metric]) + 4, text: `${m.name}  ${fmt(lv[S.metric], meta.unit)}`, color: m.color});
+  }
+  ends.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 16) ends[i].y = ends[i - 1].y + 16;
+  for (const e of ends) el('text', {x: e.x, y: e.y, class: 'end', fill: e.color}, e.g).textContent = e.text;
+}
+document.querySelectorAll('[data-metric]').forEach(b => b.onclick = () => { S.metric = b.dataset.metric;
+  document.querySelectorAll('[data-metric]').forEach(x => x.classList.toggle('on', x === b)); render(); });
+render();
+</script></body></html>

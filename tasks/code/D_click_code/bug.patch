@@ -1,0 +1,48 @@
+diff --git a/src/click/parser.py b/src/click/parser.py
+index 5fa7adf..402acdf 100644
+--- a/src/click/parser.py
++++ b/src/click/parser.py
+@@ -502,7 +502,7 @@ class OptionParser:
+         # supporting explicitly attached values.  In any case, we will try
+         # to long match the option first.
+         if "=" in arg:
+-            long_opt, explicit_value = arg.split("=", 1)
++            long_opt, explicit_value = arg.split("=")[:2]
+         else:
+             long_opt = arg
+         norm_long_opt = normalize_opt(long_opt, self.ctx)
+diff --git a/src/click/types.py b/src/click/types.py
+index 2b1d179..51e47a7 100644
+--- a/src/click/types.py
++++ b/src/click/types.py
+@@ -536,7 +536,7 @@ class IntRange(_NumberRangeBase, IntParamType):
+         if not open:
+             return bound
+ 
+-        return bound + dir
++        return bound
+ 
+ 
+ class FloatParamType(_NumberParamTypeBase):
+@@ -599,7 +599,7 @@ class BoolParamType(ParamType):
+         if value in {False, True}:
+             return bool(value)
+ 
+-        norm = value.strip().lower()
++        norm = value.strip()
+ 
+         if norm in {"1", "true", "t", "yes", "y", "on"}:
+             return True
+diff --git a/src/click/utils.py b/src/click/utils.py
+index d536434..df53aa6 100644
+--- a/src/click/utils.py
++++ b/src/click/utils.py
+@@ -80,7 +80,7 @@ def make_default_short_help(help: str, max_length: int = 45) -> str:
+         if total_length > max_length:  # too long, truncate
+             break
+ 
+-        if word[-1] == ".":  # sentence end, truncate without "..."
++        if word[-1] == "." and i == last_index:  # sentence end, truncate without "..."
+             return " ".join(words[: i + 1])
+ 
+         if total_length == max_length and i != last_index:

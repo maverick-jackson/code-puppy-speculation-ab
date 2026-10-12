@@ -1,0 +1,27 @@
+{
+ "id": "L_click_code",
+ "family": "code",
+ "base": "click",
+ "pythonpath": "src",
+ "prompt": "You are in a checkout of the Python library click (the package source is in src/click). There are four open issues; resolve all of them. Part A: Bug report: click.IntRange with clamp=True ignores open bounds. For example IntRange(0, 10, max_open=True, clamp=True) converts 15 to 10, but 10 is outside the open range, so the value should be clamped to 9. The same happens for min_open (it should clamp to min + 1). Closed bounds must keep clamping to the bound itself. Find the cause and fix it. Part B: Bug report: when a long option is given in the --name=value form and the value itself contains an equals sign, part of the value is lost. With an option --name, the command line --name=a=b=c delivers the value a instead of a=b=c. Find the cause and fix it so everything after the first equals sign is the value. Part C: Bug report: in the command listing of a group help page, the short help of a subcommand should stop at the end of the first sentence of its docstring. A subcommand documented as \"Initialize the repo. Creates files and directories as needed.\" is listed as \"Initialize the repo. Creates files and...\" instead of \"Initialize the repo.\". Find the cause and fix it without changing how text with no sentence end is truncated. Part D: Bug report: options of type bool only accept lowercase spellings. --debug true works, but --debug TRUE, --debug Yes or --debug Off fail with \"is not a valid boolean\". Accepted spellings should be case-insensitive (and surrounding whitespace ignored). Find the cause and fix it. Change only library source files; do not add, edit or delete any test files. When you are finished, end your reply with one final line exactly: DONE",
+ "bug_patch": "bug.patch",
+ "hidden": "hidden/test_hidden_0.py",
+ "hidden_files": [
+  "hidden/test_hidden_0.py",
+  "hidden/test_hidden_1.py",
+  "hidden/test_hidden_2.py",
+  "hidden/test_hidden_3.py"
+ ],
+ "sources": [
+  "c1_click_intrange_clamp",
+  "c2_click_longopt_equals",
+  "c3_click_short_help",
+  "c4_click_bool_case"
+ ],
+ "reference_parts": [
+  "tasks/code/c1_click_intrange_clamp/reference.patch",
+  "tasks/code/c2_click_longopt_equals/reference.patch",
+  "tasks/code/c3_click_short_help/reference.patch",
+  "tasks/code/c4_click_bool_case/reference.patch"
+ ]
+}

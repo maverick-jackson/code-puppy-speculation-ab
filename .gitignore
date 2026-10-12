@@ -10,3 +10,6 @@ runs/tmp/*/_work/
 *.bak
 .venv-analysis/
 runs/main1/proxy-*/
+# code-mode follow-up: commit records.jsonl only, not per-run dirs (transcripts)
+runs/codemode/*/*/
+runs/codemode/*.log

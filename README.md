@@ -4,6 +4,25 @@ Short answer from my testing: not on short tasks. It made all three models I tri
 
 _Glitch asked for people to test `enable_speculative_code_mode` before it becomes the default, so I set up a proper A/B. I ran it with Claude Code doing the heavy lifting (details at the bottom).
 
+## Follow-up (2026-10-11): code mode that actually batches
+
+The finding above (one tool call per snippet, sandbox gaps) was fixed in Code Puppy
+([#1013](https://github.com/mpfaffenberger/code_puppy/pull/1013), [#1014](https://github.com/mpfaffenberger/code_puppy/pull/1014))
+and re-measured on the same 20 tasks plus 10 new long-horizon and sub-agent tasks: for the GPT models, snippets now carry 2.7 to 3.2
+tool calls instead of 1.6 to 2.0, and delegating to sub-agents is 2.4x faster with code mode than without it. Across all 30 tasks and six models
+(gpt-6.1-sol, gpt-6-luna, gpt-6-astra, Claude Opus / Sonnet / Haiku 5.5) every model makes 12 to 40% fewer model requests.
+At API list prices it is cheaper and faster for gpt-6.1-sol (-12% cost) and claude-haiku-5.5 (-3%), and costs 6 to 22%
+more for astra, luna, Opus and Sonnet (Opus and Sonnet about even on time, luna slower).
+[code_puppy#1015](https://github.com/mpfaffenberger/code_puppy/pull/1015) then found and fixed the cause (the agent ID and
+workspace path were busting Anthropic's prompt cache). On the merged build, code mode is cheaper for 4 of 6 models
+(Haiku -16%, sol -14%, Opus -13%, Sonnet -5%) and faster for 5 of 6; luna (+6%) and astra (+8%) still cost a little more;
+accuracy is within noise everywhere. Smart grep (semantic search) was also tried and did not help on these tasks.
+On self-hosted vLLM models code mode is slower (glm53 +42%, qwen3.8-27b +14%) and glm53 loses accuracy (98% -> 90%).
+
+Pages (`docs/results/`): `codemode_final.html` (today, off vs on, per model), `codemode_journey.html` (how each change
+moved code mode's cost / speed / accuracy), `codemode_summary.html` (per-model tabs with every task),
+`codemode_followup.html` (full report). Write-up: `docs/CODEMODE_FOLLOWUP.md`.
+
 ## What I ran
 
 - code-puppy 0.0.896, headless, through a local LiteLLM proxy

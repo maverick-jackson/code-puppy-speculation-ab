@@ -1,0 +1,78 @@
+{
+ "id": "D_httpx_gather",
+ "family": "gather",
+ "repo": "httpx",
+ "prompt": "You are in a checkout of the Python library httpx. Using only the files in this repository, answer all four parts below. Part A: (1) how many entries the dictionary that maps httpcore exceptions to httpx exceptions contains; (2) the name of the context manager function that uses that dictionary to re-raise exceptions; (3) how many classes defined in httpx/_exceptions.py inherit, directly or indirectly, from TransportError (do not count TransportError itself); (4) the default maximum number of redirects a Client follows. Part B: About redirect handling in the sync and async clients: (1) the line number in httpx/_client.py of the line that raises TooManyRedirects (the line containing the raise statement); (2) the HTTP status codes (numbers) for which a redirect can change the request method to GET, as a comma separated list; (3) the request headers that are removed when the redirect switches the method to GET, as a comma separated list; (4) the one request header that is removed on every redirect regardless of origin or method. Part C: (1) the CHUNK_SIZE, as a plain integer, that httpx uses when reading file-like request content; (2) the content-encoding names registered in the decoder mapping in httpx/_decoders.py (every key written in that mapping, including any that may be removed at runtime), as a comma separated list; (3) the line number in httpx/_content.py on which the function encode_request is defined (the def line); (4) the name of the constant in the URL parsing module that limits the length of a URL. Part D: (1) how many names are listed in __all__ in httpx/__init__.py; (2) the default timeout in seconds of DEFAULT_TIMEOUT_CONFIG; (3) the default max_connections of DEFAULT_LIMITS; (4) the default max_keepalive_connections of DEFAULT_LIMITS. Do not modify any files. This is a large task with independent parts. Delegate the parts to sub-agents with invoke_agent (agent_name \"code-puppy\"), giving each sub-agent everything it needs in its prompt, then check and combine their results yourself. End your reply with one final line exactly in the form ANSWER: <entries>|<function name>|<count>|<max redirects>|<line number>|<status codes>|<headers>|<header>|<chunk size>|<encodings>|<line number>|<constant name>|<count>|<timeout seconds>|<max connections>|<max keepalive connections>",
+ "answer": [
+  {
+   "kind": "int",
+   "value": 14
+  },
+  {
+   "kind": "name",
+   "value": "map_httpcore_exceptions"
+  },
+  {
+   "kind": "int",
+   "value": 15
+  },
+  {
+   "kind": "int",
+   "value": 20
+  },
+  {
+   "kind": "int",
+   "value": 972
+  },
+  {
+   "kind": "set",
+   "value": "301,302,303"
+  },
+  {
+   "kind": "set",
+   "value": "content-length,transfer-encoding"
+  },
+  {
+   "kind": "name",
+   "value": "cookie"
+  },
+  {
+   "kind": "int",
+   "value": 65536
+  },
+  {
+   "kind": "set",
+   "value": "br,deflate,gzip,identity"
+  },
+  {
+   "kind": "int",
+   "value": 182
+  },
+  {
+   "kind": "name",
+   "value": "MAX_URL_LENGTH"
+  },
+  {
+   "kind": "int",
+   "value": 69
+  },
+  {
+   "kind": "num",
+   "value": 5.0
+  },
+  {
+   "kind": "int",
+   "value": 100
+  },
+  {
+   "kind": "int",
+   "value": 20
+  }
+ ],
+ "sources": [
+  "h1_httpx_exceptions",
+  "h2_httpx_redirects",
+  "h3_httpx_content",
+  "h4_httpx_defaults"
+ ]
+}
