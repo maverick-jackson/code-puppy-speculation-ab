@@ -172,6 +172,8 @@ def onoff_cell(recs: list[dict]) -> dict:
 GPT_MODELS = MODELS
 CLAUDE_MODELS = ("claude-code-claude-opus-5-5", "claude-code-claude-sonnet-5-5", "claude-code-claude-haiku-5-5")
 ONOFF_MODELS = GPT_MODELS + CLAUDE_MODELS
+# Models added later in a single interleaved batch on the current-main build: model -> (batch, off, on).
+EXTRA_ONOFF = {"codex-gpt-6-astra": ("astra1", "off", "on")}
 
 
 def onoff_sources() -> dict[str, dict[str, list[dict]]]:
@@ -187,6 +189,12 @@ def onoff_sources() -> dict[str, dict[str, list[dict]]]:
               + [r for r in long1 if r["variant"] == "new" and r["task"].startswith("L_")] + fix1)
     out = {m: {"off": [r for r in gpt_off if r["model"] == m], "on": [r for r in gpt_on if r["model"] == m]}
            for m in GPT_MODELS}
+    for m, (batch, off_v, on_v) in EXTRA_ONOFF.items():
+        if (RUNS / batch / "records.jsonl").exists():
+            rs = [r for r in records(batch) if r["model"] == m]
+            sides = {"off": [r for r in rs if r["variant"] == off_v], "on": [r for r in rs if r["variant"] == on_v]}
+            if sides["off"] and sides["on"]:
+                out[m] = sides
     if (RUNS / "claude1" / "records.jsonl").exists():
         claude = records("claude1")
         for m in CLAUDE_MODELS:
@@ -259,6 +267,9 @@ HILLCLIMB = {  # model -> {side: (batch, variant)}; Claude PR = v3 (lean3), luna
                                       "pr_off": ("lean3", "off"), "pr_on": ("lean3", "on")},
     "codex-gpt-6-luna": {"main_off": ("gpt_off", "off"), "main_on": ("gpt_on", "on"),
                          "pr_off": ("lean3", "off"), "pr_on": ("lean4", "on")},
+    # Astra: all four sides in one interleaved batch (main build and the full PR build).
+    "codex-gpt-6-astra": {"main_off": ("astra1", "off"), "main_on": ("astra1", "on"),
+                          "pr_off": ("astra1", "pr_off"), "pr_on": ("astra1", "pr_on")},
 }
 
 
@@ -289,6 +300,8 @@ def hillclimb() -> dict:
     out: dict = {}
     for m, sides in HILLCLIMB.items():
         recs = {k: _hc_records(m, *v) for k, v in sides.items()}
+        if not all(recs.values()):
+            continue  # batch not run (yet)
         cells = {k: onoff_cell(v) for k, v in recs.items()}
 
         def pair(a: str, b: str) -> dict:

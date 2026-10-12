@@ -449,9 +449,10 @@ def hc_section() -> str:
                      "with code mode: the ChatGPT backend caches little of the harness's ~9.9k-char <code>run_code</code> description "
                      "(every sandbox function signature), and luna saves few requests. Slimming that description is a "
                      "pydantic-ai-harness change.")
-    return f"""<section><h2>Update: making code mode cheaper (PR #1015)<small>Hill climb on the three models where code mode
-cost more. Off and on re-measured on the PR build, shuffled together; 30 tasks x 2 runs per side per model. Claude measured on the
-v3 build (all PR commits except the grep-types fix, which Claude never needed), luna on v4 (the full PR).</small></h2>
+    return f"""<section><h2>Update: making code mode cheaper (PR #1015)<small>Hill climb on the models where code mode cost more (Opus, Sonnet,
+luna), plus gpt-6-astra added afterwards. Off and on re-measured on the PR build, shuffled together; 30 tasks x 2 runs per side per
+model. Claude measured on the v3 build (all PR commits except the grep-types fix, which Claude never needed), luna on v4 (the full
+PR); astra ran all four variants (main and PR, off and on) in one interleaved batch on the full PR.</small></h2>
 {hc_table()}
 {hc_legend()}
 <div class="grid2"><div class="card">{multi_bars("Cost per task, index (main, code mode off = 100)", cost_groups, "{:.0f}")}
@@ -583,7 +584,7 @@ ships on Code Puppy main today (after #1013 and #1014): the model writes Python 
 {CPR[0]:.1f} to {CPR[-1]:.1f} tool calls instead of {CPR_OFF[0]:.1f} to {CPR_OFF[-1]:.1f}. Whether that becomes less wall time and fewer
 tokens depends on the model: a typical code-mode request carries {OVERHEAD_MED:.1f}k more input tokens than a plain one
 (median across models and workloads; the <code>run_code</code> description with every sandbox function signature, plus larger
-snippet results). In {OVERHEAD_NEG} of {len(OVERHEAD)} model-workload cells it is smaller instead, because fewer turns resend less history. Most of those tokens are cached, so what they cost depends on the provider (see Cost). Faster and cheaper
+snippet results). In {OVERHEAD_NEG} of {len(OVERHEAD)} model-workload cells it is smaller instead, because fewer turns resend less history. How much of that is served from cache depends on the provider (Claude: most of it; the ChatGPT backend: little), so what it costs does too (see Cost). Faster and cheaper
 with code mode, median over tasks: {", ".join(winners) if winners else "none"}.</div>
 </section>
 
@@ -651,7 +652,8 @@ sub-agents pinned to the run's model. Model settings are Code Puppy defaults (no
 except reasoning effort low for the GPT models.</li>
 <li>Claude models: one batch, off and on from the same current-main build, shuffled together; 2 runs per task per side.
 Credentials: a copy of the Claude Code OAuth token without its refresh token, the real token refreshed by the runner.</li>
-<li>GPT models: off from a pre-#1013 main build (code mode off); on from separate batches (short tasks 4 runs per task, long and
+<li>gpt-6-astra: one batch, off and on from the same current-main build plus the PR #1015 build, all shuffled together.</li>
+<li>gpt-6.1-sol and gpt-6-luna: off from a pre-#1013 main build (code mode off); on from separate batches (short tasks 4 runs per task, long and
 delegated 2). Their off and on runs were not all interleaved in time.</li>
 <li>Short tasks are the original A/B's 20 tasks and graders; long tasks are composed from them (validated answer keys and hidden
 tests). Tokens and requests include every sub-agent. Wall time includes timed-out runs at 900s.</li>

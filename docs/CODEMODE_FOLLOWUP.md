@@ -32,19 +32,23 @@ on the v3 build, luna on v4), median of per-task changes:
 | claude-opus-5.5 | +17% | +0% | -17% | -9% | 3,857 -> 970 |
 | claude-sonnet-5.5 | +22% | +0% | -19% | -6% | 3,858 -> 974 |
 | gpt-6-luna | +16% | +21% | -5% | -6% | n/a |
+| gpt-6-astra | +6% | +6% | -13% | -5% | n/a |
 
 luna's code-mode success went 77% -> 80% (77% off), but it still costs about 20% more: the ChatGPT backend
-caches little of the harness's ~9.9k-char `run_code` description, and luna saves few requests.
+caches little of the harness's ~9.9k-char `run_code` description, and luna saves few requests. gpt-6-astra
+(added afterwards; all four variants in one interleaved batch, `astra1`) shows the same pattern more mildly:
+code mode cuts its requests by about 30% but costs 6% more, before and after the PR.
 
 ## Short answer
 
-- **Code mode on vs off across all 30 tasks, five models** (task-balanced: median of per-task changes;
+- **Code mode on vs off across all 30 tasks, six models** (task-balanced: median of per-task changes;
   cost at API list prices, see below). Every model makes fewer model requests with code mode:
 
   | model | cost | model requests | wall time | success off → on |
   |---|---|---|---|---|
   | gpt-6.1-sol | -12% | -40% | -6% | 90% → 92% |
   | gpt-6-luna | +16% | -12% | +16% | 77% → 72% |
+  | gpt-6-astra | +6% | -31% | +0% | 92% → 90% |
   | claude-opus-5.5 | +17% | -16% | -1% | 100% → 97% |
   | claude-sonnet-5.5 | +22% | -19% | -3% | 100% → 100% |
   | claude-haiku-5.5 | -3% | -25% | -8% | 98% → 95% |
@@ -93,7 +97,7 @@ caches little of the harness's ~9.9k-char `run_code` description, and luna saves
 
 - **Variants** (`--bin VARIANT=PATH`): `off` = code-puppy main with code mode disabled; `base` = code mode
   before #1013 (main at f2f2e462); `new` = after #1013; `fix` = after #1014.
-- **Models:** `codex-gpt-6.1-sol` and `codex-gpt-6-luna` through Code Puppy's ChatGPT OAuth, and
+- **Models:** `codex-gpt-6.1-sol`, `codex-gpt-6-luna` and `codex-gpt-6-astra` through Code Puppy's ChatGPT OAuth, and
   `claude-code-claude-{opus,sonnet,haiku}-5-5` through its Claude Code OAuth (no LiteLLM). Claude runs get a
   copy of the OAuth token without its refresh token; the runner refreshes the real token through the
   plugin when needed, so benchmark runs can never rotate it.
@@ -121,7 +125,7 @@ caches little of the harness's ~9.9k-char `run_code` description, and luna saves
 - **Metrics:** nested tool calls are read from the `run_code` return metadata, so loops and
   `asyncio.gather` fan-outs are counted exactly. Long-task totals include every sub-agent's requests
   and tokens. "Parts right" is the share of answer fields (gather) or hidden test files (code) passed.
-- **Size:** 1,220 runs, records in `runs/codemode/<batch>/records.jsonl`. Claude models: 360 in `claude1`
+- **Size:** 2,600 runs (incl. the hill-climb batches `lean1` to `lean4` and `astra1`), records in `runs/codemode/<batch>/records.jsonl`. Claude models: 360 in `claude1`
   (30 tasks x off/on x 2 reps x 3 models, off and on from the same current-main build). Short tasks: 80 runs per
   iteration batch, 160 in the interleaved `conf` batch, 80 in `off1`. Long tasks: 120 in `long1`, 20 in
   `fix1`. Full transcripts (212 MB) are not committed; `scripts/cm_transcripts.py` is the code that
