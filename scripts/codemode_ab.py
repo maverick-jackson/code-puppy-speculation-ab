@@ -110,7 +110,11 @@ def run_one(task: dict, model: str, variant: str, rep: int, a: argparse.Namespac
     cfgdir, datadir = xdg["XDG_CONFIG_HOME"] / "code_puppy", xdg["XDG_DATA_HOME"] / "code_puppy"
     cfgdir.mkdir(parents=True)
     datadir.mkdir(parents=True)
-    (cfgdir / "puppy.cfg").write_text(CFG.format(model=model, code_mode=str(variant not in a.off).lower()))
+    cfg = CFG.format(model=model, code_mode=str(variant not in a.off).lower())
+    for key, value in a.cfg.get(variant, {}).items():  # per-variant overrides, e.g. smart_grep = on
+        lines = [ln for ln in cfg.splitlines() if not ln.startswith(f"{key} =")]
+        cfg = "\n".join(lines + [f"{key} = {value}"]) + "\n"
+    (cfgdir / "puppy.cfg").write_text(cfg)
     for name in SHARED_DATA:
         (datadir / name).symlink_to(REAL_DATA / name)
     # Private HOME: user plugins load from ~/.code_puppy/plugins, so without this the owner's
@@ -126,6 +130,8 @@ def run_one(task: dict, model: str, variant: str, rep: int, a: argparse.Namespac
     env = {k: v for k, v in os.environ.items() if not k.startswith(("XDG_", "VIRTUAL_ENV", "CODE_PUPPY"))}
     env.update({k: str(v) for k, v in xdg.items()})
     env.update(HOME=str(home), SPEC_CAPTURE_OUT=str(rd / "capture.json"))
+    if a.jev_key:  # only consulted when the variant sets smart_grep = on
+        env["JEV_API_KEY"] = a.jev_key
     env.update(NO_VERSION_UPDATE="1", NO_COLOR="1",
                PATH=str(ROOT / ".venv" / "bin") + os.pathsep + os.environ.get("PATH", ""))
     cmd = [a.bins[variant], "-p", task["prompt"], "-m", model, "--yolo", "true",
@@ -189,7 +195,25 @@ def main() -> None:
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--timeout", type=int, default=900)
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--cfg", action="append", default=[], metavar="VARIANT:KEY=VALUE",
+                    help="extra puppy.cfg setting for one variant (repeatable)")
     a = ap.parse_args()
+    a.cfg_raw = a.cfg
+    a.cfg = {}
+    for item in a.cfg_raw:
+        variant, kv = item.split(":", 1)
+        key, value = kv.split("=", 1)
+        a.cfg.setdefault(variant, {})[key.strip()] = value.strip()
+    a.jev_key = ""
+    if any(v.get("smart_grep") == "on" for v in a.cfg.values()):
+        # Read once through code-puppy's own credential lookup (config / secret store); never printed.
+        any_bin = Path(dict(b.split("=", 1) for b in a.bin)[next(iter(a.cfg))]).parent / "python"
+        got = subprocess.run([str(any_bin), "-c", "from code_puppy.config import get_api_key as g; "
+                              "print(g('TYPESAFE_API_KEY') or g('JEV_API_KEY') or '')"],
+                             capture_output=True, text=True, timeout=120)
+        a.jev_key = got.stdout.strip()
+        if not a.jev_key:
+            raise SystemExit("smart_grep requested but no TypeSafe / Jev key is configured")
     a.bins = dict(b.split("=", 1) for b in a.bin)
     a.off = set(filter(None, a.off.split(",")))
     tasks = tasklib.load_tasks([t for t in a.tasks.split(",") if t] or None)
