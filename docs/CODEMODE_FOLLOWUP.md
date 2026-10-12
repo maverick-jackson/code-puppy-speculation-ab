@@ -39,6 +39,32 @@ caches little of the harness's ~9.9k-char `run_code` description, and luna saves
 (added afterwards; all four variants in one interleaved batch, `astra1`) shows the same pattern more mildly:
 code mode cuts its requests by about 30% but costs 6% more, before and after the PR.
 
+### Today: code mode off vs on on the merged build
+
+Both sides from the merged #1015 build, shuffled together (`sg1` for five models, plus `lean4` for luna, `astra1`
+for astra); task-balanced means over all 30 tasks. Chart: `docs/results/codemode_final.html`.
+
+| model | cost | speed (time per task) | accuracy |
+|---|---|---|---|
+| claude-haiku-5.5 | -16% | -6% | 100% -> 97% |
+| gpt-6.1-sol | -14% | -26% | 92% -> 90% |
+| claude-opus-5.5 | -13% | -13% | 98% -> 100% |
+| claude-sonnet-5.5 | -5% | -6% | 100% -> 100% |
+| gpt-6-luna | +6% | +11% | 77% -> 78% |
+| gpt-6-astra | +8% | -8% | 93% -> 90% |
+
+How each change moved these numbers, milestone by milestone: `docs/results/codemode_journey.html`.
+
+### Smart grep (`sg1`, 1,200 runs)
+
+Four arms on the merged build (code mode off / on, each with and without `smart_grep = on`), 5 models (no astra).
+Claude never called smart_grep (0 calls in 360 runs) but paid its prompt and tool schema (+1.0 to 1.3k input tokens
+per request); the GPT models called it 0.7 to 1.4 times per run. It made every model 1 to 15% more expensive
+(median per-task change) with no speed gain, and with code mode off luna's accuracy fell from 77% to 62%, the extra
+failures concentrated on questions that need a complete list (smart grep ranks; it does not enumerate). The Jev
+judge's own cost is not included. These tasks (small pinned repos, known symbols, complete-list answers) are not
+smart grep's target; behaviour-style lookups in a large unfamiliar repo would be the fairer test.
+
 ## Short answer
 
 - **Code mode on vs off across all 30 tasks, six models** (task-balanced: median of per-task changes;
@@ -125,7 +151,11 @@ code mode cuts its requests by about 30% but costs 6% more, before and after the
 - **Metrics:** nested tool calls are read from the `run_code` return metadata, so loops and
   `asyncio.gather` fan-outs are counted exactly. Long-task totals include every sub-agent's requests
   and tokens. "Parts right" is the share of answer fields (gather) or hidden test files (code) passed.
-- **Size:** 2,600 runs (incl. the hill-climb batches `lean1` to `lean4` and `astra1`), records in `runs/codemode/<batch>/records.jsonl`. Claude models: 360 in `claude1`
+- **Isolation and speculation:** every run gets a fresh working copy, private XDG dirs and (from `sg1` on) a
+  private HOME, so the owner's personal Code Puppy plugins do not load (earlier batches loaded them on both sides).
+  Speculation was on in every code-mode run; from `sg1` on, the `spec_capture` plugin records its hits, misses and
+  time saved per run (0.1 to 0.5 s per run: every tool here is a fast local read).
+- **Size:** 3,800 runs (incl. the hill-climb batches `lean1` to `lean4`, `astra1` and the smart grep batch `sg1`), records in `runs/codemode/<batch>/records.jsonl`. Claude models: 360 in `claude1`
   (30 tasks x off/on x 2 reps x 3 models, off and on from the same current-main build). Short tasks: 80 runs per
   iteration batch, 160 in the interleaved `conf` batch, 80 in `off1`. Long tasks: 120 in `long1`, 20 in
   `fix1`. Full transcripts (212 MB) are not committed; `scripts/cm_transcripts.py` is the code that

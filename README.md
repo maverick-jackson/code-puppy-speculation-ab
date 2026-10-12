@@ -12,10 +12,15 @@ and re-measured on the same 20 tasks plus 10 new long-horizon and sub-agent task
 tool calls instead of 1.6 to 2.0, and delegating to sub-agents is 2.4x faster with code mode than without it. Across all 30 tasks and six models
 (gpt-6.1-sol, gpt-6-luna, gpt-6-astra, Claude Opus / Sonnet / Haiku 5.5) every model makes 12 to 40% fewer model requests.
 At API list prices it is cheaper and faster for gpt-6.1-sol (-12% cost) and claude-haiku-5.5 (-3%), and costs 6 to 22%
-more for astra, luna, Opus and Sonnet (Opus and Sonnet about even on time, luna slower). code_puppy#1015 then removed the
-premium on Opus and Sonnet (cost parity) by keeping the prompt cache-stable.
-Short answer per model (cost, accuracy, speed, off vs on): `docs/results/codemode_summary.html`;
-write-up: `docs/CODEMODE_FOLLOWUP.md`; full report: `docs/results/codemode_followup.html`.
+more for astra, luna, Opus and Sonnet (Opus and Sonnet about even on time, luna slower).
+[code_puppy#1015](https://github.com/mpfaffenberger/code_puppy/pull/1015) then found and fixed the cause (the agent ID and
+workspace path were busting Anthropic's prompt cache). On the merged build, code mode is cheaper for 4 of 6 models
+(Haiku -16%, sol -14%, Opus -13%, Sonnet -5%) and faster for 5 of 6; luna (+6%) and astra (+8%) still cost a little more;
+accuracy is within noise everywhere. Smart grep (semantic search) was also tried and did not help on these tasks.
+
+Pages (`docs/results/`): `codemode_final.html` (today, off vs on, per model), `codemode_journey.html` (how each change
+moved code mode's cost / speed / accuracy), `codemode_summary.html` (per-model tabs with every task),
+`codemode_followup.html` (full report). Write-up: `docs/CODEMODE_FOLLOWUP.md`.
 
 ## What I ran
 
