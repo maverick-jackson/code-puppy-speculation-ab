@@ -55,9 +55,24 @@ def num(v: float) -> str:
     return f"{v:.1f}" if abs(v) >= 10 else f"{v:.2f}"
 
 
+def money(v: float) -> str:
+    return f"${v:.2f}" if v >= 1 else f"${v:.3f}" if v >= 0.01 else f"${v:.4f}"
+
+
+def val(key: str, v: object) -> str:
+    if key.startswith("cost_"):
+        return money(float(v))  # type: ignore[arg-type]
+    return num(v) if isinstance(v, float) else str(v)
+
+
 # ---------------------------------------------------------------- charts
 
-def pair_bars(title: str, m: str, key: str, fmt: str = "{:.1f}", lower_better: bool = True, unit: str = "") -> str:
+def cents(v: float) -> str:
+    c = v * 100
+    return f"{c:.1f}" if c >= 1 else f"{c:.2f}"
+
+
+def pair_bars(title: str, m: str, key: str, fmt="{:.1f}", lower_better: bool = True, unit: str = "") -> str:  # noqa: ANN001
     cells = D["cells"][m]
     vals = [(k, cells[k]["off"][key], cells[k]["on"][key]) for k, _ in WL]
     vmax = max(max(a, b) for _, a, b in vals) * 1.2 or 1
@@ -74,9 +89,10 @@ def pair_bars(title: str, m: str, key: str, fmt: str = "{:.1f}", lower_better: b
         for j, (v, color, side) in enumerate(((a, OFF, "off"), (b, ON, "on"))):
             bh = (base - pt) * v / vmax
             x = x0 + j * bw
+            label = fmt(v) if callable(fmt) else fmt.format(v)
             out.append(f'<rect x="{x + 2:.1f}" y="{base - bh:.1f}" width="{bw - 4:.1f}" height="{bh:.1f}" rx="4" '
-                       f'fill="{color}"><title>{side}: {fmt.format(v)}{unit}</title></rect>'
-                       f'<text x="{x + bw / 2:.1f}" y="{base - bh - 5:.1f}" class="bv">{fmt.format(v)}</text>')
+                       f'fill="{color}"><title>{side}: {label}{unit}</title></rect>'
+                       f'<text x="{x + bw / 2:.1f}" y="{base - bh - 5:.1f}" class="bv">{label}</text>')
         c = change(b, a)
         cls = tone(c, lower_better)
         cx = pl + i * gw + gw / 2
@@ -155,6 +171,45 @@ def mix_bars(m: str) -> str:
     return "".join(out) + "</svg>"
 
 
+PART_COLORS = [("cost_uncached", "uncached input", "#f5a524"), ("cost_cache_read", "cache reads", "#38bdf8"),
+               ("cost_cache_write", "cache writes", "#a78bfa"), ("cost_output", "output", "#f472b6")]
+
+
+def cost_stack(m: str) -> str:
+    """Cost per task split into components, off vs on, per workload."""
+    cells = D["cells"][m]
+    vmax = max(cells[k][s]["cost_usd"] for k, _ in WL for s in ("off", "on")) * 1.15 or 1
+    w, h, pl, pb, pt = 560, 270, 10, 66, 36
+    gw = (w - 2 * pl) / len(WL)
+    bw = min(30, (gw - 14) / 2)
+    base = h - pb
+    out = [f'<svg viewBox="0 0 {w} {h}" class="chart" role="img" aria-label="cost breakdown">',
+           f'<text x="{pl + 4}" y="18" class="ct">Cost per task by component (US cents)</text>',
+           f'<line x1="{pl}" y1="{base}" x2="{w - pl}" y2="{base}" class="axis"/>']
+    for i, (k, _) in enumerate(WL):
+        x0 = pl + i * gw + (gw - 2 * bw) / 2
+        for j, side in enumerate(("off", "on")):
+            c, y, x = cells[k][side], base, x0 + j * bw
+            for key, label, color in PART_COLORS:
+                hh = (base - pt) * c[key] / vmax
+                if hh > 0.3:
+                    out.append(f'<rect x="{x + 2:.1f}" y="{y - hh:.1f}" width="{bw - 4:.1f}" height="{hh:.1f}" fill="{color}">'
+                               f'<title>{side} {label}: {cents(c[key])}¢</title></rect>')
+                y -= hh
+            out.append(f'<text x="{x + bw / 2:.1f}" y="{y - 5:.1f}" class="bv">{cents(c["cost_usd"])}</text>')
+        cx = pl + i * gw + gw / 2
+        cg = change(cells[k]["on"]["cost_usd"], cells[k]["off"]["cost_usd"])
+        out.append(f'<text x="{cx:.1f}" y="{base + 15}" class="gl">{SHORT_WL[k][0]}</text>'
+                   f'<text x="{cx:.1f}" y="{base + 28}" class="gl">{SHORT_WL[k][1]}</text>'
+                   f'<text x="{cx:.1f}" y="{base + 44}" class="d {tone(cg)}">{fmt_change(cg)}</text>')
+    lx = 12
+    for _, label, color in PART_COLORS:
+        out.append(f'<rect x="{lx}" y="{h - 14}" width="10" height="10" rx="2" fill="{color}"/>'
+                   f'<text x="{lx + 14}" y="{h - 5}" class="lgd">{label}</text>')
+        lx += 30 + 6.4 * len(label)
+    return "".join(out) + "</svg>"
+
+
 # ---------------------------------------------------------------- tables
 
 METRICS = [  # key, label, lower_better (None = neutral)
@@ -162,14 +217,17 @@ METRICS = [  # key, label, lower_better (None = neutral)
     ("wall_mean", "wall mean s", True), ("wall_median", "wall median s", True), ("wall_p90", "wall p90 s", True),
     ("timeouts", "timeouts", True), ("requests", "model requests", True),
     ("work_calls", "tool calls", None), ("calls_per_request", "tool calls / request", False),
-    ("in_tok_k", "input tok k", True), ("in_per_request_k", "input tok k / request", True),
+    ("cost_usd", "cost / task", True), ("cost_uncached", "  uncached input", True), ("cost_cache_read", "  cache reads", True),
+    ("cost_cache_write", "  cache writes", True), ("cost_output", "  output", True),
+    ("cost_per_success", "cost / successful task", True), ("cache_hit_pct", "input from cache %", False),
+    ("in_tok_k", "input tok k", True), ("in_per_request_k", "input tok k / request", True), ("cache_write_k", "cache write tok k", True),
     ("out_tok_k", "output tok k", True), ("subagents", "sub-agents", None),
 ]
 
 
 def scoreboard(m: str) -> str:
     cols = [("success_pct", "success", False), ("part_acc", "parts right", False), ("wall_mean", "wall", True),
-            ("requests", "model requests", True), ("work_calls", "tool calls", None),
+            ("requests", "model requests", True), ("work_calls", "tool calls", None), ("cost_usd", "cost", True),
             ("in_tok_k", "input tokens", True), ("out_tok_k", "output tokens", True)]
     head = "<tr><th>workload</th>" + "".join(f"<th>{c[1]}</th>" for c in cols) + "</tr>"
     body = ""
@@ -184,8 +242,8 @@ def scoreboard(m: str) -> str:
             else:
                 c = change(on[key], off[key])
                 cls = "neutral" if lb is None else tone(c, lb)
-                body += (f'<td class="hc {cls}"><b>{fmt_change(c)}</b><span class="raw">{num(off[key])} → '
-                         f'{num(on[key])}</span></td>')
+                body += (f'<td class="hc {cls}"><b>{fmt_change(c)}</b><span class="raw">{val(key, off[key])} → '
+                         f'{val(key, on[key])}</span></td>')
         body += "</tr>"
     return (f'<h3>{NAMES[m]}</h3><div class="tw"><table class="score"><thead>{head}</thead>'
             f"<tbody>{body}</tbody></table></div>")
@@ -208,8 +266,7 @@ def detail_table(m: str, wls: list[tuple[str, str]]) -> str:
             else:
                 c = change(on, off)
                 d, cls = fmt_change(c), ("neutral" if lb is None else tone(c, lb))
-            body += (f"<td>{num(off) if isinstance(off, float) else off}</td>"
-                     f"<td>{num(on) if isinstance(on, float) else on}</td><td class='hc {cls}'>{d}</td>")
+            body += f"<td>{val(key, off)}</td><td>{val(key, on)}</td><td class='hc {cls}'>{d}</td>"
         body += "</tr>"
     return f'<div class="tw"><table class="detail"><thead>{head}</thead><tbody>{body}</tbody></table></div>'
 
@@ -238,7 +295,7 @@ def subagent_table() -> str:
 
 def who_benefits() -> str:
     """Diverging bars: median per-task change off -> on, per model, for three metrics."""
-    metrics = [("requests", "model requests"), ("wall", "wall time"), ("in_tok_k", "input tokens")]
+    metrics = [("cost", "cost (API list price)"), ("requests", "model requests"), ("wall", "wall time")]
     w, rowh, pl, top = 1100, 34, 150, 52
     pw = (w - pl - 20) / 3
     h = top + rowh * len(MODELS) + 16
@@ -273,17 +330,18 @@ def overall_table() -> str:
     for m in MODELS:
         o = D["overall"][m]
         cells = f"<td class='wl'>{NAMES[m]}</td>"
-        for k in ("requests", "wall", "in_tok_k"):
+        for k in ("cost", "requests", "wall"):
             x = o[k]
-            cells += (f"<td>{num(x['off_mean'])} → {num(x['on_mean'])}</td>"
+            f = money if k == "cost" else num
+            cells += (f"<td>{f(x['off_mean'])} → {f(x['on_mean'])}</td>"
                       f"<td class='hc {tone(x['median_change_pct'])}'>{x['median_change_pct']:+d}%</td><td>{x['tasks_better']}/{o['tasks']}</td>")
         sv = o["success"]
         cls = "flat" if sv["on"] == sv["off"] else ("good" if sv["on"] > sv["off"] else "bad")
         cells += f"<td class='hc {cls}'>{sv['off']}% → {sv['on']}%</td>"
         rows += f"<tr>{cells}</tr>"
     sub = "<th>off → on</th><th>median Δ</th><th>better</th>"
-    head = ("<tr><th rowspan=2>model</th><th colspan=3 class='mh'>model requests / task</th><th colspan=3 class='mh'>wall s / task</th>"
-            "<th colspan=3 class='mh'>input tok k / task</th><th rowspan=2 class='mh'>success</th></tr><tr>" + sub * 3 + "</tr>")
+    head = ("<tr><th rowspan=2>model</th><th colspan=3 class='mh'>cost / task</th><th colspan=3 class='mh'>model requests / task</th>"
+            "<th colspan=3 class='mh'>wall s / task</th><th rowspan=2 class='mh'>success</th></tr><tr>" + sub * 3 + "</tr>")
     return f'<div class="tw"><table class="detail"><thead>{head}</thead><tbody>{rows}</tbody></table></div>'
 
 
@@ -299,13 +357,14 @@ def task_table(m: str) -> str:
         sa, sb = a["correct"] / a["n"], b["correct"] / b["n"]
         cls = "flat" if abs(sa - sb) < 1e-9 else ("good" if sb > sa else "bad")
         cells += f"<td>{a['correct']}/{a['n']}</td><td class='hc {cls}'>{b['correct']}/{b['n']}</td>"
-        for key in ("wall", "requests", "in_tok_k"):
+        for key in ("cost", "wall", "requests"):
             c = change(b[key], a[key])
-            cells += f"<td>{num(a[key])}</td><td>{num(b[key])}</td><td class='hc {tone(c)}'>{fmt_change(c)}</td>"
+            f = money if key == "cost" else num
+            cells += f"<td>{f(a[key])}</td><td>{f(b[key])}</td><td class='hc {tone(c)}'>{fmt_change(c)}</td>"
         rows += f"<tr>{cells}</tr>"
     head = ("<tr><th rowspan=2>task</th><th rowspan=2>workload</th><th colspan=2 class='mh'>success</th>"
-            "<th colspan=3 class='mh'>wall s</th><th colspan=3 class='mh'>model requests</th>"
-            "<th colspan=3 class='mh'>input tok k</th></tr><tr><th>off</th><th>on</th>"
+            "<th colspan=3 class='mh'>cost</th><th colspan=3 class='mh'>wall s</th>"
+            "<th colspan=3 class='mh'>model requests</th></tr><tr><th>off</th><th>on</th>"
             + "<th>off</th><th>on</th><th>Δ</th>" * 3 + "</tr>")
     return f'<div class="tw"><table class="detail"><thead>{head}</thead><tbody>{rows}</tbody></table></div>'
 
@@ -314,7 +373,7 @@ def task_table(m: str) -> str:
 
 def verdict(m: str) -> str:
     o = D["overall"][m]
-    items = [("model requests", o["requests"]), ("wall time", o["wall"]), ("input tokens", o["in_tok_k"])]
+    items = [("cost", o["cost"]), ("model requests", o["requests"]), ("wall time", o["wall"])]
     lis = "".join(
         f'<div class="vi"><div class="vv {tone(x["median_change_pct"])}">{x["median_change_pct"]:+d}%</div>'
         f'<div class="vl">{esc(lab)}</div><div class="vs">median per task · better on {x["tasks_better"]}/{o["tasks"]} tasks</div></div>'
@@ -387,13 +446,24 @@ DELEG_WALL = "; ".join(
     f"{NAMES[m]} " + " / ".join(fmt_change(change(D["cells"][m][k]["on"]["wall_mean"], D["cells"][m][k]["off"]["wall_mean"]))
                                 for k in ("deleg_gather", "deleg_code")) for m in MODELS)
 winners = [NAMES[m] for m in MODELS if D["overall"][m]["wall"]["median_change_pct"] < 0
-           and D["overall"][m]["in_tok_k"]["median_change_pct"] <= 0]
+           and D["overall"][m]["cost"]["median_change_pct"] < 0]
+cheaper = [NAMES[m] for m in MODELS if D["overall"][m]["cost"]["median_change_pct"] < 0]
+pricier = [NAMES[m] for m in MODELS if D["overall"][m]["cost"]["median_change_pct"] > 0]
+
+
+def _hit(models: list[str]) -> str:
+    cells = [D["cells"][m][k][s] for m in models for k, _ in WL for s in ("off", "on")]
+    return f"{min(c['cache_hit_pct'] for c in cells)} to {max(c['cache_hit_pct'] for c in cells)}%" if cells else "n/a"
+
+
+CLAUDE_HIT = _hit([m for m in MODELS if m.startswith("claude")])
+GPT_HIT = _hit([m for m in MODELS if m.startswith("codex")])
 
 body = f"""
 <header><div class="wrap">
 <div class="eyebrow">Code Puppy · code mode off vs on · {len(MODELS)} models</div>
 <h1>Code mode: <em>on vs off</em>.</h1>
-<p class="lede">Same agent, same 30 tasks, {len(MODELS)} models. <b>Off</b> is plain tool calling. <b>On</b> is code mode as it
+<p class="lede">Same agent, same 30 tasks, {len(MODELS)} models, priced in dollars. <b>Off</b> is plain tool calling. <b>On</b> is code mode as it
 ships on Code Puppy main today (after #1013 and #1014): the model writes Python that calls tools inside a
 <code>run_code</code> sandbox. Short tasks, long tasks, and long tasks delegated to sub-agents.</p>
 <div class="meta"><span><b>{n_runs}</b> runs compared</span><span><b>30</b> tasks</span><span>{", ".join(NAMES[m] for m in MODELS)}</span><span>2026-10-11</span></div>
@@ -408,8 +478,8 @@ ships on Code Puppy main today (after #1013 and #1014): the model writes Python 
 {CPR[0]:.1f} to {CPR[-1]:.1f} tool calls instead of {CPR_OFF[0]:.1f} to {CPR_OFF[-1]:.1f}. Whether that becomes less wall time and fewer
 tokens depends on the model: a typical code-mode request carries {OVERHEAD_MED:.1f}k more input tokens than a plain one
 (median across models and workloads; the <code>run_code</code> description with every sandbox function signature, plus larger
-snippet results). In {OVERHEAD_NEG} of {len(OVERHEAD)} model-workload cells it is smaller instead, because fewer turns resend less history. Faster with no
-more input tokens, median over tasks: {", ".join(winners) if winners else "none"}.</div>
+snippet results). In {OVERHEAD_NEG} of {len(OVERHEAD)} model-workload cells it is smaller instead, because fewer turns resend less history. Most of those tokens are cached, so what they cost depends on the provider (see Cost). Faster and cheaper
+with code mode, median over tasks: {", ".join(winners) if winners else "none"}.</div>
 </section>
 
 <section><h2>Scoreboard<small>Change from off to on per workload. Green is better, red is worse, blue is neutral (more tool calls is more work per request, not a cost). Each cell shows the change and the raw off → on values.</small></h2>
@@ -428,9 +498,21 @@ more input tokens, median over tasks: {", ".join(winners) if winners else "none"
 <p>Tool calls per run pooled over all workloads, parent agent only; <code>run_code</code> itself is not counted.</p>
 </section>
 
-<section><h2>Tokens</h2>{legend}
+<section><h2>Cost<small>API list prices from genai-prices {codemode_tables.GENAI_PRICES_PIN}, priced per model request (context tiers, cache reads,
+5-minute and 1-hour cache writes), parent plus every sub-agent. These runs used subscription OAuth, so this is what the same
+tokens would cost on the API.</small></h2>{legend}
+{grid(lambda m: pair_bars("Cost per task (US cents)", m, "cost_usd", cents))}
+{grid(cost_stack)}
+<div class="callout"><b>Why input tokens were the wrong metric.</b> Input tokens include cached tokens, and the two
+providers cache very differently. Claude reads {CLAUDE_HIT} of its input from cache, so its input cost is mostly
+<b>cache writes</b> (1-hour writes, billed at 2x the input price): what matters is how much new content each turn adds.
+The ChatGPT backend reads only {GPT_HIT} from cache, so uncached input dominates and every resend is paid in full: cutting
+requests saves money directly. Cheaper with code mode (median over tasks): {", ".join(cheaper) or "none"}; more expensive:
+{", ".join(pricier) or "none"}.</div>
+{grid(lambda m: pair_bars("Cost per successful task (US cents)", m, "cost_per_success", cents))}
+<h3>Tokens behind the cost</h3>
 {grid(lambda m: pair_bars("Input tokens per task (k, incl. sub-agents)", m, "in_tok_k", "{:.0f}"))}
-{grid(lambda m: pair_bars("Input tokens per model request (k)", m, "in_per_request_k", "{:.1f}"))}
+{grid(lambda m: pair_bars("Cache-write tokens per task (k)", m, "cache_write_k", "{:.1f}"))}
 {grid(lambda m: pair_bars("Output tokens per task (k)", m, "out_tok_k", "{:.2f}"))}
 </section>
 

@@ -9,7 +9,11 @@ from __future__ import annotations
 import collections
 import json
 import statistics as st
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from cm_transcripts import GENAI_PRICES_PIN  # noqa: E402,F401  (re-exported for the report)
 
 RUNS = Path(__file__).resolve().parent.parent / "runs" / "codemode"
 MODELS = ("codex-gpt-6.1-sol", "codex-gpt-6-luna")
@@ -149,6 +153,18 @@ def onoff_cell(recs: list[dict]) -> dict:
         "in_per_request_k": round(sum(intok) / max(1, sum(req)) / 1000, 2),
         "cache_read_k": _mean([r.get("cache_read", 0) / 1000 for r in full], 1),
         "subagents": _mean([sub(r, "sessions") for r in full], 1),
+        # API list-price cost (genai-prices), parent + sub-agents; runs without a transcript (900s timeouts
+        # killed before the autosave) have no usage and are left out of the cost and token means.
+        "cost_usd": _mean([r.get("cost_usd", 0) + sub(r, "cost_usd") for r in full], 4),
+        "cost_in": _mean([r.get("cost_in", 0) + sub(r, "cost_in") for r in full], 4),
+        "cost_out": _mean([r.get("cost_out", 0) + sub(r, "cost_out") for r in full], 4),
+        **{f"cost_{p}": _mean([r.get(f"cost_{p}", 0) + sub(r, f"cost_{p}") for r in full], 5)
+           for p in ("uncached", "cache_read", "cache_write", "output")},
+        "cache_write_k": _mean([(r.get("cache_write", 0) + sub(r, "cache_write")) / 1000 for r in full], 1),
+        "cost_per_success": round(sum(r.get("cost_usd", 0) + sub(r, "cost_usd") for r in full)
+                                  / max(1, sum(r["correct"] for r in full)), 4),
+        "cache_hit_pct": round(100 * sum(r.get("cache_read", 0) + sub(r, "cache_read") for r in full)
+                               / max(1, sum(r.get("in_tok", 0) + sub(r, "in_tok") for r in full))),
         "tool_mix": dict(sorted(((t, round(n / len(full), 2)) for t, n in mix.items()), key=lambda kv: -kv[1])),
     }
 
@@ -198,7 +214,9 @@ def onoff() -> dict:
                                       "requests": _mean([r.get("requests", 0) + (r.get("sub") or {}).get("requests", 0)
                                                          for r in rs], 1),
                                       "in_tok_k": _mean([(r.get("in_tok", 0) + (r.get("sub") or {}).get("in_tok", 0)) / 1000
-                                                         for r in rs], 1)}
+                                                         for r in rs], 1),
+                                      "cost": _mean([r.get("cost_usd", 0) + (r.get("sub") or {}).get("cost_usd", 0)
+                                                     for r in rs if not r.get("no_transcript")] or [0], 4)}
                                for side, rs in v.items()} for t, v in sorted(tasks.items())}
         out["overall"][m] = overall(out["tasks"][m])
         deleg = {s: [r for r in sides[s] if r["task"].startswith("D_")] for s in ("off", "on")}
@@ -220,10 +238,11 @@ def overall(tasks: dict[str, dict]) -> dict:
     """Task-balanced comparison: each task counts once, whatever its run count per side."""
     both = {t: v for t, v in tasks.items() if "off" in v and "on" in v}
     res: dict = {"tasks": len(both)}
-    for k in ("wall", "requests", "in_tok_k"):
+    for k in ("wall", "requests", "in_tok_k", "cost"):
         ratios = sorted(v["on"][k] / v["off"][k] for v in both.values() if v["off"][k])
-        res[k] = {"off_mean": _mean([v["off"][k] for v in both.values()], 1),
-                  "on_mean": _mean([v["on"][k] for v in both.values()], 1),
+        nd = 4 if k == "cost" else 1
+        res[k] = {"off_mean": _mean([v["off"][k] for v in both.values()], nd),
+                  "on_mean": _mean([v["on"][k] for v in both.values()], nd),
                   "median_change_pct": round(100 * (st.median(ratios) - 1)) if ratios else 0,
                   "tasks_better": sum(x < 1 for x in ratios)}
     res["success"] = {side: round(100 * st.mean(v[side]["correct"] / v[side]["n"] for v in both.values())) if both else 0
@@ -243,9 +262,9 @@ def onoff_md() -> str:
     pc = lambda on, off: f"{(on - off) / off * 100:+.0f}%" if off else "-"  # noqa: E731
     out = ["## Code mode off vs on (current main)\n",
            "Across all 30 tasks, task-balanced (each task counts once; median of per-task changes):\n",
-           md(["model", "model requests", "wall time", "input tokens", "success off → on"],
+           md(["model", "cost (API list price)", "model requests", "wall time", "input tokens", "success off → on"],
               [[name(m), *(f"{o[k]['median_change_pct']:+d}% (better on {o[k]['tasks_better']}/{o['tasks']})"
-                           for k in ("requests", "wall", "in_tok_k")), f"{o['success']['off']}% → {o['success']['on']}%"]
+                           for k in ("cost", "requests", "wall", "in_tok_k")), f"{o['success']['off']}% → {o['success']['on']}%"]
                for m, o in d["overall"].items()])]
     for m in d["models"]:
         out.append(f"\n### {name(m)}, per workload\n")
@@ -254,10 +273,13 @@ def onoff_md() -> str:
             a, b = d["cells"][m][k]["off"], d["cells"][m][k]["on"]
             rows.append([label, f"{a['n']} / {b['n']}", f"{a['success_pct']}% → {b['success_pct']}%",
                          f"{a['part_acc']}% → {b['part_acc']}%",
+                         f"${a['cost_usd']:.3f} → ${b['cost_usd']:.3f} ({pc(b['cost_usd'], a['cost_usd'])})",
                          *(f"{a[x]} → {b[x]} ({pc(b[x], a[x])})" for x in ("wall_mean", "requests", "work_calls",
-                                                                             "calls_per_request", "in_tok_k", "out_tok_k"))])
-        out.append(md(["workload", "runs off / on", "success", "parts right", "wall mean s", "model requests",
-                       "tool calls", "tool calls / request", "input tok k", "output tok k"], rows))
+                                                                             "calls_per_request", "in_tok_k", "out_tok_k")),
+                         f"{a['cache_hit_pct']}% → {b['cache_hit_pct']}%"])
+        out.append(md(["workload", "runs off / on", "success", "parts right", "cost / task", "wall mean s",
+                       "model requests", "tool calls", "tool calls / request", "input tok k", "output tok k",
+                       "input from cache"], rows))
     return "\n".join(out)
 
 

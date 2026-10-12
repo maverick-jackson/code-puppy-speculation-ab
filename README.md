@@ -10,8 +10,9 @@ The finding above (one tool call per snippet, sandbox gaps) was fixed in Code Pu
 ([#1013](https://github.com/mpfaffenberger/code_puppy/pull/1013), [#1014](https://github.com/mpfaffenberger/code_puppy/pull/1014))
 and re-measured on the same 20 tasks plus 10 new long-horizon and sub-agent tasks: for the GPT models, snippets now carry 2.7 to 3.2
 tool calls instead of 1.6 to 2.0, and delegating to sub-agents is 2.4x faster with code mode than without it. Across all 30 tasks and five models
-(gpt-6.1-sol, gpt-6-luna, Claude Opus / Sonnet / Haiku 5.5) every model makes 12 to 40% fewer model requests;
-it is a clear win for gpt-6.1-sol and claude-haiku-5.5, about even on time for Opus and Sonnet, and slower for luna.
+(gpt-6.1-sol, gpt-6-luna, Claude Opus / Sonnet / Haiku 5.5) every model makes 12 to 40% fewer model requests.
+At API list prices it is cheaper and faster for gpt-6.1-sol (-12% cost) and claude-haiku-5.5 (-3%), and costs 16 to 22%
+more for luna, Opus and Sonnet (Opus and Sonnet about even on time, luna slower).
 Write-up: `docs/CODEMODE_FOLLOWUP.md`; charts: `docs/results/codemode_followup.html`.
 
 ## What I ran

@@ -18,6 +18,8 @@ Usage:
   codemode_ab.py --batch NAME --bin off=/a/code-puppy --bin new=/b/code-puppy --off off \\
       --models codex-gpt-6.1-sol,codex-gpt-6-luna [--tasks id,..] [--reps N] [--jobs N]
 Finished runs (record.json present) are skipped, so an interrupted batch can be resumed.
+Run it as `uv run --with genai-prices==0.1.10 python scripts/codemode_ab.py ...` to record API list-price
+cost per run (scripts/cm_transcripts.py); without genai-prices the cost fields stay zero.
 """
 from __future__ import annotations
 
