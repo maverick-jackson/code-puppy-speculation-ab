@@ -10,6 +10,32 @@ win. This follow-up does both: it fixes what the A/B pointed at, re-measures on 
 
 The report with charts, `docs/results/codemode_followup.html` (a single self-contained file), compares code mode off vs on across every workload, metric and task.
 
+## Update: making code mode cheaper (code_puppy#1015)
+
+A hill climb on the three models where code mode cost more (Opus, Sonnet, luna) found the extra cost was a
+fixed per-request prompt overhead made expensive by caching, not the snippets:
+
+- The agent ID (`Your ID is \`code-puppy-xxxxxx\``) sat in the static instructions, so every session and
+  every sub-agent re-wrote the whole system prompt, and the code-mode guidance after it, to Anthropic's
+  1-hour cache at 2x the input price (also with code mode off). The workspace path in the guidance did the
+  same per directory.
+- A batching note from #1013 never reached the model (dead code); a guidance example taught a `str | None`
+  pattern the sandbox type checker rejects (luna, about once per task).
+
+[code_puppy#1015](https://github.com/mpfaffenberger/code_puppy/pull/1015) sends per-run text as a dynamic
+instruction part after the cache breakpoint, shortens the guidance from 6.0k to 2.7k chars, and types grep
+results as never-None. Re-measured with off and on shuffled together (batches `lean1` to `lean4`; Claude
+on the v3 build, luna on v4), median of per-task changes:
+
+| model | cost off -> on, main | cost off -> on, #1015 | code mode on: #1015 vs main | code mode off: #1015 vs main | first-request cache writes (on) |
+|---|---|---|---|---|---|
+| claude-opus-5.5 | +17% | +0% | -17% | -9% | 3,857 -> 970 |
+| claude-sonnet-5.5 | +22% | +0% | -19% | -6% | 3,858 -> 974 |
+| gpt-6-luna | +16% | +21% | -5% | -6% | n/a |
+
+luna's code-mode success went 77% -> 80% (77% off), but it still costs about 20% more: the ChatGPT backend
+caches little of the harness's ~9.9k-char `run_code` description, and luna saves few requests.
+
 ## Short answer
 
 - **Code mode on vs off across all 30 tasks, five models** (task-balanced: median of per-task changes;

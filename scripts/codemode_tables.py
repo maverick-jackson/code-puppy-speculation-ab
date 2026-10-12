@@ -250,6 +250,72 @@ def overall(tasks: dict[str, dict]) -> dict:
     return res
 
 
+# --- hill climb: main vs PR #1015 (cache-stable prompt) -------------------------------------
+
+HILLCLIMB = {  # model -> {side: (batch, variant)}; Claude PR = v3 (lean3), luna PR = v4 on (lean4)
+    "claude-code-claude-opus-5-5": {"main_off": ("claude1", "off"), "main_on": ("claude1", "on"),
+                                    "pr_off": ("lean3", "off"), "pr_on": ("lean3", "on")},
+    "claude-code-claude-sonnet-5-5": {"main_off": ("claude1", "off"), "main_on": ("claude1", "on"),
+                                      "pr_off": ("lean3", "off"), "pr_on": ("lean3", "on")},
+    "codex-gpt-6-luna": {"main_off": ("gpt_off", "off"), "main_on": ("gpt_on", "on"),
+                         "pr_off": ("lean3", "off"), "pr_on": ("lean4", "on")},
+}
+
+
+def _hc_records(model: str, batch: str, variant: str) -> list[dict]:
+    if batch in ("gpt_off", "gpt_on"):
+        return onoff_sources()[model]["off" if batch == "gpt_off" else "on"]
+    return [r for r in records(batch) if r["model"] == model and r["variant"] == variant]
+
+
+def _first_request_cache(model: str, batch: str, variant: str) -> dict | None:
+    """Median first-request cache read / write tokens, from saved transcripts (Claude only)."""
+    import glob
+
+    if batch.startswith("gpt") or not model.startswith("claude"):
+        return None
+    reads, writes = [], []
+    for f in glob.glob(str(RUNS / batch / model / "*" / variant / "r*" / "transcript.json")):
+        msgs = json.loads(Path(f).read_text())["messages"]
+        u = next(iter([m for m in msgs if m.get("kind") == "response"]), {}).get("usage") or {}
+        reads.append(u.get("cache_read_tokens", 0) or 0)
+        writes.append(u.get("cache_write_tokens", 0) or 0)
+    if not reads:
+        return None
+    return {"read": round(st.median(reads)), "write": round(st.median(writes))}
+
+
+def hillclimb() -> dict:
+    out: dict = {}
+    for m, sides in HILLCLIMB.items():
+        recs = {k: _hc_records(m, *v) for k, v in sides.items()}
+        cells = {k: onoff_cell(v) for k, v in recs.items()}
+
+        def pair(a: str, b: str) -> dict:
+            ta, tb = _per_task(recs[a]), _per_task(recs[b])
+            return overall({t: {"off": ta[t], "on": tb[t]} for t in ta if t in tb})
+
+        out[m] = {
+            "cells": cells,
+            "main_offon": pair("main_off", "main_on"), "pr_offon": pair("pr_off", "pr_on"),
+            "on_main_pr": pair("main_on", "pr_on"), "off_main_pr": pair("main_off", "pr_off"),
+            "cache": {k: _first_request_cache(m, *v) for k, v in sides.items()},
+        }
+    return out
+
+
+def _per_task(rs: list[dict]) -> dict:
+    by: dict[str, list[dict]] = {}
+    for r in rs:
+        by.setdefault(r["task"], []).append(r)
+    sub = lambda r, k: (r.get("sub") or {}).get(k, 0)  # noqa: E731
+    return {t: {"n": len(v), "correct": sum(x["correct"] for x in v), "wall": _mean([x["wall_s"] for x in v], 1),
+                "requests": _mean([x.get("requests", 0) + sub(x, "requests") for x in v], 1),
+                "in_tok_k": _mean([(x.get("in_tok", 0) + sub(x, "in_tok")) / 1000 for x in v], 1),
+                "cost": _mean([x.get("cost_usd", 0) + sub(x, "cost_usd") for x in v if not x.get("no_transcript")] or [0], 4)}
+            for t, v in by.items()}
+
+
 def md(headers: list[str], rows: list[list[object]]) -> str:
     return "\n".join(["| " + " | ".join(headers) + " |", "|" + "---|" * len(headers)]
                      + ["| " + " | ".join(str(c) for c in r) + " |" for r in rows])

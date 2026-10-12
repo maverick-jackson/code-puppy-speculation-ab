@@ -369,6 +369,110 @@ def task_table(m: str) -> str:
     return f'<div class="tw"><table class="detail"><thead>{head}</thead><tbody>{rows}</tbody></table></div>'
 
 
+
+
+# ---------------------------------------------------------------- hill climb (PR #1015)
+
+HC = codemode_tables.hillclimb()
+HC_SERIES = [("main_off", "main, off", "#8b95a7"), ("main_on", "main, on", "#f5a524"),
+             ("pr_off", "PR #1015, off", "#64748b"), ("pr_on", "PR #1015, on", "#2dd4bf")]
+HC_NAMES = {m: m.replace("codex-", "").replace("claude-code-", "").replace("-5-5", "-5.5") for m in HC}
+
+
+def multi_bars(title: str, groups: list[tuple[str, list[tuple[str, float, str]]]], fmt, lower_better: bool = True) -> str:  # noqa: ANN001
+    vmax = max(v for _, ss in groups for _, v, _ in ss) * 1.2 or 1
+    w, h, pl, pb, pt = 560, 250, 10, 40, 36
+    gw = (w - 2 * pl) / len(groups)
+    n = max(len(ss) for _, ss in groups)
+    bw = min(30, (gw - 16) / n)
+    base = h - pb
+    out = [f'<svg viewBox="0 0 {w} {h}" class="chart" role="img" aria-label="{esc(title)}">',
+           f'<text x="{pl + 4}" y="18" class="ct">{esc(title)}</text>',
+           f'<text x="{w - pl}" y="18" class="hint">{"lower" if lower_better else "higher"} is better</text>',
+           f'<line x1="{pl}" y1="{base}" x2="{w - pl}" y2="{base}" class="axis"/>']
+    for i, (gname, ss) in enumerate(groups):
+        x0 = pl + i * gw + (gw - bw * len(ss)) / 2
+        for j, (label, v, color) in enumerate(ss):
+            bh = (base - pt) * v / vmax
+            x = x0 + j * bw
+            txt = fmt(v) if callable(fmt) else fmt.format(v)
+            out.append(f'<rect x="{x + 2:.1f}" y="{base - bh:.1f}" width="{bw - 4:.1f}" height="{bh:.1f}" rx="4" fill="{color}">'
+                       f'<title>{esc(label)}: {txt}</title></rect>'
+                       f'<text x="{x + bw / 2:.1f}" y="{base - bh - 5:.1f}" class="bv">{txt}</text>')
+        out.append(f'<text x="{pl + i * gw + gw / 2:.1f}" y="{base + 18}" class="gl">{esc(gname)}</text>')
+    return "".join(out) + "</svg>"
+
+
+def hc_legend() -> str:
+    return '<div class="legend">' + "".join(f'<span><i style="background:{c}"></i>{esc(lbl)}</span>' for _, lbl, c in HC_SERIES) + "</div>"
+
+
+def hc_table() -> str:
+    rows = ""
+    for m, d in HC.items():
+        c = d["cells"]
+
+        def delta(o: dict, key: str = "cost") -> str:
+            x = o[key]
+            return f"<td class='hc {tone(x['median_change_pct'])}'>{x['median_change_pct']:+d}% <span class='raw'>better on {x['tasks_better']}/{o['tasks']}</span></td>"
+
+        cache = d["cache"]
+        cw = (f"{cache['main_on']['write']:,} → {cache['pr_on']['write']:,}" if cache.get("pr_on") else "n/a")
+        succ_cls = "flat" if c["pr_on"]["success_pct"] == c["main_on"]["success_pct"] else ("good" if c["pr_on"]["success_pct"] > c["main_on"]["success_pct"] else "bad")
+        rows += (f"<tr><td class='wl'>{HC_NAMES[m]}</td>{delta(d['main_offon'])}{delta(d['pr_offon'])}"
+                 f"{delta(d['on_main_pr'])}{delta(d['off_main_pr'])}"
+                 f"<td class='hc {succ_cls}'>{c['main_on']['success_pct']}% → {c['pr_on']['success_pct']}%</td>"
+                 f"<td>{c['main_on']['rc_errors']:.2f} → {c['pr_on']['rc_errors']:.2f}</td><td>{cw}</td></tr>")
+    head = ("<tr><th>model</th><th class='mh'>cost off → on<br>main</th><th class='mh'>cost off → on<br>PR #1015</th>"
+            "<th class='mh'>code mode on:<br>PR vs main</th><th class='mh'>code mode off:<br>PR vs main</th>"
+            "<th class='mh'>success (on)<br>main → PR</th><th class='mh'>run_code errors<br>/ run, main → PR</th>"
+            "<th class='mh'>1st-request cache<br>writes (on)</th></tr>")
+    return f'<div class="tw"><table class="detail"><thead>{head}</thead><tbody>{rows}</tbody></table></div>'
+
+
+def hc_section() -> str:
+    def balanced(m: str, k: str) -> float:
+        """Task-balanced mean cost: each task counts once whatever its run count (GPT main pools differ)."""
+        pair = HC[m]["main_offon"] if k.startswith("main") else HC[m]["pr_offon"]
+        return pair["cost"]["off_mean" if k.endswith("off") else "on_mean"]
+
+    cost_groups = [(HC_NAMES[m], [(f"{lbl} ({money(balanced(m, k))}/task)", 100 * balanced(m, k) / balanced(m, "main_off"), c)
+                                  for k, lbl, c in HC_SERIES]) for m in HC]
+    claude = [m for m in HC if HC[m]["cache"].get("pr_on")]
+    cache_groups = [(HC_NAMES[m], [(lbl, HC[m]["cache"][k]["write"], c) for k, lbl, c in HC_SERIES]) for m in claude]
+    luna = [m for m in HC if m.startswith("codex")]
+    luna_note = ""
+    if luna:
+        o = HC[luna[0]]
+        luna_note = (f" luna's code-mode success went {o['cells']['main_on']['success_pct']}% → {o['cells']['pr_on']['success_pct']}% "
+                     f"(off: {o['cells']['pr_off']['success_pct']}%), but it still costs {o['pr_offon']['cost']['median_change_pct']:+d}% "
+                     "with code mode: the ChatGPT backend caches little of the harness's ~9.9k-char <code>run_code</code> description "
+                     "(every sandbox function signature), and luna saves few requests. Slimming that description is a "
+                     "pydantic-ai-harness change.")
+    return f"""<section><h2>Update: making code mode cheaper (PR #1015)<small>Hill climb on the three models where code mode
+cost more. Off and on re-measured on the PR build, shuffled together; 30 tasks x 2 runs per side per model. Claude measured on the
+v3 build (all PR commits except the grep-types fix, which Claude never needed), luna on v4 (the full PR).</small></h2>
+{hc_table()}
+{hc_legend()}
+<div class="grid2"><div class="card">{multi_bars("Cost per task, index (main, code mode off = 100)", cost_groups, "{:.0f}")}
+<p class="hint-p">Task-balanced mean over all 30 tasks (each task counts once); the table shows medians of per-task changes.
+Means weight the expensive long and delegated tasks, medians the 20 short ones.</p></div>
+<div class="card">{multi_bars("First-request cache writes (tokens)", cache_groups, "{:,.0f}")}</div></div>
+<div class="callout"><b>Why code mode cost more.</b> Not the snippets (they put <i>less</i> tool output into context) but a fixed
+3 to 4k-token prompt overhead per request, made expensive by caching:
+<ul style="margin:6px 0 0">
+<li><b>The agent ID busted Anthropic's prompt cache.</b> <code>Your ID is `code-puppy-xxxxxx`</code> sat in the static instructions;
+two sessions' prompts differed only there, so every session and every sub-agent re-wrote the whole system prompt (and the
+code-mode guidance after it) to the 1-hour cache at 2x the input price. It also hit code mode off.</li>
+<li><b>The workspace path</b> inside the code-mode guidance did the same for every new directory.</li>
+<li><b>A batching note from #1013 never reached the model</b> (dead code), and a guidance example taught a <code>str | None</code>
+pattern the sandbox type checker rejects.</li></ul>
+The PR sends per-run text as a dynamic instruction part after the cache breakpoint, cuts the guidance from 6.0k to 2.7k chars,
+and types grep results as never-None. Opus's <code>run_code</code> errors rose slightly (see table) without moving its cost
+or success.{luna_note}</div>
+</section>
+"""
+
 # ---------------------------------------------------------------- page
 
 def verdict(m: str) -> str:
@@ -411,7 +515,7 @@ th{background:var(--panel2);color:var(--muted);font-weight:600;padding:7px 8px;w
 td{padding:6px 8px;border-bottom:1px solid #16203a;white-space:nowrap;text-align:center}td.wl{text-align:left;color:#e2e8f0;font-weight:600}td.muted{color:var(--muted)}
 td.hc{font-weight:700}td.good{background:rgba(45,212,191,.16);color:#5eead4}td.bad{background:rgba(248,113,113,.16);color:#fca5a5}td.flat{color:#cbd5e1}td.neutral{color:#93c5fd}
 table.score td{font-size:14px;padding:9px 8px}table.score td b{display:block;font-size:15px}.raw{display:block;font-size:11px;font-weight:500;color:#94a3b8}.nn{display:block;font-size:11px;font-weight:500;color:var(--muted)}h3{margin:22px 0 4px}
-.callout{border-left:4px solid var(--accent2);background:var(--panel);padding:13px 18px;border-radius:10px;margin:14px 0;color:#cfd8ea}
+.hint-p{color:var(--muted);font-size:12px;margin:4px 6px 4px}.callout{border-left:4px solid var(--accent2);background:var(--panel);padding:13px 18px;border-radius:10px;margin:14px 0;color:#cfd8ea}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:#111a2e;border:1px solid var(--line);padding:1px 6px;border-radius:6px}
 footer{margin:56px 0 0;padding:26px 0 44px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
 details{border:1px solid var(--line);border-radius:14px;margin:12px 0;background:var(--panel)}summary{cursor:pointer;padding:12px 16px;font-weight:700}details>div{padding:0 12px 8px}
@@ -463,14 +567,15 @@ body = f"""
 <header><div class="wrap">
 <div class="eyebrow">Code Puppy · code mode off vs on · {len(MODELS)} models</div>
 <h1>Code mode: <em>on vs off</em>.</h1>
-<p class="lede">Same agent, same 30 tasks, {len(MODELS)} models, priced in dollars. <b>Off</b> is plain tool calling. <b>On</b> is code mode as it
+<p class="lede">Same agent, same 30 tasks, {len(MODELS)} models, priced in dollars. <b>New:</b> PR #1015 removes code
+mode's cost premium on Opus and Sonnet (see the first section). <b>Off</b> is plain tool calling. <b>On</b> is code mode as it
 ships on Code Puppy main today (after #1013 and #1014): the model writes Python that calls tools inside a
 <code>run_code</code> sandbox. Short tasks, long tasks, and long tasks delegated to sub-agents.</p>
 <div class="meta"><span><b>{n_runs}</b> runs compared</span><span><b>30</b> tasks</span><span>{", ".join(NAMES[m] for m in MODELS)}</span><span>2026-10-11</span></div>
 <div class="verdicts">{"".join(verdict(m) for m in MODELS)}</div>
 </div></header>
 <main class="wrap">
-
+{hc_section()}
 <section><h2>Who benefits from code mode<small>Median per-task change from off to on, across all 30 tasks (each task counts once). Left of the line is better.</small></h2>
 <div class="card">{who_benefits()}</div>
 {overall_table()}
