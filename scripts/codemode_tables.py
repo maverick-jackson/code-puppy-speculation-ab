@@ -331,26 +331,24 @@ def _per_task(rs: list[dict]) -> dict:
 
 # --- "today": each model's most current off-vs-on comparison ---------------------------------
 
-TODAY = {  # model -> ((off batch, variant), (on batch, variant), measured on current build?)
-    "claude-code-claude-opus-5-5": (("lean3", "off"), ("lean3", "on"), True),
-    "claude-code-claude-sonnet-5-5": (("lean3", "off"), ("lean3", "on"), True),
-    "codex-gpt-6-astra": (("astra1", "pr_off"), ("astra1", "pr_on"), True),
-    "codex-gpt-6-luna": (("lean3", "off"), ("lean4", "on"), True),
-    "codex-gpt-6.1-sol": (None, None, False),  # before #1015 only
-    "claude-code-claude-haiku-5-5": (("claude1", "off"), ("claude1", "on"), False),
+TODAY = {  # model -> (off sources, on sources, measured on the current build?); sources = [(batch, variant)]
+    # The merged #1015 build: sg1 ran it for five models (off / on interleaved), lean4 adds luna runs of the
+    # same code, astra1 ran astra's PR arms. Matches the "#1015 today" point of codemode_journey.
+    "claude-code-claude-opus-5-5": ([("sg1", "off")], [("sg1", "on")], True),
+    "claude-code-claude-sonnet-5-5": ([("sg1", "off")], [("sg1", "on")], True),
+    "claude-code-claude-haiku-5-5": ([("sg1", "off")], [("sg1", "on")], True),
+    "codex-gpt-6.1-sol": ([("sg1", "off")], [("sg1", "on")], True),
+    "codex-gpt-6-luna": ([("sg1", "off")], [("lean4", "on"), ("sg1", "on")], True),
+    "codex-gpt-6-astra": ([("astra1", "pr_off")], [("astra1", "pr_on")], True),
 }
 
 
 def today() -> dict:
     """Per model: task-balanced off-vs-on comparison on the most current build measured."""
     out: dict = {}
-    src = onoff_sources()
     for m, (off, on, current) in TODAY.items():
-        if off is None:
-            a, b = src[m]["off"], src[m]["on"]
-        else:
-            a = [r for r in records(off[0]) if r["model"] == m and r["variant"] == off[1]]
-            b = [r for r in records(on[0]) if r["model"] == m and r["variant"] == on[1]]
+        a = [r for batch, v in off for r in records(batch) if r["model"] == m and r["variant"] == v]
+        b = [r for batch, v in on for r in records(batch) if r["model"] == m and r["variant"] == v]
         ta, tb = _per_task(a), _per_task(b)
         o = overall({t: {"off": ta[t], "on": tb[t]} for t in ta if t in tb})
         deleg = {"off": onoff_cell([r for r in a if r["task"].startswith("D_")]),

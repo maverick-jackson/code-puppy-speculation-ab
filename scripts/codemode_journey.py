@@ -240,8 +240,9 @@ Per-model tables: <a href="codemode_summary.html">summary</a>; everything else: 
 </div><div id="tip"></div>
 <script type="application/json" id="data">{json.dumps(CHART)}</script><script>{JS}</script></body></html>"""
 
-out = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE.parent / "docs" / "results" / "codemode_journey.html"
-out.write_text(page)
-print(out)
-for m in CHART["models"]:
-    print(m["name"], {k: (v["cost"], v["time"], v["acc"]) for k, v in m["values"].items()})
+if __name__ == "__main__":
+    out = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE.parent / "docs" / "results" / "codemode_journey.html"
+    out.write_text(page)
+    print(out)
+    for m in CHART["models"]:
+        print(m["name"], {k: (v["cost"], v["time"], v["acc"]) for k, v in m["values"].items()})
