@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Render docs/results/codemode_followup.html: code mode OFF vs ON (self-contained HTML, inline SVG).
 
-ON is code mode as it is on code-puppy main after #1013 and #1014. Every number comes from
+ON is code mode as it is on code-puppy main after #1013 and #1014, for every model in the records.
+Every number comes from
 scripts/codemode_tables.onoff(), which reads runs/codemode/*/records.jsonl.
 Usage: python3 scripts/codemode_report.py [OUT.html]
 """
@@ -18,9 +19,11 @@ sys.path.insert(0, str(HERE))
 import codemode_tables  # noqa: E402
 
 D = codemode_tables.onoff()
-FAN = codemode_tables.data()["fanout"]
-SOL, LUNA = codemode_tables.MODELS
-NAMES = {SOL: "gpt-6.1-sol", LUNA: "gpt-6-luna"}
+MODELS = [m for m in D["models"] if len(D["cells"][m]) == len(D["workloads"])
+          and D["overall"][m]["tasks"] == len(D["tasks"][m])]
+for _m in set(D["models"]) - set(MODELS):
+    print(f"skipping {_m}: off/on data incomplete", file=sys.stderr)
+NAMES = {m: m.replace("codex-", "").replace("claude-code-", "").replace("-5-5", "-5.5") for m in MODELS}
 OFF, ON = "#8b95a7", "#2dd4bf"
 WL = D["workloads"]
 SHORT_WL = {"short_gather": ("Short", "read+answer"), "short_code": ("Short", "bug fix"),
@@ -212,29 +215,76 @@ def detail_table(m: str, wls: list[tuple[str, str]]) -> str:
 
 
 def subagent_table() -> str:
-    sub = codemode_tables.data()["subagents"]
     rows = ""
-    for m in (SOL, LUNA):
-        for k in ("deleg_gather", "deleg_code"):
-            off, on = D["cells"][m][k]["off"], D["cells"][m][k]["on"]
-            cells = f"<td class='wl'>{NAMES[m]}</td><td class='muted'>{SHORT_WL[k][1]}</td>"
-            for key in ("subagents", "parent_requests"):
-                cells += f"<td>{off[key]:.1f}</td><td>{on[key]:.1f}</td>"
-            so, sn = off["requests"] - off["parent_requests"], on["requests"] - on["parent_requests"]
-            cells += f"<td>{so:.1f}</td><td>{sn:.1f}</td>"
-            rows += f"<tr>{cells}</tr>"
-    per = "".join(
-        f"<tr><td class='wl'>{NAMES[m]}</td><td>{sub[m]['off']['in_tok_k']}k</td><td>{sub[m]['fix']['in_tok_k']}k</td>"
-        f"<td>{sub[m]['off']['req']}</td><td>{sub[m]['fix']['req']}</td>"
-        f"<td>{sub[m]['off']['max_ret']:,}</td><td>{sub[m]['fix']['max_ret']:,}</td></tr>" for m in (SOL, LUNA))
-    t1 = ("<tr><th rowspan=2>model</th><th rowspan=2>delegated task</th><th colspan=2 class='mh'>sub-agents per task</th>"
-          "<th colspan=2 class='mh'>parent model requests</th><th colspan=2 class='mh'>sub-agent model requests</th></tr>"
-          "<tr>" + "<th>off</th><th>on</th>" * 3 + "</tr>")
-    t2 = ("<tr><th rowspan=2>model</th><th colspan=2 class='mh'>input tokens per sub-agent session</th>"
-          "<th colspan=2 class='mh'>requests per sub-agent session</th><th colspan=2 class='mh'>largest tool return (chars)</th></tr>"
-          "<tr>" + "<th>off</th><th>on</th>" * 3 + "</tr>")
-    return (f'<div class="tw"><table class="detail"><thead>{t1}</thead><tbody>{rows}</tbody></table></div>'
-            f'<div class="tw"><table class="detail"><thead>{t2}</thead><tbody>{per}</tbody></table></div>')
+    for m in MODELS:
+        f, ss = D["fanout"][m], D["sub_sessions"][m]
+        launched4 = f["on_invokes_per_run_code"].get(4, 0) + f["on_invokes_per_run_code"].get(5, 0)
+        single = f["off_invokes_per_response"].get(1, 0)
+        multi = sum(n for k, n in f["off_invokes_per_response"].items() if k >= 2)
+        cg, cc = D["cells"][m]["deleg_gather"], D["cells"][m]["deleg_code"]
+        sub_req = lambda c, s: c[s]["requests"] - c[s]["parent_requests"]  # noqa: E731
+        rows += (f"<tr><td class='wl'>{NAMES[m]}</td><td>{launched4}/{f['on_runs']}</td><td>{single} / {multi}</td>"
+                 f"<td>{(cg['off']['parent_requests'] + cc['off']['parent_requests']) / 2:.1f}</td>"
+                 f"<td>{(cg['on']['parent_requests'] + cc['on']['parent_requests']) / 2:.1f}</td>"
+                 f"<td>{(sub_req(cg, 'off') + sub_req(cc, 'off')) / 2:.1f}</td><td>{(sub_req(cg, 'on') + sub_req(cc, 'on')) / 2:.1f}</td>"
+                 f"<td>{ss['off']['in_tok_k']}k</td><td>{ss['on']['in_tok_k']}k</td>"
+                 f"<td>{ss['off']['max_ret']:,}</td><td>{ss['on']['max_ret']:,}</td></tr>")
+    head = ("<tr><th rowspan=2>model</th><th class='mh'>on: runs launching</th><th class='mh'>off: responses starting</th>"
+            "<th colspan=2 class='mh'>parent model requests</th><th colspan=2 class='mh'>sub-agent model requests</th>"
+            "<th colspan=2 class='mh'>input tokens per sub-agent session</th><th colspan=2 class='mh'>largest tool return (chars)</th></tr>"
+            "<tr><th>4+ sub-agents in one run_code</th><th>1 sub-agent / 2+</th>" + "<th>off</th><th>on</th>" * 4 + "</tr>")
+    return f'<div class="tw"><table class="detail"><thead>{head}</thead><tbody>{rows}</tbody></table></div>'
+
+
+def who_benefits() -> str:
+    """Diverging bars: median per-task change off -> on, per model, for three metrics."""
+    metrics = [("requests", "model requests"), ("wall", "wall time"), ("in_tok_k", "input tokens")]
+    w, rowh, pl, top = 1100, 34, 150, 52
+    pw = (w - pl - 20) / 3
+    h = top + rowh * len(MODELS) + 16
+    vals = [D["overall"][m][k]["median_change_pct"] for m in MODELS for k, _ in metrics]
+    span = max(30, max(abs(v) for v in vals) * 1.15)
+    out = [f'<svg viewBox="0 0 {w} {h}" class="chart" role="img" aria-label="who benefits">']
+    for j, (k, label) in enumerate(metrics):
+        x0 = pl + j * pw + 10
+        cx = x0 + (pw - 20) / 2
+        out.append(f'<text x="{cx:.0f}" y="18" class="ct" text-anchor="middle">{label}</text>'
+                   f'<text x="{cx - 8:.0f}" y="38" class="tick" text-anchor="end" style="text-anchor:end">← better</text>'
+                   f'<text x="{cx + 8:.0f}" y="38" class="tick" text-anchor="start" style="text-anchor:start">worse →</text>'
+                   f'<line x1="{cx:.1f}" y1="{top - 8}" x2="{cx:.1f}" y2="{h - 8}" class="axis"/>')
+        for i, m in enumerate(MODELS):
+            o = D["overall"][m][k]
+            v = o["median_change_pct"]
+            y = top + i * rowh
+            bw = (pw - 20) / 2 * min(abs(v), span) / span
+            x = cx - bw if v < 0 else cx
+            color = "#2dd4bf" if v < 0 else "#f87171"
+            out.append(f'<rect x="{x:.1f}" y="{y + 4}" width="{bw:.1f}" height="{rowh - 12}" rx="4" fill="{color}">'
+                       f'<title>{NAMES[m]} {label}: {v:+d}% median; better on {o["tasks_better"]}/{D["overall"][m]["tasks"]} tasks</title></rect>')
+            tx = x - 6 if v < 0 else x + bw + 6
+            out.append(f'<text x="{tx:.1f}" y="{y + rowh / 2 + 3}" class="bvl" text-anchor="{"end" if v < 0 else "start"}">{v:+d}%</text>')
+    for i, m in enumerate(MODELS):
+        out.append(f'<text x="10" y="{top + i * rowh + rowh / 2 + 3}" class="sl" style="font-weight:700">{NAMES[m]}</text>')
+    return "".join(out) + "</svg>"
+
+
+def overall_table() -> str:
+    rows = ""
+    for m in MODELS:
+        o = D["overall"][m]
+        cells = f"<td class='wl'>{NAMES[m]}</td>"
+        for k in ("requests", "wall", "in_tok_k"):
+            x = o[k]
+            cells += (f"<td>{num(x['off_mean'])} → {num(x['on_mean'])}</td>"
+                      f"<td class='hc {tone(x['median_change_pct'])}'>{x['median_change_pct']:+d}%</td><td>{x['tasks_better']}/{o['tasks']}</td>")
+        sv = o["success"]
+        cls = "flat" if sv["on"] == sv["off"] else ("good" if sv["on"] > sv["off"] else "bad")
+        cells += f"<td class='hc {cls}'>{sv['off']}% → {sv['on']}%</td>"
+        rows += f"<tr>{cells}</tr>"
+    sub = "<th>off → on</th><th>median Δ</th><th>better</th>"
+    head = ("<tr><th rowspan=2>model</th><th colspan=3 class='mh'>model requests / task</th><th colspan=3 class='mh'>wall s / task</th>"
+            "<th colspan=3 class='mh'>input tok k / task</th><th rowspan=2 class='mh'>success</th></tr><tr>" + sub * 3 + "</tr>")
+    return f'<div class="tw"><table class="detail"><thead>{head}</thead><tbody>{rows}</tbody></table></div>'
 
 
 def task_table(m: str) -> str:
@@ -275,14 +325,6 @@ def verdict(m: str) -> str:
     return f'<div class="verdict"><h3>{NAMES[m]}</h3><div class="vg">{lis}</div></div>'
 
 
-sol_d = D["cells"][SOL]["deleg_gather"], D["cells"][SOL]["deleg_code"]
-_cells = [D["cells"][m][k] for m in (SOL, LUNA) for k, _ in WL]
-CPR = sorted(c["on"]["calls_per_request"] for c in _cells)
-CPR_OFF = sorted(c["off"]["calls_per_request"] for c in _cells)
-OVERHEAD = sorted(c["on"]["in_per_request_k"] - c["off"]["in_per_request_k"] for c in _cells)
-fan_off = FAN[SOL]["off_invokes_per_response"]
-o_sol, o_luna = D["overall"][SOL], D["overall"][LUNA]
-
 CSS = """
 :root{--bg:#070b14;--panel:#0e1526;--panel2:#121b31;--line:#1f2a44;--text:#e6edf7;--muted:#93a1bd;--accent:#2dd4bf;--accent2:#38bdf8}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 ui-sans-serif,-apple-system,"Segoe UI",Inter,Roboto,sans-serif}
@@ -291,13 +333,13 @@ header{background:radial-gradient(1200px 500px at 10% -10%,#134e4a 0,transparent
 .eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--accent);font-weight:700}
 h1{font-size:52px;line-height:1.05;margin:14px 0 16px;letter-spacing:-.02em}h1 em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .lede{font-size:19px;color:#c7d2e6;max-width:900px}.meta{margin-top:18px;color:var(--muted);font-size:14px;display:flex;gap:22px;flex-wrap:wrap}.meta b{color:var(--text)}
-.verdicts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+.verdicts{display:grid;grid-template-columns:repeat(auto-fit,minmax(520px,1fr));gap:18px;margin-top:34px}
 .verdict{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:18px 20px}
 .verdict h3{margin:0 0 12px;font-size:18px}.vg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .vv{font-size:26px;font-weight:800;letter-spacing:-.01em}.vl{font-weight:600;font-size:14px}.vs{color:var(--muted);font-size:11.5px;line-height:1.35;margin-top:2px}
 .vv.good{color:#5eead4}.vv.bad{color:#fca5a5}.vv.flat{color:#e2e8f0}
 section{padding:48px 0 4px}h2{font-size:28px;margin:0 0 4px;letter-spacing:-.01em}h2 small{display:block;font-size:14px;color:var(--muted);font-weight:500;margin-top:6px}
-p,li{color:#cfd8ea}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 16px 8px}
+p,li{color:#cfd8ea}.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(520px,1fr));gap:18px;margin-top:12px}.cardh{font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 6px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 16px 8px}
 .colhead{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0 6px;color:var(--muted);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
 .chart{width:100%;height:auto;display:block}.ct{fill:var(--text);font-weight:700;font-size:14px}.hint{fill:var(--muted);font-size:11px;text-anchor:end}
 .bv{fill:var(--text);font-size:11px;font-weight:700;text-anchor:middle}.bvl{fill:var(--text);font-size:12px;font-weight:800}.bin{fill:#06121f;font-size:11px;font-weight:800;text-anchor:middle}
@@ -313,6 +355,7 @@ table.score td{font-size:14px;padding:9px 8px}table.score td b{display:block;fon
 .callout{border-left:4px solid var(--accent2);background:var(--panel);padding:13px 18px;border-radius:10px;margin:14px 0;color:#cfd8ea}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:#111a2e;border:1px solid var(--line);padding:1px 6px;border-radius:6px}
 footer{margin:56px 0 0;padding:26px 0 44px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+details{border:1px solid var(--line);border-radius:14px;margin:12px 0;background:var(--panel)}summary{cursor:pointer;padding:12px 16px;font-weight:700}details>div{padding:0 12px 8px}
 @media (max-width:900px){.verdicts,.grid2,.colhead{grid-template-columns:1fr}.vg{grid-template-columns:1fr 1fr}h1{font-size:38px}}
 """
 
@@ -320,93 +363,111 @@ legend = (f'<div class="legend"><span><i style="background:{OFF}"></i>code mode 
           f'<span><i style="background:{ON}"></i>code mode on</span></div>')
 
 
-def two(fn) -> str:  # noqa: ANN001
-    return (f'<div class="colhead"><div>{NAMES[SOL]}</div><div>{NAMES[LUNA]}</div></div>'
-            f'<div class="grid2"><div class="card">{fn(SOL)}</div><div class="card">{fn(LUNA)}</div></div>')
+def grid(fn) -> str:  # noqa: ANN001
+    return '<div class="grid2">' + "".join(f'<div class="card"><div class="cardh">{NAMES[m]}</div>{fn(m)}</div>'
+                                          for m in MODELS) + "</div>"
 
 
-n_runs = sum(c[s]["n"] for m in (SOL, LUNA) for c in D["cells"][m].values() for s in ("off", "on"))
+def per_model_details(title: str, fn) -> str:  # noqa: ANN001
+    return "".join(f"<details><summary>{esc(title)}: {NAMES[m]}</summary><div>{fn(m)}</div></details>" for m in MODELS)
+
+
+_cells = [D["cells"][m][k] for m in MODELS for k, _ in WL]
+CPR = sorted(c["on"]["calls_per_request"] for c in _cells)
+CPR_OFF = sorted(c["off"]["calls_per_request"] for c in _cells)
+OVERHEAD = sorted(c["on"]["in_per_request_k"] - c["off"]["in_per_request_k"] for c in _cells)
+OVERHEAD_MED = st.median(OVERHEAD)
+OVERHEAD_NEG = sum(x < 0 for x in OVERHEAD)
+req_better_all = all(c["on"]["requests"] < c["off"]["requests"] for c in _cells)
+n_runs = sum(c[s]["n"] for m in MODELS for c in D["cells"][m].values() for s in ("off", "on"))
+SERIAL = [NAMES[m] for m in MODELS if D["fanout"][m]["off_invokes_per_response"].get(1, 0)
+          > sum(n for k, n in D["fanout"][m]["off_invokes_per_response"].items() if k >= 2)]
+PARALLEL = [NAMES[m] for m in MODELS if NAMES[m] not in SERIAL]
+DELEG_WALL = "; ".join(
+    f"{NAMES[m]} " + " / ".join(fmt_change(change(D["cells"][m][k]["on"]["wall_mean"], D["cells"][m][k]["off"]["wall_mean"]))
+                                for k in ("deleg_gather", "deleg_code")) for m in MODELS)
+winners = [NAMES[m] for m in MODELS if D["overall"][m]["wall"]["median_change_pct"] < 0
+           and D["overall"][m]["in_tok_k"]["median_change_pct"] <= 0]
+
 body = f"""
 <header><div class="wrap">
-<div class="eyebrow">Code Puppy · code mode off vs on</div>
+<div class="eyebrow">Code Puppy · code mode off vs on · {len(MODELS)} models</div>
 <h1>Code mode: <em>on vs off</em>.</h1>
-<p class="lede">Same agent, same 30 tasks, same models. <b>Off</b> is plain tool calling. <b>On</b> is code mode as it
+<p class="lede">Same agent, same 30 tasks, {len(MODELS)} models. <b>Off</b> is plain tool calling. <b>On</b> is code mode as it
 ships on Code Puppy main today (after #1013 and #1014): the model writes Python that calls tools inside a
 <code>run_code</code> sandbox. Short tasks, long tasks, and long tasks delegated to sub-agents.</p>
-<div class="meta"><span><b>{n_runs}</b> runs compared</span><span><b>30</b> tasks</span><span>gpt-6.1-sol and gpt-6-luna</span><span>2026-10-11</span></div>
-<div class="verdicts">{verdict(SOL)}{verdict(LUNA)}</div>
+<div class="meta"><span><b>{n_runs}</b> runs compared</span><span><b>30</b> tasks</span><span>{", ".join(NAMES[m] for m in MODELS)}</span><span>2026-10-11</span></div>
+<div class="verdicts">{"".join(verdict(m) for m in MODELS)}</div>
 </div></header>
 <main class="wrap">
 
-<section><h2>Scoreboard<small>Change from off to on per workload. Green is better, red is worse, blue is neutral (more tool calls is more work done per request, not a cost). Each cell shows the change and the raw off → on values.</small></h2>
-{scoreboard(SOL)}{scoreboard(LUNA)}
-<div class="callout"><b>Read it this way:</b> code mode cuts model round trips in every workload, because each request does
-{CPR[0]:.1f} to {CPR[-1]:.1f} tool calls instead of {CPR_OFF[0]:.1f} to {CPR_OFF[-1]:.1f}. Whether that turns into less wall time and
-fewer tokens depends on the model and the workload: a code-mode request also carries {OVERHEAD[0]:.1f}k to
-{OVERHEAD[-1]:.1f}k more input tokens than a plain one (the run_code description with every sandbox function signature, plus larger snippet results), which short tasks
-rarely earn back. Across all 30 tasks, sol gets faster on
-{o_sol["wall"]["tasks_better"]} and luna on {o_luna["wall"]["tasks_better"]}.</div>
+<section><h2>Who benefits from code mode<small>Median per-task change from off to on, across all 30 tasks (each task counts once). Left of the line is better.</small></h2>
+<div class="card">{who_benefits()}</div>
+{overall_table()}
+<div class="callout">Code mode {"cuts model round trips in every workload for every model" if req_better_all else "cuts model round trips in most workloads"}: a request does
+{CPR[0]:.1f} to {CPR[-1]:.1f} tool calls instead of {CPR_OFF[0]:.1f} to {CPR_OFF[-1]:.1f}. Whether that becomes less wall time and fewer
+tokens depends on the model: a typical code-mode request carries {OVERHEAD_MED:.1f}k more input tokens than a plain one
+(median across models and workloads; the <code>run_code</code> description with every sandbox function signature, plus larger
+snippet results). In {OVERHEAD_NEG} of {len(OVERHEAD)} model-workload cells it is smaller instead, because fewer turns resend less history. Faster with no
+more input tokens, median over tasks: {", ".join(winners) if winners else "none"}.</div>
 </section>
 
-<section><h2>Wall time<small>Mean per workload; Δ under each pair</small></h2>{legend}
-{two(lambda m: pair_bars("Wall time per task (s)", m, "wall_mean", "{:.0f}"))}
-{two(strip)}
-<p>White ticks mark medians. Delegated runs are where the distributions separate: sol's off runs spread out to
-the 900s timeout while its on runs stay between {min(D["cells"][SOL]["deleg_gather"]["on"]["walls"] + D["cells"][SOL]["deleg_code"]["on"]["walls"]):.0f}s and
-{max(D["cells"][SOL]["deleg_gather"]["on"]["walls"] + D["cells"][SOL]["deleg_code"]["on"]["walls"]):.0f}s.</p>
+<section><h2>Scoreboard<small>Change from off to on per workload. Green is better, red is worse, blue is neutral (more tool calls is more work per request, not a cost). Each cell shows the change and the raw off → on values.</small></h2>
+{"".join(scoreboard(m) for m in MODELS)}
+</section>
+
+<section><h2>Wall time<small>Mean per workload; Δ under each pair. Then every single run.</small></h2>{legend}
+{grid(lambda m: pair_bars("Wall time per task (s)", m, "wall_mean", "{:.0f}"))}
+{grid(strip)}
 </section>
 
 <section><h2>Round trips and work per request</h2>{legend}
-{two(lambda m: pair_bars("Model requests per task (incl. sub-agents)", m, "requests", "{:.1f}"))}
-{two(lambda m: pair_bars("Tool calls per model request", m, "calls_per_request", "{:.2f}", lower_better=False))}
-{two(mix_bars)}
-<p>Tool calls per run pooled over all workloads, parent agent only. With code mode on, luna reads far more
-files per run ({sum(D["cells"][LUNA][k]["on"]["tool_mix"].get("read_file", 0) * D["cells"][LUNA][k]["on"]["n"] for k, _ in WL) / sum(D["cells"][LUNA][k]["on"]["n"] for k, _ in WL):.1f} vs
-{sum(D["cells"][LUNA][k]["off"]["tool_mix"].get("read_file", 0) * D["cells"][LUNA][k]["off"]["n"] for k, _ in WL) / sum(D["cells"][LUNA][k]["off"]["n"] for k, _ in WL):.1f}): once reads are cheap, it casts a wide net.</p>
+{grid(lambda m: pair_bars("Model requests per task (incl. sub-agents)", m, "requests", "{:.1f}"))}
+{grid(lambda m: pair_bars("Tool calls per model request", m, "calls_per_request", "{:.2f}", lower_better=False))}
+{grid(mix_bars)}
+<p>Tool calls per run pooled over all workloads, parent agent only; <code>run_code</code> itself is not counted.</p>
 </section>
 
 <section><h2>Tokens</h2>{legend}
-{two(lambda m: pair_bars("Input tokens per task (k, incl. sub-agents)", m, "in_tok_k", "{:.0f}"))}
-{two(lambda m: pair_bars("Input tokens per model request (k)", m, "in_per_request_k", "{:.1f}"))}
-{two(lambda m: pair_bars("Output tokens per task (k)", m, "out_tok_k", "{:.2f}"))}
+{grid(lambda m: pair_bars("Input tokens per task (k, incl. sub-agents)", m, "in_tok_k", "{:.0f}"))}
+{grid(lambda m: pair_bars("Input tokens per model request (k)", m, "in_per_request_k", "{:.1f}"))}
+{grid(lambda m: pair_bars("Output tokens per task (k)", m, "out_tok_k", "{:.2f}"))}
 </section>
 
 <section><h2>Accuracy</h2>{legend}
-{two(lambda m: pair_bars("Success rate (%)", m, "success_pct", "{:.0f}", lower_better=False))}
-{two(lambda m: pair_bars("Answer parts right (%)", m, "part_acc", "{:.0f}", lower_better=False))}
-<p>Long and delegated tasks have 15 to 16 answer fields or four hidden test files, and success needs every one
-right, so "parts right" is the steadier signal. Cells there hold 4 to 6 runs: one run is 17 to 25 points.</p>
+{grid(lambda m: pair_bars("Success rate (%)", m, "success_pct", "{:.0f}", lower_better=False))}
+{grid(lambda m: pair_bars("Answer parts right (%)", m, "part_acc", "{:.0f}", lower_better=False))}
+<p>Long and delegated tasks have 15 to 16 answer fields or four hidden test files, and success needs every one right,
+so "parts right" is the steadier signal. Those cells hold 4 to 6 runs per side: one run is 17 to 25 points.</p>
 </section>
 
-<section><h2>Sub-agents</h2>
-<div class="callout">With code mode on, the parent launches all four sub-agents from a single <code>run_code</code>
-(sol {FAN[SOL]["new_invokes_per_run_code"].get(4, 0)} of 10 delegated runs, luna {FAN[LUNA]["new_invokes_per_run_code"].get(4, 0)} of 10). With it off, sol issued
-{fan_off.get(1, 0)} model responses that started a single sub-agent and {fan_off.get(4, 0)} that started all four: delegation
-often goes one sub-agent per turn. It shows up in sol's delegated wall time:
-{fmt_change(change(sol_d[0]["on"]["wall_mean"], sol_d[0]["off"]["wall_mean"]))} (read and answer) and
-{fmt_change(change(sol_d[1]["on"]["wall_mean"], sol_d[1]["off"]["wall_mean"]))} (multi-fix).</div>
+<section><h2>Sub-agents<small>Delegated tasks only (told to split the four parts across sub-agents). Requests are per task, averaged over the two delegated workloads.</small></h2>
+<div class="callout">With code mode on, the parent can start every sub-agent from one <code>run_code</code> with <code>asyncio.gather</code>.
+With it off, the model has to emit the <code>invoke_agent</code> calls itself. Models that mostly start one sub-agent per response
+without code mode: {", ".join(SERIAL) or "none"}; models that already start several at once natively: {", ".join(PARALLEL) or "none"}.
+Change in wall time on delegated tasks, off → on (read and answer / multi-fix): {DELEG_WALL}.</div>
 {subagent_table()}
 </section>
 
 <section><h2>Every metric, every workload</h2>
-<h3>{NAMES[SOL]}</h3>{detail_table(SOL, WL[:3])}{detail_table(SOL, WL[3:])}
-<h3>{NAMES[LUNA]}</h3>{detail_table(LUNA, WL[:3])}{detail_table(LUNA, WL[3:])}
+{per_model_details("All metrics", lambda m: detail_table(m, WL[:3]) + detail_table(m, WL[3:]))}
 </section>
 
-<section><h2>Every task</h2><small class="muted">Mean per task; Δ is on vs off.</small>
-<h3>{NAMES[SOL]}</h3>{task_table(SOL)}
-<h3>{NAMES[LUNA]}</h3>{task_table(LUNA)}
+<section><h2>Every task<small>Mean per task; Δ is on vs off.</small></h2>
+{per_model_details("All 30 tasks", task_table)}
 </section>
 
 <section><h2>Method and caveats</h2><ul>
-<li><b>Off</b> is code-puppy main with <code>enable_speculative_code_mode = false</code>. <b>On</b> is main after #1013
-(short and long tasks) and after #1014 (delegated tasks; #1014 only changes sub-agents).</li>
-<li>Headless <code>code-puppy -p</code>, one fresh working copy and private config / cache / state / data per run;
-sub-agents pinned to the run's model. Short tasks are the original A/B's 20 tasks and graders; long tasks are
-composed from them (validated answer keys and hidden tests).</li>
-<li>Runs per side: short tasks 40 off / 80 on per model; long 4 to 6 per workload per side. Short off and delegated
-on ran as separate batches, so time-of-day effects are not controlled for those cells.</li>
-<li>Tokens and requests include every sub-agent. Wall time includes timed-out runs at 900s.</li>
+<li><b>Off</b>: code mode disabled (<code>enable_speculative_code_mode = false</code>). <b>On</b>: code mode on code-puppy main with
+#1013 and #1014. Headless <code>code-puppy -p</code>, one fresh working copy and private config / cache / state / data per run;
+sub-agents pinned to the run's model. Model settings are Code Puppy defaults (no thinking / effort overrides for Claude),
+except reasoning effort low for the GPT models.</li>
+<li>Claude models: one batch, off and on from the same current-main build, shuffled together; 2 runs per task per side.
+Credentials: a copy of the Claude Code OAuth token without its refresh token, the real token refreshed by the runner.</li>
+<li>GPT models: off from a pre-#1013 main build (code mode off); on from separate batches (short tasks 4 runs per task, long and
+delegated 2). Their off and on runs were not all interleaved in time.</li>
+<li>Short tasks are the original A/B's 20 tasks and graders; long tasks are composed from them (validated answer keys and hidden
+tests). Tokens and requests include every sub-agent. Wall time includes timed-out runs at 900s.</li>
 <li>How code mode got here (prompt iterations, bugs fixed): <code>docs/CODEMODE_FOLLOWUP.md</code>.</li>
 </ul></section>
 <footer>Generated by <code>scripts/codemode_report.py</code> from <code>runs/codemode/*/records.jsonl</code>; every number is computed from the run records.</footer>

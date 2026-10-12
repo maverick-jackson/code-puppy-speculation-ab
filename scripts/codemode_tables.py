@@ -153,25 +153,46 @@ def onoff_cell(recs: list[dict]) -> dict:
     }
 
 
+GPT_MODELS = MODELS
+CLAUDE_MODELS = ("claude-code-claude-opus-5-5", "claude-code-claude-sonnet-5-5", "claude-code-claude-haiku-5-5")
+ONOFF_MODELS = GPT_MODELS + CLAUDE_MODELS
+
+
+def onoff_sources() -> dict[str, dict[str, list[dict]]]:
+    """Per model: off and on runs. on = code-puppy main with #1013 + #1014.
+
+    GPT models: off from off1 + long1 (code mode off), on from new5 + conf (short), long1 `new` (long; #1014
+    only touches sub-agents) and fix1 (delegated). Claude models: one interleaved batch, claude1, where off
+    and on are the same current-main build with code mode disabled / enabled.
+    """
+    conf, long1, fix1 = records("conf"), records("long1"), records("fix1")
+    gpt_off = records("off1") + [r for r in long1 if r["variant"] == "off"]
+    gpt_on = (records("new5") + [r for r in conf if r["variant"] == "new"]
+              + [r for r in long1 if r["variant"] == "new" and r["task"].startswith("L_")] + fix1)
+    out = {m: {"off": [r for r in gpt_off if r["model"] == m], "on": [r for r in gpt_on if r["model"] == m]}
+           for m in GPT_MODELS}
+    if (RUNS / "claude1" / "records.jsonl").exists():
+        claude = records("claude1")
+        for m in CLAUDE_MODELS:
+            sides = {v: [r for r in claude if r["model"] == m and r["variant"] == v] for v in ("off", "on")}
+            if sides["off"] and sides["on"]:
+                out[m] = sides
+    return out
+
+
 def onoff() -> dict:
-    """Off vs on per model and workload. on = current main: new5+conf (short), new (long), fix (delegated)."""
-    conf = records("conf")
-    short_on = records("new5") + [r for r in conf if r["variant"] == "new"]
-    long1, fix1 = records("long1"), records("fix1")
-    src = {"off": records("off1") + [r for r in long1 if r["variant"] == "off"],
-           "on": short_on + [r for r in long1 if r["variant"] == "new" and r["task"].startswith("L_")] + fix1,
-           "on_1013": [r for r in long1 if r["variant"] == "new" and r["task"].startswith("D_")]}
-    out: dict = {"workloads": [(k, label) for k, label, _ in WORKLOADS], "cells": {}, "tasks": {}}
-    for m in MODELS:
+    src = onoff_sources()
+    out: dict = {"models": list(src), "workloads": [(k, label) for k, label, _ in WORKLOADS], "cells": {},
+                 "tasks": {}, "overall": {}, "fanout": {}, "sub_sessions": {}}
+    for m, sides in src.items():
         out["cells"][m] = {}
         for key, _, keep in WORKLOADS:
-            out["cells"][m][key] = {side: onoff_cell([r for r in rs if r["model"] == m and keep(r)])
-                                    for side, rs in src.items() if any(r["model"] == m and keep(r) for r in rs)}
+            if all(any(keep(r) for r in sides[s]) for s in ("off", "on")):
+                out["cells"][m][key] = {s: onoff_cell([r for r in sides[s] if keep(r)]) for s in ("off", "on")}
         tasks: dict[str, dict] = {}
         for side in ("off", "on"):
-            for r in src[side]:
-                if r["model"] == m:
-                    tasks.setdefault(r["task"], {}).setdefault(side, []).append(r)
+            for r in sides[side]:
+                tasks.setdefault(r["task"], {}).setdefault(side, []).append(r)
         out["tasks"][m] = {t: {side: {"n": len(rs), "correct": sum(r["correct"] for r in rs),
                                       "wall": _mean([r["wall_s"] for r in rs], 1),
                                       "requests": _mean([r.get("requests", 0) + (r.get("sub") or {}).get("requests", 0)
@@ -179,8 +200,19 @@ def onoff() -> dict:
                                       "in_tok_k": _mean([(r.get("in_tok", 0) + (r.get("sub") or {}).get("in_tok", 0)) / 1000
                                                          for r in rs], 1)}
                                for side, rs in v.items()} for t, v in sorted(tasks.items())}
-        out["overall"] = out.get("overall", {})
         out["overall"][m] = overall(out["tasks"][m])
+        deleg = {s: [r for r in sides[s] if r["task"].startswith("D_")] for s in ("off", "on")}
+        out["fanout"][m] = {
+            "off_invokes_per_response": dict(collections.Counter(n for r in deleg["off"] for n in r.get("invoke_per_response", []))),
+            "on_invokes_per_run_code": dict(collections.Counter(n for r in deleg["on"] for n in r.get("invoke_per_rc", []))),
+            "on_runs": len(deleg["on"]),
+        }
+        out["sub_sessions"][m] = {}
+        for s in ("off", "on"):
+            sess = [x for r in deleg[s] for x in (r.get("sub") or {}).get("per_session", [])]
+            out["sub_sessions"][m][s] = {"sessions": len(sess), "req": _mean([x["requests"] for x in sess], 1),
+                                         "in_tok_k": _mean([x["in_tok"] / 1000 for x in sess], 1),
+                                         "max_ret": max((x["max_return_chars"] for x in sess), default=0)}
     return out
 
 
@@ -192,9 +224,9 @@ def overall(tasks: dict[str, dict]) -> dict:
         ratios = sorted(v["on"][k] / v["off"][k] for v in both.values() if v["off"][k])
         res[k] = {"off_mean": _mean([v["off"][k] for v in both.values()], 1),
                   "on_mean": _mean([v["on"][k] for v in both.values()], 1),
-                  "median_change_pct": round(100 * (st.median(ratios) - 1)),
+                  "median_change_pct": round(100 * (st.median(ratios) - 1)) if ratios else 0,
                   "tasks_better": sum(x < 1 for x in ratios)}
-    res["success"] = {side: round(100 * st.mean(v[side]["correct"] / v[side]["n"] for v in both.values()))
+    res["success"] = {side: round(100 * st.mean(v[side]["correct"] / v[side]["n"] for v in both.values())) if both else 0
                       for side in ("off", "on")}
     return res
 
@@ -207,7 +239,7 @@ def md(headers: list[str], rows: list[list[object]]) -> str:
 def onoff_md() -> str:
     """Markdown: code mode off vs on (current main), task-balanced overall plus every workload."""
     d = onoff()
-    name = lambda m: m.replace("codex-", "")  # noqa: E731
+    name = lambda m: m.replace("codex-", "").replace("claude-code-", "").replace("-5-5", "-5.5")  # noqa: E731
     pc = lambda on, off: f"{(on - off) / off * 100:+.0f}%" if off else "-"  # noqa: E731
     out = ["## Code mode off vs on (current main)\n",
            "Across all 30 tasks, task-balanced (each task counts once; median of per-task changes):\n",
@@ -215,7 +247,7 @@ def onoff_md() -> str:
               [[name(m), *(f"{o[k]['median_change_pct']:+d}% (better on {o[k]['tasks_better']}/{o['tasks']})"
                            for k in ("requests", "wall", "in_tok_k")), f"{o['success']['off']}% → {o['success']['on']}%"]
                for m, o in d["overall"].items()])]
-    for m in MODELS:
+    for m in d["models"]:
         out.append(f"\n### {name(m)}, per workload\n")
         rows = []
         for k, label in d["workloads"]:

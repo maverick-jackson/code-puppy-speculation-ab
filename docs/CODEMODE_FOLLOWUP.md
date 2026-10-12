@@ -12,11 +12,22 @@ The report with charts, `docs/results/codemode_followup.html` (a single self-con
 
 ## Short answer
 
-- **Code mode on vs off across all 30 tasks** (task-balanced: median of per-task changes). gpt-6.1-sol:
-  40% fewer model requests (better on 29 of 30 tasks), 6% less wall time, success 90% → 92%. gpt-6-luna:
-  12% fewer model requests, but 16% more wall time and 34% more input tokens (better on only 9 and 8 of 30
-  tasks), success 77% → 72%. A clear win for sol, mixed for luna: its extra wall time and tokens
-  come mostly from the 20 short tasks, and its success drop from the delegated tasks (4 to 6 runs per cell).
+- **Code mode on vs off across all 30 tasks, five models** (task-balanced: median of per-task changes).
+  Every model makes fewer model requests with code mode (-12% to -40%). Wall time and tokens depend on
+  the model:
+
+  | model | model requests | wall time | input tokens | success off → on |
+  |---|---|---|---|---|
+  | gpt-6.1-sol | -40% | -6% | -3% | 90% → 92% |
+  | gpt-6-luna | -12% | +16% | +34% | 77% → 72% |
+  | claude-opus-5.5 | -16% | -1% | +20% | 100% → 97% |
+  | claude-sonnet-5.5 | -19% | -3% | +12% | 100% → 100% |
+  | claude-haiku-5.5 | -25% | -8% | -5% | 98% → 95% |
+
+  Clear wins: gpt-6.1-sol and claude-haiku-5.5. Opus and Sonnet are about even on time and pay 12 to 20%
+  more input tokens; luna is slower and pays more. The Claude models already batch well without code mode
+  (1.2 to 1.3 tool calls per response, and they usually start all four sub-agents in one response), so
+  code mode has less to fix for them.
 - **Snippets now carry real work.** Tool calls per `run_code` went 1.60 → 3.19 (gpt-6-luna) and
   2.03 → 2.74 (gpt-6.1-sol). Sandbox errors per task fell 0.42 → 0.04 (sol) and 0.44 → 0.17 (luna).
 - **Short tasks are still roughly a wash on wall time** against plain tool calling. sol makes 37% fewer
@@ -51,7 +62,10 @@ The report with charts, `docs/results/codemode_followup.html` (a single self-con
 
 - **Variants** (`--bin VARIANT=PATH`): `off` = code-puppy main with code mode disabled; `base` = code mode
   before #1013 (main at f2f2e462); `new` = after #1013; `fix` = after #1014.
-- **Models:** `codex-gpt-6.1-sol` and `codex-gpt-6-luna` through Code Puppy's ChatGPT OAuth (no LiteLLM).
+- **Models:** `codex-gpt-6.1-sol` and `codex-gpt-6-luna` through Code Puppy's ChatGPT OAuth, and
+  `claude-code-claude-{opus,sonnet,haiku}-5-5` through its Claude Code OAuth (no LiteLLM). Claude runs get a
+  copy of the OAuth token without its refresh token; the runner refreshes the real token through the
+  plugin when needed, so benchmark runs can never rotate it.
   GLM 5.3 served by vLLM was tried and dropped: at about 20 tokens/s it timed out on most long code-mode runs.
 - **Tasks:** the original 20 tasks and graders, unchanged, plus 10 long-horizon tasks built from them by
   `scripts/longtasks.py`:
@@ -70,7 +84,8 @@ The report with charts, `docs/results/codemode_followup.html` (a single self-con
 - **Metrics:** nested tool calls are read from the `run_code` return metadata, so loops and
   `asyncio.gather` fan-outs are counted exactly. Long-task totals include every sub-agent's requests
   and tokens. "Parts right" is the share of answer fields (gather) or hidden test files (code) passed.
-- **Size:** 860 runs, records in `runs/codemode/<batch>/records.jsonl`. Short tasks: 80 runs per
+- **Size:** 1,220 runs, records in `runs/codemode/<batch>/records.jsonl`. Claude models: 360 in `claude1`
+  (30 tasks x off/on x 2 reps x 3 models, off and on from the same current-main build). Short tasks: 80 runs per
   iteration batch, 160 in the interleaved `conf` batch, 80 in `off1`. Long tasks: 120 in `long1`, 20 in
   `fix1`. Full transcripts (212 MB) are not committed; `scripts/cm_transcripts.py` is the code that
   turned them into the records.
@@ -82,7 +97,7 @@ Reproduce every table below with `python3 scripts/codemode_tables.py`, and the H
 
 Short-task rows pool `base1` + `conf` (base) and `new5` + `conf` (new); `off` is its own batch (`off1`),
 so that comparison is not controlled for time of day. In `long1` the off / base / new variants were
-shuffled together; `fix1` is a separate batch.
+shuffled together; `fix1` is a separate batch. The Claude models ran in one batch, `claude1`, with off and on shuffled together.
 
 ### Code mode off vs on (current main)
 
@@ -92,6 +107,9 @@ Across all 30 tasks, task-balanced (each task counts once; median of per-task ch
 |---|---|---|---|---|
 | gpt-6.1-sol | -40% (better on 29/30) | -6% (better on 18/30) | -3% (better on 15/30) | 90% → 92% |
 | gpt-6-luna | -12% (better on 23/30) | +16% (better on 9/30) | +34% (better on 8/30) | 77% → 72% |
+| claude-opus-5.5 | -16% (better on 22/30) | -1% (better on 15/30) | +20% (better on 7/30) | 100% → 97% |
+| claude-sonnet-5.5 | -19% (better on 20/30) | -3% (better on 21/30) | +12% (better on 8/30) | 100% → 100% |
+| claude-haiku-5.5 | -25% (better on 24/30) | -8% (better on 20/30) | -5% (better on 16/30) | 98% → 95% |
 
 #### gpt-6.1-sol, per workload
 
@@ -114,6 +132,39 @@ Across all 30 tasks, task-balanced (each task counts once; median of per-task ch
 | Long: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 50.5 → 49.3 (-2%) | 11.25 → 9.25 (-18%) | 15 → 22.5 (+50%) | 1.33 → 2.43 (+83%) | 89.5 → 98.2 (+10%) | 1.32 → 1.31 (-1%) |
 | Delegated: read and answer | 6 / 6 | 50% → 17% | 96% → 90% | 78.3 → 81.1 (+4%) | 29.17 → 25 (-14%) | 34.7 → 68 (+96%) | 1.19 → 2.72 (+129%) | 207.5 → 194.4 (-6%) | 2.6 → 4.42 (+70%) |
 | Delegated: multi-fix | 4 / 4 | 100% → 75% | 100% → 94% | 100.5 → 81.3 (-19%) | 34.25 → 28.75 (-16%) | 39.5 → 65.5 (+66%) | 1.15 → 2.28 (+98%) | 176.4 → 244.8 (+39%) | 3.34 → 4.23 (+27%) |
+
+#### claude-opus-5.5, per workload
+
+| workload | runs off / on | success | parts right | wall mean s | model requests | tool calls | tool calls / request | input tok k | output tok k |
+|---|---|---|---|---|---|---|---|---|---|
+| Short: read and answer | 24 / 24 | 100% → 100% | 100% → 100% | 17.1 → 15.7 (-8%) | 3.79 → 3.08 (-19%) | 4 → 3.1 (-22%) | 1.05 → 1.0 (-5%) | 33.8 → 38.6 (+14%) | 1.06 → 1.05 (-1%) |
+| Short: bug fix | 16 / 16 | 100% → 100% | 100% → 100% | 24.3 → 26.2 (+8%) | 5.88 → 5.25 (-11%) | 6.2 → 7.6 (+23%) | 1.05 → 1.45 (+38%) | 56.4 → 72.1 (+28%) | 1.63 → 1.86 (+14%) |
+| Long: read and answer | 6 / 6 | 100% → 83% | 100% → 99% | 27.9 → 31.6 (+13%) | 4 → 4.33 (+8%) | 4.3 → 7.8 (+81%) | 1.08 → 1.81 (+68%) | 47.8 → 64.8 (+36%) | 2.28 → 2.67 (+17%) |
+| Long: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 49.3 → 43.4 (-12%) | 7.5 → 6.25 (-17%) | 10.2 → 7.5 (-26%) | 1.37 → 1.2 (-12%) | 104.1 → 102.0 (-2%) | 4.37 → 3.58 (-18%) |
+| Delegated: read and answer | 6 / 6 | 100% → 83% | 100% → 99% | 52.4 → 44.3 (-15%) | 17.83 → 14 (-21%) | 21 → 21.3 (+1%) | 1.18 → 1.52 (+29%) | 158.5 → 169.3 (+7%) | 8.49 → 7.0 (-18%) |
+| Delegated: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 118.8 → 89.8 (-24%) | 30.5 → 24 (-21%) | 34.8 → 39 (+12%) | 1.14 → 1.62 (+42%) | 344.6 → 334.0 (-3%) | 17.83 → 13.86 (-22%) |
+
+#### claude-sonnet-5.5, per workload
+
+| workload | runs off / on | success | parts right | wall mean s | model requests | tool calls | tool calls / request | input tok k | output tok k |
+|---|---|---|---|---|---|---|---|---|---|
+| Short: read and answer | 24 / 24 | 100% → 100% | 100% → 100% | 14.0 → 12.9 (-8%) | 3.75 → 2.96 (-21%) | 4.2 → 3.1 (-26%) | 1.13 → 1.04 (-8%) | 33.4 → 37.2 (+11%) | 0.82 → 0.85 (+4%) |
+| Short: bug fix | 16 / 16 | 100% → 100% | 100% → 100% | 19.5 → 19.3 (-1%) | 6.06 → 4.81 (-21%) | 6.8 → 6.6 (-3%) | 1.12 → 1.38 (+23%) | 56.3 → 64.9 (+15%) | 1.25 → 1.56 (+25%) |
+| Long: read and answer | 6 / 6 | 100% → 100% | 100% → 100% | 23.8 → 23.3 (-2%) | 4.33 → 3.67 (-15%) | 5.7 → 8 (+40%) | 1.31 → 2.18 (+66%) | 53.9 → 56.7 (+5%) | 1.98 → 2.25 (+14%) |
+| Long: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 32.0 → 28.5 (-11%) | 7.75 → 5.5 (-29%) | 12.8 → 5.5 (-57%) | 1.65 → 1.0 (-39%) | 97.8 → 85.4 (-13%) | 3.07 → 2.77 (-10%) |
+| Delegated: read and answer | 6 / 6 | 100% → 100% | 100% → 100% | 37.9 → 41.0 (+8%) | 15.67 → 17.17 (+10%) | 18.8 → 22 (+17%) | 1.2 → 1.28 (+7%) | 139.6 → 212.6 (+52%) | 6.43 → 7.3 (+14%) |
+| Delegated: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 78.2 → 69.9 (-11%) | 29.5 → 30.5 (+3%) | 35.8 → 43 (+20%) | 1.21 → 1.41 (+17%) | 304.1 → 407.3 (+34%) | 10.95 → 11.85 (+8%) |
+
+#### claude-haiku-5.5, per workload
+
+| workload | runs off / on | success | parts right | wall mean s | model requests | tool calls | tool calls / request | input tok k | output tok k |
+|---|---|---|---|---|---|---|---|---|---|
+| Short: read and answer | 24 / 24 | 100% → 96% | 100% → 99% | 12.8 → 11.6 (-9%) | 4.33 → 3.08 (-29%) | 5.4 → 4.4 (-19%) | 1.24 → 1.42 (+15%) | 44.7 → 39.5 (-12%) | 1.47 → 1.37 (-7%) |
+| Short: bug fix | 16 / 16 | 100% → 100% | 100% → 100% | 21.2 → 20.6 (-3%) | 7.12 → 5.75 (-19%) | 8.8 → 12.4 (+41%) | 1.24 → 2.15 (+73%) | 78.4 → 86.1 (+10%) | 2.79 → 2.92 (+5%) |
+| Long: read and answer | 6 / 6 | 83% → 83% | 99% → 99% | 26.3 → 27.4 (+4%) | 6.5 → 5.5 (-15%) | 9.2 → 23 (+150%) | 1.41 → 4.18 (+196%) | 110.9 → 89.0 (-20%) | 4.59 → 5.19 (+13%) |
+| Long: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 50.7 → 34.6 (-32%) | 12.5 → 8 (-36%) | 21.8 → 22.8 (+5%) | 1.74 → 2.84 (+63%) | 242.0 → 163.4 (-32%) | 8.13 → 6.58 (-19%) |
+| Delegated: read and answer | 6 / 6 | 100% → 83% | 100% → 99% | 38.9 → 35.6 (-8%) | 24.33 → 16.5 (-32%) | 31.8 → 23.3 (-27%) | 1.31 → 1.41 (+8%) | 268.8 → 221.9 (-17%) | 12.2 → 10.23 (-16%) |
+| Delegated: multi-fix | 4 / 4 | 100% → 100% | 100% → 100% | 76.6 → 75.1 (-2%) | 32 → 31.75 (-1%) | 42.2 → 59.2 (+40%) | 1.32 → 1.87 (+42%) | 392.3 → 502.7 (+28%) | 19.69 → 22.02 (+12%) |
 
 ### Short tasks (pooled)
 
@@ -201,7 +252,8 @@ Across all 30 tasks, task-balanced (each task counts once; median of per-task ch
 
 - 10 runs per long-task cell. luna's delegation success moves between 4 and 7 of 10 across variants
   while its part accuracy stays at 92 to 97%; read one- or two-run differences as noise.
-- Two models from one provider, on one machine (macOS).
+- Five models from two providers, on one machine (macOS). Model settings are Code Puppy defaults, except
+  reasoning effort low for the GPT models.
 - The `off` short-task batch and the `fix1` batch were not interleaved with the others.
 - The sub-agent fix (`fix`) is 8 to 9 seconds slower than `new` on delegation tasks. Sub-agents got
   bounded returns but called `read_tool_result` once in 81 sessions, so this is not extra round trips;
